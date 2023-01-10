@@ -1,13 +1,17 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import BlackPressable from '../components/BlackPressable';
 import FormInput from '../components/FormInput';
 import styles from '../style/style';
 import { apiPost } from '../utils/Api';
+import { setStorage, getStorage } from '../utils/AsyncStorage';
 
 
 export default function LoginScreen({ navigation }) {
+  const [accessToken, setAccessToken] = React.useState('');
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
 
@@ -18,7 +22,15 @@ export default function LoginScreen({ navigation }) {
         'password': password,
       }
 
-      await apiPost('login', user);
+      const res = await apiPost('login', user);
+
+      await setStorage('access_token', res.data.access_token);
+      await setStorage('user_id', res.data.user_id);
+
+      await getStorage('access_token')
+      .then((token) => {
+        setAccessToken(token)
+      });
     }
   }
 

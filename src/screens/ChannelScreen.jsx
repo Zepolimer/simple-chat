@@ -5,15 +5,15 @@ import { apiGetToken } from '../utils/Api';
 import { getStorage } from '../utils/AsyncStorage';
 import styles from '../style/style';
 
-const ConversationScreen = ({ route, navigation })  => {
-  const { itemId, convId } = route.params;
+
+const ChannelScreen = ({ route, navigation }) => {
+  const { id } = route.params;
 
   const [accessToken, setAccessToken] = React.useState('');
   const [user, setUser] = React.useState(0);
 
-  const [status, setStatus] = React.useState(null)
-  const [conversationId, setConversationId] = React.useState(null);
-  const [conversation, setConversation] = React.useState(null);
+  const [status, setStatus] = React.useState(null);
+  const [channel, setChannel] = React.useState(null);
 
   React.useEffect(() => {
     const getToken = async () => {
@@ -30,35 +30,35 @@ const ConversationScreen = ({ route, navigation })  => {
     getUser();
 
     if(accessToken != '' && user != 0) {
-      const getConversation = async () => {
+      const getConversations = async () => {
         const data = await apiGetToken(
-          `user/${user}/conversation/${JSON.stringify(convId)}`,
-          accessToken
+          `channel/${id}`, 
+          accessToken,
         );
         
         setStatus(data.status)
-        setConversationId(data.conversation_id)
-        setConversation(data.data.messages);
+        setChannel(data.data.messages);
       }
-      getConversation();
+  
+      getConversations();
     }
   }, [accessToken, user])
-
+  
 
   return (
-    <View style={styles.viewChat}>
-    {status == 'Success' && conversation != null ? (
-      conversation.map((message, index) => {
+    <View style={styles.viewDisplay}>
+    {status == 'Success' && channel != null ? (
+      channel.map((message, index) => {
         return (
           <View key={index}>
-            {message.user_id_from == user ? (
+            {message.user_id == user ? (
               <Text style={styles.nameChatFrom}>Vous</Text>
             ) : (
-              <Text style={styles.nameChatTo}>{message.id_from.firstname} {message.id_from.lastname}</Text>
+              <Text style={styles.nameChatTo}>Autre</Text>
             )}
             <Pressable 
-              style={message.user_id_from == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
-              title={conversationId} 
+              style={message.user_id == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
+              title={message.id} 
               onPress={() => {console.log('ouaip')}}>
               <Text>{message.message}</Text>
             </Pressable>
@@ -73,4 +73,4 @@ const ConversationScreen = ({ route, navigation })  => {
 }
 
 
-export default ConversationScreen
+export default ChannelScreen

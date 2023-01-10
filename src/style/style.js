@@ -57,18 +57,29 @@ export default StyleSheet.create({
   },
   chatBubbleFrom: {
     width: '80%',
-    marginTop: 12,
+    marginTop: 10,
     padding: 10,
     borderWidth: 1,
     borderRadius: 5,
     marginLeft: '20%',
   },
+  nameChatTo: {
+    width: '80%',
+    marginRight: '20%',
+    marginTop: 12,
+  },
   chatBubbleTo: {
     width: '80%',
-    marginTop: 12,
+    marginTop: 10,
     padding: 10,
     borderWidth: 1,
     borderRadius: 5,
     marginRight: '20%',
-  }
+  },
+  nameChatFrom: {
+    width: '80%',
+    marginLeft: '20%',
+    textAlign: 'right',
+    marginTop: 12,
+  },
 });

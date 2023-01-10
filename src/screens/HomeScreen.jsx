@@ -8,7 +8,7 @@ const HomeScreen = ({ navigation }) => {
 
   const getUsers = async () => {
     // await apiGet('users')
-    const conversations = await apiGetToken('user/5/conversations', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJqb2huZG9lQGdtYWlsLmNvbSIsImlhdCI6MTY3MzM1NTQ0NiwiZXhwIjoxNjczMzU5MDQ2fQ.rcwUVu-Ub0oGjICfH5fJvTAaUQ9CZmxGbM_JpLC0Fn0');
+    const conversations = await apiGetToken('user/5/conversations', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJqb2huZG9lQGdtYWlsLmNvbSIsImlhdCI6MTY3MzM1OTA5NSwiZXhwIjoxNjczMzYyNjk1fQ.pro-VD8CYClfod_k0kkmuqgfTh00OGMlnEnHiaO_QMA');
     
     setUserConversations(conversations)
     console.log('conversations : ' + userConversations)
@@ -18,6 +18,7 @@ const HomeScreen = ({ navigation }) => {
     console.log(userConversations)
   })
 
+  
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
     <Text>Home Screen</Text>
@@ -35,5 +36,6 @@ const HomeScreen = ({ navigation }) => {
   </View>
   )
 }
+
 
 export default HomeScreen

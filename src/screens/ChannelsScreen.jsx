@@ -2,26 +2,46 @@ import * as React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { apiGetToken } from '../utils/Api';
+import { getStorage } from '../utils/AsyncStorage';
 import styles from '../style/style';
 
 
-const ChannelScreen = ({ navigation }) => {
+const ChannelsScreen = ({ navigation }) => {
+  const [accessToken, setAccessToken] = React.useState('');
+  const [user, setUser] = React.useState(0);
+
   const [status, setStatus] = React.useState(null)
   const [channels, setChannels] = React.useState(null);
 
-  let userId = 5;
-  let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJqb2huZG9lQGdtYWlsLmNvbSIsImlhdCI6MTY3MzM1NTQ0NiwiZXhwIjoxNjczMzU5MDQ2fQ.rcwUVu-Ub0oGjICfH5fJvTAaUQ9CZmxGbM_JpLC0Fn0';
-
   React.useEffect(() => {
-    const getChannels = async () => {
-      const data = await apiGetToken(`user/${userId}/channel`, userToken);
-      
-      setStatus(data.status)
-      setChannels(data.data);
+    const getToken = async () => {
+      getStorage('access_token')
+      .then((token) => { setAccessToken(token) });
     }
 
-    getChannels();
-  }, [])
+    const getUser = async () => {
+      getStorage('user_id')
+      .then((user) => { setUser(user) });
+    }
+  
+    getToken();
+    getUser();
+
+    if(accessToken != '' && user != 0) {
+      const getChannels = async () => {
+        const data = await apiGetToken(
+          `user/${user}/channels`, 
+          accessToken
+        );
+        
+        setStatus(data.status)
+        setChannels(data.data);
+      }
+  
+      getChannels();
+    }
+  }, [accessToken, user])
+
 
   return (
     <View style={styles.viewDisplay}>
@@ -32,7 +52,10 @@ const ChannelScreen = ({ navigation }) => {
             <Pressable 
               style={styles.blackBtn}
               title={channel.id} 
-              onPress={console.log('ok')}>
+              onPress={() => { navigation.navigate('Channel', {
+                  id: channel.id,
+              })}
+            }>
               <Text style={styles.blackBtnText}>
               {channel.name}
               </Text>
@@ -47,4 +70,5 @@ const ChannelScreen = ({ navigation }) => {
   )
 }
 
-export default ChannelScreen
+
+export default ChannelsScreen

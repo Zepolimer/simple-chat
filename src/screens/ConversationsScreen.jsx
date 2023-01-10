@@ -2,26 +2,46 @@ import * as React from 'react';
 import { Button, Pressable, Text, View } from 'react-native';
 
 import { apiGetToken } from '../utils/Api';
+import { getStorage } from '../utils/AsyncStorage';
 import styles from '../style/style';
 
 
 const ConversationScreen = ({ navigation }) => {
+  const [accessToken, setAccessToken] = React.useState('');
+  const [user, setUser] = React.useState(0);
+
   const [status, setStatus] = React.useState(null)
   const [conversations, setConversations] = React.useState(null);
 
-  let userId = 5;
-  let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJqb2huZG9lQGdtYWlsLmNvbSIsImlhdCI6MTY3MzM1NTQ0NiwiZXhwIjoxNjczMzU5MDQ2fQ.rcwUVu-Ub0oGjICfH5fJvTAaUQ9CZmxGbM_JpLC0Fn0';
-
   React.useEffect(() => {
-    const getConversations = async () => {
-      const data = await apiGetToken(`user/${userId}/conversations`, userToken);
-      
-      setStatus(data.status)
-      setConversations(data.data);
+    const getToken = async () => {
+      getStorage('access_token')
+      .then((token) => { setAccessToken(token) });
     }
 
-    getConversations();
-  }, [])
+    const getUser = async () => {
+      getStorage('user_id')
+      .then((user) => { setUser(user) });
+    }
+  
+    getToken();
+    getUser();
+
+    if(accessToken != '' && user != 0) {
+      const getConversations = async () => {
+        const data = await apiGetToken(
+          `user/${user}/conversations`, 
+          accessToken
+        );
+        
+        setStatus(data.status)
+        setConversations(data.data);
+      }
+  
+      getConversations();
+    }
+  }, [accessToken, user])
+
 
   return (
     <View style={styles.viewChat}>
@@ -33,7 +53,7 @@ const ConversationScreen = ({ navigation }) => {
                 style={styles.chatBtn}
                 title={conversation.id} 
                 onPress={() => { navigation.navigate('Conversation', {
-                  itemId: userId,
+                  itemId: user,
                   convId: conversation.id,
                 })}
               }>
@@ -50,5 +70,6 @@ const ConversationScreen = ({ navigation }) => {
     </View>
   )
 }
+
 
 export default ConversationScreen

@@ -22,6 +22,8 @@ const apiGet = async (path) => {
  * @param {*} content 
  */
 const apiPost = async (path, content) => {  
+  let result = null;
+  
   await fetch(`http://127.0.0.1:3000/api/${path}`, {
     method: 'POST',
     headers: {
@@ -29,8 +31,12 @@ const apiPost = async (path, content) => {
     },
     body: JSON.stringify(content),
   })
-  .then(response => response.json())
-  .then(data => console.log(data));
+  .then((response) => response.json())
+  .then((data) => {
+    result = data
+  });
+
+  return result;
 };
 
 
@@ -88,7 +94,6 @@ const apiGetToken = async (path, token) => {
   })
   .then((response) => response.json())
   .then((data) => {
-    console.log(data)
     result = data
   });
 
