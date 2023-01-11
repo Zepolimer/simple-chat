@@ -1,48 +1,47 @@
 import * as React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
-import { apiGetToken } from '../utils/Api';
-import { getStorage } from '../utils/AsyncStorage';
+import { secureGetRequest } from '../utils/Api';
+import { getAccessToken, getUserId } from '../utils/AsyncStorage';
 import styles from '../style/style';
 
 const ConversationScreen = ({ route, navigation })  => {
   const { itemId, convId } = route.params;
 
-  const [accessToken, setAccessToken] = React.useState('');
+  const [access, setAccess] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [status, setStatus] = React.useState(null)
   const [conversationId, setConversationId] = React.useState(null);
   const [conversation, setConversation] = React.useState(null);
 
+  const userInfos = async () => {
+    await getAccessToken().then((token) => { 
+      setAccess(token) 
+    });
+
+    await getUserId().then((user) => { 
+      setUser(user) 
+    });
+  };
+
+  const getConversation = async () => {
+    await secureGetRequest(
+      `user/${user}/conversation/${JSON.stringify(convId)}`,
+      access
+    )
+    .then((res) => {
+      setStatus(res.status)
+      setConversationId(res.conversation_id)
+      setConversation(res.data.messages);
+    });
+  }
+
   React.useEffect(() => {
-    const getToken = async () => {
-      getStorage('access_token')
-      .then((token) => { setAccessToken(token) });
-    }
+    userInfos();
 
-    const getUser = async () => {
-      getStorage('user_id')
-      .then((user) => { setUser(user) });
-    }
-  
-    getToken();
-    getUser();
-
-    if(accessToken != '' && user != 0) {
-      const getConversation = async () => {
-        const data = await apiGetToken(
-          `user/${user}/conversation/${JSON.stringify(convId)}`,
-          accessToken
-        );
-        
-        setStatus(data.status)
-        setConversationId(data.conversation_id)
-        setConversation(data.data.messages);
-      }
-      getConversation();
-    }
-  }, [accessToken, user])
+    if(access != '' && user != 0) getConversation();
+  }, [access, user])
 
 
   return (

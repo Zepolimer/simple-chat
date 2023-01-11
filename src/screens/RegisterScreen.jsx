@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import BlackPressable from '../components/BlackPressable';
 import FormInput from '../components/FormInput'
 import styles from '../style/style';
-import { apiPost } from '../utils/Api';
+import { postRequest } from '../utils/Api';
 
 
 export default function RegisterScreen({ navigation }) {
@@ -24,7 +24,7 @@ export default function RegisterScreen({ navigation }) {
         'password': password,
       }
 
-      await apiPost('register', user)
+      await postRequest('register', user)
     }
   }
 

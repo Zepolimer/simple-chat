@@ -1,48 +1,46 @@
 import * as React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
-import { apiGetToken } from '../utils/Api';
-import { getStorage } from '../utils/AsyncStorage';
+import { secureGetRequest } from '../utils/Api';
+import { getAccessToken, getUserId } from '../utils/AsyncStorage';
 import styles from '../style/style';
 
 
 const ChannelScreen = ({ route, navigation }) => {
   const { id } = route.params;
 
-  const [accessToken, setAccessToken] = React.useState('');
+  const [access, setAccess] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [status, setStatus] = React.useState(null);
   const [channel, setChannel] = React.useState(null);
 
+  const userInfos = async () => {
+    await getAccessToken().then((token) => { 
+      setAccess(token) 
+    });
+
+    await getUserId().then((user) => { 
+      setUser(user) 
+    });
+  };
+
+  const getConversations = async () => {
+    await secureGetRequest(
+      `channel/${id}`, 
+      access,
+    )
+    .then((res) => {
+      setStatus(res.status);
+      setChannel(res.data.messages);
+    });
+  }
+
   React.useEffect(() => {
-    const getToken = async () => {
-      getStorage('access_token')
-      .then((token) => { setAccessToken(token) });
-    }
+    userInfos();
 
-    const getUser = async () => {
-      getStorage('user_id')
-      .then((user) => { setUser(user) });
-    }
-  
-    getToken();
-    getUser();
-
-    if(accessToken != '' && user != 0) {
-      const getConversations = async () => {
-        const data = await apiGetToken(
-          `channel/${id}`, 
-          accessToken,
-        );
-        
-        setStatus(data.status)
-        setChannel(data.data.messages);
-      }
-  
-      getConversations();
-    }
-  }, [accessToken, user])
+    if(access != '' && user != 0) getConversations();
+  }, [access, user])
   
 
   return (

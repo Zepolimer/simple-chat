@@ -1,46 +1,49 @@
 import * as React from 'react';
 import { Button, Pressable, Text, View } from 'react-native';
 
-import { apiGetToken } from '../utils/Api';
-import { getStorage } from '../utils/AsyncStorage';
+import { secureGetRequest } from '../utils/Api';
+import { getAccessToken, getRefreshToken, getUserId } from '../utils/AsyncStorage';
 import styles from '../style/style';
 
 
 const ConversationScreen = ({ navigation }) => {
-  const [accessToken, setAccessToken] = React.useState('');
+  const [access, setAccess] = React.useState('');
+  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [status, setStatus] = React.useState(null)
   const [conversations, setConversations] = React.useState(null);
 
+  const userInfos = async () => {
+    await getAccessToken().then((token) => { 
+      setAccess(token) 
+    });
+
+    await getRefreshToken().then((token) => { 
+      setRefresh(token) 
+    });
+
+    await getUserId().then((user) => { 
+      setUser(user) 
+    });
+  };
+
+  const getConversations = async () => {
+    await secureGetRequest(
+      `user/${user}/conversations`, 
+      access
+    )
+    .then((res) => {
+      setStatus(res.status)
+      setConversations(res.data);
+    });
+  }
+
   React.useEffect(() => {
-    const getToken = async () => {
-      getStorage('access_token')
-      .then((token) => { setAccessToken(token) });
-    }
+    userInfos();
 
-    const getUser = async () => {
-      getStorage('user_id')
-      .then((user) => { setUser(user) });
-    }
-  
-    getToken();
-    getUser();
-
-    if(accessToken != '' && user != 0) {
-      const getConversations = async () => {
-        const data = await apiGetToken(
-          `user/${user}/conversations`, 
-          accessToken
-        );
-        
-        setStatus(data.status)
-        setConversations(data.data);
-      }
-  
-      getConversations();
-    }
-  }, [accessToken, user])
+    if(access != '' && user != 0) getConversations();
+  }, [access, user])
 
 
   return (

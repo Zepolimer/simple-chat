@@ -1,10 +1,13 @@
+import { SITE_URL } from '@env';
+
+
 /**
  * GET
- * apiGet takes one param :
+ * getRequest takes one param :
  * @param {*} path
  */
-const apiGet = async (path) => {  
-  await fetch(`http://127.0.0.1:3000/api/${path}`, {
+const getRequest = async (path) => {  
+  await fetch(SITE_URL + path, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -17,14 +20,14 @@ const apiGet = async (path) => {
 
 /**
  * POST
- * apiPost takes two params :
+ * postRequest takes two params :
  * @param {*} path 
  * @param {*} content 
  */
-const apiPost = async (path, content) => {  
+const postRequest = async (path, content) => {  
   let result = null;
   
-  await fetch(`http://127.0.0.1:3000/api/${path}`, {
+  await fetch(SITE_URL + path, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -42,12 +45,12 @@ const apiPost = async (path, content) => {
 
 /**
  * PUT
- * apiPut takes two params :
+ * putRequest takes two params :
  * @param {*} path 
  * @param {*} content 
  */
-const apiPut = async (path, content) => {  
-  await fetch(`http://127.0.0.1:3000/api/${path}`, {
+const putRequest = async (path, content) => {  
+  await fetch(SITE_URL + path, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -61,11 +64,11 @@ const apiPut = async (path, content) => {
 
 /**
  * DELETE
- * apiDelete takes one param :
+ * deleteRequest takes one param :
  * @param {*} path 
  */
-const apiDelete = async (path) => {  
-  await fetch(`http://127.0.0.1:3000/api/${path}`, {
+const deleteRequest = async (path) => {  
+  await fetch(SITE_URL + path, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
@@ -78,14 +81,14 @@ const apiDelete = async (path) => {
 
 /**
  * GET
- * apiGet takes two params :
+ * secureGetRequest takes two params :
  * @param {*} path
  * @param {*} token 
  */
-const apiGetToken = async (path, token) => {  
+const secureGetRequest = async (path, token) => {  
   let result = null;
 
-  await fetch(`http://127.0.0.1:3000/api/${path}`, {
+  await fetch(SITE_URL + path, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -103,13 +106,13 @@ const apiGetToken = async (path, token) => {
 
 /**
  * POST
- * apiPostToken takes three params :
+ * securePostRequest takes three params :
  * @param {*} path 
  * @param {*} content 
  * @param {*} token 
  */
-const apiPostToken = async (path, content, token) => {  
-  await fetch(`http://127.0.0.1:3000/api/${path}`, {
+const securePostRequest = async (path, content, token) => {  
+  await fetch(SITE_URL + path, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -124,13 +127,13 @@ const apiPostToken = async (path, content, token) => {
 
 /**
  * PUT
- * apiPutToken takes three params :
+ * securePutRequest takes three params :
  * @param {*} path 
  * @param {*} content 
  * @param {*} token 
  */
-const apiPutToken = async (path, content, token) => {  
-  await fetch(`http://127.0.0.1:3000/api/${path}`, {
+const securePutRequest = async (path, content, token) => {  
+  await fetch(SITE_URL + path, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -145,12 +148,12 @@ const apiPutToken = async (path, content, token) => {
 
 /**
  * DELETE
- * apiDeleteToken takes two params :
+ * secureDeleteRequest takes two params :
  * @param {*} path 
  * @param {*} token 
  */
-const apiDeleteToken = async (path, token) => {  
-  await fetch(`http://127.0.0.1:3000/api/${path}`, {
+const secureDeleteRequest = async (path, token) => {  
+  await fetch(SITE_URL + path, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -163,12 +166,12 @@ const apiDeleteToken = async (path, token) => {
 
 
 export {
-  apiGet,
-  apiPost,
-  apiPut,
-  apiDelete,
-  apiGetToken,
-  apiPostToken,
-  apiPutToken,
-  apiDeleteToken,
+  getRequest,
+  secureGetRequest,
+  postRequest,
+  securePostRequest,
+  putRequest,
+  securePutRequest,
+  deleteRequest,
+  secureDeleteRequest
 }
