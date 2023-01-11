@@ -11,6 +11,7 @@ const HomeScreen = ({ navigation }) => {
   const getUsers = async () => {
     await setAccessToken('');
     await setRefreshToken('');
+    return navigation.navigate('Connexion')
   };
 
   return (

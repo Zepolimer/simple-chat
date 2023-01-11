@@ -4,6 +4,7 @@ import { Button, Pressable, Text, View } from 'react-native';
 import { secureGetRequest } from '../utils/Api';
 import { getAccessToken, getRefreshToken, getUserId } from '../utils/AsyncStorage';
 import styles from '../style/style';
+import { regenerateToken } from '../utils/Interceptor';
 
 
 const ConversationScreen = ({ navigation }) => {
@@ -35,7 +36,9 @@ const ConversationScreen = ({ navigation }) => {
     )
     .then((res) => {
       setStatus(res.status)
-      setConversations(res.data);
+      if(res.status != 'Error') {
+        setConversations(res.data);
+      }
     });
   }
 
@@ -43,7 +46,12 @@ const ConversationScreen = ({ navigation }) => {
     userInfos();
 
     if(access != '' && user != 0) getConversations();
-  }, [access, user])
+    if(status == 'Error') {
+      regenerateToken(refresh);
+    } else if(status != 'Error') {
+      getConversations();
+    }
+  }, [status])
 
 
   return (

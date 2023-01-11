@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { secureGetRequest } from '../utils/Api';
-import { getAccessToken, getUserId } from '../utils/AsyncStorage';
+import { getAccessToken, getRefreshToken, getUserId } from '../utils/AsyncStorage';
+import { regenerateToken } from '../utils/Interceptor';
 import styles from '../style/style';
 
 
@@ -10,6 +11,7 @@ const ChannelScreen = ({ route, navigation }) => {
   const { id } = route.params;
 
   const [access, setAccess] = React.useState('');
+  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [status, setStatus] = React.useState(null);
@@ -20,12 +22,16 @@ const ChannelScreen = ({ route, navigation }) => {
       setAccess(token) 
     });
 
+    await getRefreshToken().then((token) => { 
+      setRefresh(token) 
+    });
+
     await getUserId().then((user) => { 
       setUser(user) 
     });
   };
 
-  const getConversations = async () => {
+  const getChannel = async () => {
     await secureGetRequest(
       `channel/${id}`, 
       access,
@@ -39,8 +45,13 @@ const ChannelScreen = ({ route, navigation }) => {
   React.useEffect(() => {
     userInfos();
 
-    if(access != '' && user != 0) getConversations();
-  }, [access, user])
+    if(access != '' && user != 0) getChannel();
+    if(status == 'Error') {
+      regenerateToken(refresh);
+    } else if(status != 'Error') {
+      getChannel();
+    }
+  }, [status])
   
 
   return (

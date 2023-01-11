@@ -2,12 +2,14 @@ import * as React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { secureGetRequest } from '../utils/Api';
-import { getAccessToken, getUserId } from '../utils/AsyncStorage';
+import { getAccessToken, getRefreshToken, getUserId } from '../utils/AsyncStorage';
+import { regenerateToken } from '../utils/Interceptor';
 import styles from '../style/style';
 
 
 const ChannelsScreen = ({ navigation }) => {
   const [access, setAccess] = React.useState('');
+  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [status, setStatus] = React.useState(null)
@@ -16,6 +18,10 @@ const ChannelsScreen = ({ navigation }) => {
   const userInfos = async () => {
     await getAccessToken().then((token) => { 
       setAccess(token) 
+    });
+
+    await getRefreshToken().then((token) => { 
+      setRefresh(token) 
     });
 
     await getUserId().then((user) => { 
@@ -38,7 +44,12 @@ const ChannelsScreen = ({ navigation }) => {
     userInfos();
 
     if(access != '' && user != 0) getChannels();
-  }, [access, user])
+    if(status == 'Error') {
+      regenerateToken(refresh);
+    } else if(status != 'Error') {
+      getChannels();
+    }
+  }, [status])
 
 
   return (

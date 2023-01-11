@@ -50,12 +50,14 @@ function ConversationStackScreen() {
 
 const AuthStack = createNativeStackNavigator();
 
-function AuthStackScreen() {
-  <AuthStack.Navigator>
-    <AuthStack.Screen name="Connexion" component={LoginScreen} />
-    <AuthStack.Screen name="Inscription" component={RegisterScreen} />
-  </AuthStack.Navigator>
-}
+// function AuthStackScreen() {
+//   return (
+//     <AuthStack.Navigator>
+//       <AuthStack.Screen name="Connexion" component={LoginScreen} />
+//       <AuthStack.Screen name="Inscription" component={RegisterScreen} />
+//     </AuthStack.Navigator>
+//   )
+// }
 
 const UserTab = createBottomTabNavigator();
 
@@ -85,6 +87,7 @@ function UserTabScreen() {
   )
 }
 
+
 const AppScreen = createNativeStackNavigator();
 
 export default function App() {
@@ -109,44 +112,102 @@ export default function App() {
       setUser(user) 
     });
 
-    if(authenticated !== '') await regenerateToken(refresh);
+    // if(authenticated !== '') await regenerateToken(refresh);
   };
 
   React.useEffect(() => {
     userInfos();
   })
 
-
   return (
     <NavigationContainer>
-    {authenticated == false ? (
-      <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-        <AuthStack.Screen name="Connexion" component={LoginScreen} />
-        <AuthStack.Screen name="Inscription" component={RegisterScreen} />
-      </AuthStack.Navigator>
-    ) : (
-      <UserTab.Navigator screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+      {authenticated == false ? (
+        <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+          <AuthStack.Screen name="Connexion" component={LoginScreen} />
+          <AuthStack.Screen name="Inscription" component={RegisterScreen} />
+        </AuthStack.Navigator>
+      ) : (
+        <UserTab.Navigator screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
 
-          if (route.name === 'Accueil') {
-            iconName = focused ? 'ios-home' : 'ios-home-outline';
-          } else if (route.name === 'Messages') {
-            iconName = focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline';
-          } else if (route.name === 'Groupes') {
-            iconName = focused ? 'ios-people' : 'ios-people-outline';
-          }
+            if (route.name === 'Accueil') {
+              iconName = focused ? 'ios-home' : 'ios-home-outline';
+            } else if (route.name === 'Messages') {
+              iconName = focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline';
+            } else if (route.name === 'Groupes') {
+              iconName = focused ? 'ios-people' : 'ios-people-outline';
+            }
 
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
-      })}>
-        <UserTab.Screen name="Accueil" component={HomeScreen} />
-        <UserTab.Screen name="Messages" component={ConversationStackScreen} />
-        <UserTab.Screen name="Groupes" component={ChannelStackScreen} />
-      </UserTab.Navigator>
-    )}
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}>
+          <UserTab.Screen name="Accueil" component={HomeScreen} />
+          <UserTab.Screen name="Messages" component={ConversationStackScreen} />
+          <UserTab.Screen name="Groupes" component={ChannelStackScreen} />
+        </UserTab.Navigator>
+      )}
     </NavigationContainer>
   );
 }
+
+{/* <NavigationContainer>
+{authenticated == false ? (
+  <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+    <AuthStack.Screen name="Connexion" component={LoginScreen} />
+    <AuthStack.Screen name="Inscription" component={RegisterScreen} />
+  </AuthStack.Navigator>
+) : (
+  <UserTab.Navigator screenOptions={({ route }) => ({
+    tabBarIcon: ({ focused, color, size }) => {
+      let iconName;
+
+      if (route.name === 'Accueil') {
+        iconName = focused ? 'ios-home' : 'ios-home-outline';
+      } else if (route.name === 'Messages') {
+        iconName = focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline';
+      } else if (route.name === 'Groupes') {
+        iconName = focused ? 'ios-people' : 'ios-people-outline';
+      }
+
+      return <Ionicons name={iconName} size={size} color={color} />;
+    },
+    tabBarActiveTintColor: 'tomato',
+    tabBarInactiveTintColor: 'gray',
+  })}>
+    <UserTab.Screen name="Accueil" component={HomeScreen} />
+    <UserTab.Screen name="Messages" component={ConversationStackScreen} />
+    <UserTab.Screen name="Groupes" component={ChannelStackScreen} />
+  </UserTab.Navigator>
+)}
+</NavigationContainer> */}
+
+{/* <NavigationContainer>
+  <UserTab.Navigator screenOptions={({ route }) => ({
+  tabBarIcon: ({ focused, color, size }) => {
+    let iconName;
+
+    if (route.name === 'Accueil') {
+      iconName = focused ? 'ios-home' : 'ios-home-outline';
+    } else if (route.name === 'Messages') {
+      iconName = focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline';
+    } else if (route.name === 'Groupes') {
+      iconName = focused ? 'ios-people' : 'ios-people-outline';
+    }
+
+    return <Ionicons name={iconName} size={size} color={color} />;
+  },
+  tabBarActiveTintColor: 'tomato',
+  tabBarInactiveTintColor: 'gray',
+  })}>
+    {!authenticated &&
+    <UserTab.Screen name="Connexion" component={LoginScreen} />}
+    {!authenticated &&
+    <UserTab.Screen name="Inscription" component={RegisterScreen} />}
+    <UserTab.Screen name="Accueil" component={HomeScreen} />
+    <UserTab.Screen name="Messages" component={ConversationStackScreen} />
+    <UserTab.Screen name="Groupes" component={ChannelStackScreen} />
+  </UserTab.Navigator>
+</NavigationContainer> */}
