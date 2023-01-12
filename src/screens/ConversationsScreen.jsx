@@ -106,36 +106,38 @@ const ConversationScreen = ({ navigation }) => {
       </View>
       }
       <View style={styles.viewChat}>
-      <Text>Vos messages</Text>
-      {status == 'Success' && conversations != null ? (
-        conversations.map((conversation, index) => {
-          return (
-            <View key={index}>
-              <Pressable 
-                style={styles.chatBtn}
-                title={conversation.id} 
-                onPress={() => { navigation.navigate('Conversation', {
-                  itemId: user,
-                  convId: conversation.id,
-                })}
-              }>
-                <View style={styles.horizontalItemImg}></View>
-                {user == conversation.id_from ? (
-                  <Text style={styles.chatText}>
-                  {conversation.id_to.firstname} {conversation.id_to.lastname}
-                  </Text>
-                ) : (
-                  <Text style={styles.chatText}>
-                  {conversation.id_from.firstname} {conversation.id_from.lastname}
-                  </Text>
-                )}
-              </Pressable>
-            </View>
-          )
-        })
-      ) : (
-        <Text>Pas de conversations. N'hésitez pas à démarrer une discussion avec l'un ou l'une de vos ami(e) !</Text>
-      )}
+        <Text>Vos messages</Text>
+        <ScrollView style={{flexDirection: 'column'}}>
+        {status == 'Success' && conversations != null ? (
+          conversations.map((conversation, index) => {
+            return (
+              <View key={index}>
+                <Pressable 
+                  style={styles.chatBtn}
+                  title={conversation.id} 
+                  onPress={() => { navigation.navigate('Conversation', {
+                    itemId: user,
+                    convId: conversation.id,
+                  })}
+                }>
+                  <View style={styles.horizontalItemImg}></View>
+                  {user == conversation.id_from ? (
+                    <Text style={styles.chatText}>
+                    {conversation.id_to.firstname} {conversation.id_to.lastname}
+                    </Text>
+                  ) : (
+                    <Text style={styles.chatText}>
+                    {conversation.id_from.firstname} {conversation.id_from.lastname}
+                    </Text>
+                  )}
+                </Pressable>
+              </View>
+            )
+          })
+        ) : (
+          <Text>Pas de conversations. N'hésitez pas à démarrer une discussion avec l'un ou l'une de vos ami(e) !</Text>
+        )}
+        </ScrollView>
       </View>
     </View>
   )

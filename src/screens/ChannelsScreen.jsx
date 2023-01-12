@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
-import { getRequest, secureGetRequest } from '../security/Api';
+import { secureGetRequest, secureFastPostRequest } from '../security/Api';
 import { getAccessToken, getRefreshToken, getUserId } from '../security/AsyncStorage';
 import { regenerateToken } from '../security/Credential';
 
@@ -32,9 +32,16 @@ const ChannelsScreen = ({ navigation }) => {
   };
 
   const getAllChannels = async () => {
-    await getRequest('channels')
+    await secureGetRequest(
+      `user/${user}/channelstojoin`, 
+      access
+    )
     .then((res) => {
-      setChannelList(res.data);
+      if(res.status == 'Error') {
+        regenerateToken(refresh);
+      } else {
+        setChannelList(res.data);
+      }
     });
   }
 
@@ -50,17 +57,33 @@ const ChannelsScreen = ({ navigation }) => {
     });
   }
 
+  const postJoinChannel = async (id) => {
+    await secureFastPostRequest(
+      `user/${user}/channel/${id}`, 
+      access
+    )
+    .then((res) => {
+      console.log(res)
+      navigation.navigate('Channel', {
+        id: id,
+      })
+    })
+  }
+
   React.useEffect(() => {
     userInfos();
-    getAllChannels();
 
-    if(access != '' && user != 0) getChannels();
+    if(access != '' && user != 0) {
+      getAllChannels();
+      getChannels();
+    }
     if(status == 'Error') {
       regenerateToken(refresh);
     } else if(status != 'Error') {
+      getAllChannels();
       getChannels();
     }
-  }, [])
+  }, [status])
 
 
   return (
@@ -72,15 +95,10 @@ const ChannelsScreen = ({ navigation }) => {
             <View key={index}>
               <Pressable 
                 style={styles.blackBtn}
-                title={channel.id} 
-                onPress={() => { 
-                  navigation.navigate('Channel', {
-                    id: channel.id,
-                  });
-                }}
-              >
+                title={channel.Channel.id} 
+                onPress={() =>  postJoinChannel(channel.Channel.id)}> 
                 <Text style={styles.blackBtnText}>
-                {channel.name}
+                {channel.Channel.name}
                 </Text>
               </Pressable>
             </View>
@@ -95,13 +113,13 @@ const ChannelsScreen = ({ navigation }) => {
           <View key={index}>
             <Pressable 
               style={styles.blackBtn}
-              title={channel.id} 
+              title={channel.Channel.id} 
               onPress={() => { navigation.navigate('Channel', {
-                  id: channel.id,
+                  id: channel.Channel.id,
               })}
             }>
               <Text style={styles.blackBtnText}>
-              {channel.name}
+              {channel.Channel.name}
               </Text>
             </Pressable>
           </View>

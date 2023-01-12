@@ -86,16 +86,14 @@ const ChannelScreen = ({ route, navigation }) => {
       channel.map((msg, index) => {
         return (
           <ScrollView key={index}>
-            {msg.user_id == user ? (
-              <Text style={styles.nameChatFrom}>Vous</Text>
-            ) : (
+            {msg.user_id != user && 
               <Text style={styles.nameChatTo}>{msg.User.firstname} {msg.User.lastname}</Text>
-            )}
+            }
             <Pressable 
               style={msg.user_id == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
               title={msg.id} 
               onPress={() => {console.log('ouaip')}}>
-              <Text>{msg.message}</Text>
+              <Text style={styles.chatBubbletext}>{msg.message}</Text>
             </Pressable>
           </ScrollView>
         )

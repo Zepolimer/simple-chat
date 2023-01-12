@@ -66,6 +66,8 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     marginLeft: '20%',
+    backgroundColor: '#013652',
+    borderColor: '#013652',
   },
   nameChatTo: {
     width: '80%',
@@ -79,12 +81,17 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     marginRight: '20%',
+    backgroundColor: '#076191',
+    borderColor: '#076191',
   },
   nameChatFrom: {
     width: '80%',
     marginLeft: '20%',
     textAlign: 'right',
     marginTop: 12,
+  },
+  chatBubbletext: {
+    color: '#FFFFFF',
   },
   horizontalWrapper: {
     flexDirection: 'row',
