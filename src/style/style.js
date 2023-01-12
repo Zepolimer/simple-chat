@@ -45,16 +45,19 @@ export default StyleSheet.create({
     color: 'white',
   },
   chatBtn: {
-    ...common.width90,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: "center",
     marginTop: 12,
-    paddingVertical: 12,
+    padding: 10,
     borderRadius: 5,
-    backgroundColor: 'black',
+    borderWidth: 1,
+    borderColor: '#00000080',
   },
   chatText: {
-    color: 'white',
+    color: '#000000',
     fontSize: 16,
-    textAlign: 'center'
+    marginLeft: 20,
   },
   chatBubbleFrom: {
     width: '80%',
@@ -82,5 +85,32 @@ export default StyleSheet.create({
     marginLeft: '20%',
     textAlign: 'right',
     marginTop: 12,
+  },
+  horizontalWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    justifyContent: 'flex-start',
+    alignItems: "center",
+    height: 120,
+    backgroundColor: '#000000',
+    marginBottom: 30,
+  },
+  horizontalItem: {
+    height: 80,
+    width: 100,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: "center",
+    marginHorizontal: 10,
+  },
+  horizontalItemText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+  },
+  horizontalItemImg: {
+    height: 50,
+    width: 50,
+    borderRadius: '50%',
+    backgroundColor: '#' + Math.floor(Math.random()*16777215).toString(16),
   },
 });

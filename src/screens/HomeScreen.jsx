@@ -1,7 +1,11 @@
 import * as React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, Pressable, Text, View } from 'react-native';
 
-import { setAccessToken, setRefreshToken } from '../security/AsyncStorage';
+import { getRequest, secureGetRequest } from '../security/Api';
+import { setAccessToken, getAccessToken, setRefreshToken, getRefreshToken, getUserId } from '../security/AsyncStorage';
+import { regenerateToken } from '../security/Credential';
+
+import styles from '../style/style';
 
 
 const HomeScreen = ({ navigation }) => {
@@ -9,16 +13,76 @@ const HomeScreen = ({ navigation }) => {
   const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
+  const [status, setStatus] = React.useState(null)
+  const [channels, setChannels] = React.useState(null);
+
   const getUsers = async () => {
     await setAccessToken('');
     await setRefreshToken('');
-    // return navigation.navigate('Connexion')
   };
 
+  const userInfos = async () => {
+    await getAccessToken().then((token) => { 
+      setAccess(token) 
+    });
+
+    await getRefreshToken().then((token) => { 
+      setRefresh(token) 
+    });
+
+    await getUserId().then((user) => { 
+      setUser(user) 
+    });
+  };
+
+  const getAllChannels = async () => {
+    await getRequest('channels')
+    .then((res) => {
+      setStatus(res.status);
+      setChannels(res.data);
+    });
+  }
+
+  React.useEffect(() => {
+    userInfos();
+
+    if(access != '' && user != 0) getAllChannels();
+    if(status == 'Error') {
+      regenerateToken(refresh);
+    } else if(status != 'Error') {
+      getAllChannels();
+    }
+  }, [status])
+
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button title="Utilisateurs" onPress={getUsers} />
+    <View style={styles.viewChat}>
+      <Text>Liste des groupes</Text>
+      {status == 'Success' && channels != null ? (
+      channels.map((channel, index) => {
+        return (
+          <View key={index}>
+            <Pressable 
+              style={styles.blackBtn}
+              title={channel.id} 
+              onPress={() => { 
+                navigation.navigate('Groupes', {
+                  screen: 'Channel',
+                  params: { id: channel.id },
+                });
+              }}
+            >
+              <Text style={styles.blackBtnText}>
+              {channel.name}
+              </Text>
+            </Pressable>
+          </View>
+        )
+      })
+    ) : (
+      <Text>Pas de groupe rejoint..</Text>
+    )}
+      <Button title="Deconnexion" onPress={getUsers} />
     </View>
   )
 }

@@ -64,7 +64,6 @@ const ConversationScreen = ({ route, navigation })  => {
         access,
       )
       .then((res) => {
-        console.log(res)
         onChangeMessage('');
         getMessages();
       })
@@ -77,21 +76,8 @@ const ConversationScreen = ({ route, navigation })  => {
       access,
     )
     .then((res) => {
-      console.log(res)
       getMessages();
     })
-  }
-
-  const openModal = () => {
-    Alert.alert(
-      "Suppression",
-      "Souhaitez vous supprimer ce message ?",
-      [
-        { text: "Annuler", onPress: () => console.log("Annuler Pressed")},
-        { text: "Supprimer", onPress: deleteMessage}
-      ]
-    );
-    console.log('ok')
   }
 
 
@@ -129,7 +115,6 @@ const ConversationScreen = ({ route, navigation })  => {
                   { text: "Supprimer", onPress: () => deleteMessage(msg.id)}
                 ]
               );
-              console.log('ok')
             }}
             >
               <Text>{msg.message}</Text>

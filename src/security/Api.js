@@ -5,14 +5,20 @@
  * @param {*} path
  */
 const getRequest = async (path) => {  
+  let result = null;
+
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     }
   })
-  .then(response => response.json())
-  .then(data => console.log(data));
+  .then((response) => response.json())
+  .then((data) => {
+    result = data
+  });
+
+  return result;
 };
 
 
@@ -47,7 +53,9 @@ const postRequest = async (path, content) => {
  * @param {*} path 
  * @param {*} content 
  */
-const putRequest = async (path, content) => {  
+const putRequest = async (path, content) => {
+  let result = null;
+
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'PUT',
     headers: {
@@ -55,8 +63,10 @@ const putRequest = async (path, content) => {
     },
     body: JSON.stringify(content),
   })
-  .then(response => response.json())
-  .then(data => console.log(data));
+  .then((response) => response.json())
+  .then((data) => {
+    result = data
+  });
 };
 
 
@@ -66,14 +76,18 @@ const putRequest = async (path, content) => {
  * @param {*} path 
  */
 const deleteRequest = async (path) => {  
+  let result = null;
+
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
     }
   })
-  .then(response => response.json())
-  .then(data => console.log(data));
+  .then((response) => response.json())
+  .then((data) => {
+    result = data
+  });
 };
 
 
@@ -110,6 +124,8 @@ const secureGetRequest = async (path, token) => {
  * @param {*} token 
  */
 const securePostRequest = async (path, content, token) => {  
+  let result = null;
+
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'POST',
     headers: {
@@ -118,8 +134,32 @@ const securePostRequest = async (path, content, token) => {
     },
     body: JSON.stringify(content),
   })
-  .then(response => response.json())
-  .then(data => console.log(data));
+  .then((response) => response.json())
+  .then((data) => {
+    result = data
+  });
+};
+
+/**
+ * POST
+ * secureFastPostRequest takes two params :
+ * @param {*} path 
+ * @param {*} token 
+ */
+const secureFastPostRequest = async (path, token) => {  
+  let result = null;
+
+  await fetch('http://127.0.0.1:3000/api/' + path, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    result = data
+  });
 };
 
 
@@ -131,6 +171,8 @@ const securePostRequest = async (path, content, token) => {
  * @param {*} token 
  */
 const securePutRequest = async (path, content, token) => {  
+  let result = null;
+
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'PUT',
     headers: {
@@ -139,8 +181,10 @@ const securePutRequest = async (path, content, token) => {
     },
     body: JSON.stringify(content),
   })
-  .then(response => response.json())
-  .then(data => console.log(data));
+  .then((response) => response.json())
+  .then((data) => {
+    result = data
+  });
 };
 
 
@@ -151,6 +195,8 @@ const securePutRequest = async (path, content, token) => {
  * @param {*} token 
  */
 const secureDeleteRequest = async (path, token) => {  
+  let result = null;
+
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'DELETE',
     headers: {
@@ -158,8 +204,10 @@ const secureDeleteRequest = async (path, token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-  .then(response => response.json())
-  .then(data => console.log(data));
+  .then((response) => response.json())
+  .then((data) => {
+    result = data
+  });
 };
 
 
@@ -168,6 +216,7 @@ export {
   secureGetRequest,
   postRequest,
   securePostRequest,
+  secureFastPostRequest,
   putRequest,
   securePutRequest,
   deleteRequest,

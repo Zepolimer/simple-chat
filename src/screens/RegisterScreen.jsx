@@ -26,6 +26,9 @@ export default function RegisterScreen({ navigation }) {
       }
 
       await postRequest('register', user)
+      .then((res) => {
+        navigation.navigate('Connexion')
+      })
     }
   }
 
