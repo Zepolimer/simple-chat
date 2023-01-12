@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Button, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
-import { secureGetRequest } from '../utils/Api';
-import { getAccessToken, getRefreshToken, getUserId } from '../utils/AsyncStorage';
+import { secureGetRequest } from '../security/Api';
+import { getAccessToken, getRefreshToken, getUserId } from '../security/AsyncStorage';
+import { regenerateToken } from '../security/Credential';
+
 import styles from '../style/style';
-import { regenerateToken } from '../utils/Interceptor';
 
 
 const ConversationScreen = ({ navigation }) => {
@@ -68,9 +69,15 @@ const ConversationScreen = ({ navigation }) => {
                   convId: conversation.id,
                 })}
               }>
-                <Text style={styles.chatText}>
-                {conversation.id_from.firstname} {conversation.id_from.lastname}
-                </Text>
+                {user == conversation.id_from ? (
+                  <Text style={styles.chatText}>
+                  {conversation.id_to.firstname} {conversation.id_to.lastname}
+                  </Text>
+                ) : (
+                  <Text style={styles.chatText}>
+                  {conversation.id_from.firstname} {conversation.id_from.lastname}
+                  </Text>
+                )}
               </Pressable>
             </View>
           )

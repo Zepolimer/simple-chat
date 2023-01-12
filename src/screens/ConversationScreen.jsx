@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { Pressable, Text, ScrollView, View, Alert } from 'react-native';
 
-import { secureGetRequest, securePostRequest } from '../utils/Api';
-import { getAccessToken, getRefreshToken, getUserId } from '../utils/AsyncStorage';
-import { regenerateToken } from '../utils/Interceptor';
-import styles from '../style/style';
+import { secureGetRequest, securePostRequest, secureDeleteRequest } from '../security/Api';
+import { getAccessToken, getRefreshToken, getUserId } from '../security/AsyncStorage';
+import { regenerateToken } from '../security/Credential';
+
 import FormInput from '../components/FormInput';
 import BlackPressable from '../components/BlackPressable';
+
+import styles from '../style/style';
+
 
 const ConversationScreen = ({ route, navigation })  => {
   const { itemId, convId } = route.params;
@@ -68,13 +71,24 @@ const ConversationScreen = ({ route, navigation })  => {
     }
   }
 
-  const deleteMessage = () => {
+  const deleteMessage = async (id) => {
+    await secureDeleteRequest(
+      `user/${itemId}/conversation/${JSON.stringify(convId)}/message/${id}`,
+      access,
+    )
+    .then((res) => {
+      console.log(res)
+      getMessages();
+    })
+  }
+
+  const openModal = () => {
     Alert.alert(
       "Suppression",
       "Souhaitez vous supprimer ce message ?",
       [
         { text: "Annuler", onPress: () => console.log("Annuler Pressed")},
-        { text: "Supprimer", onPress: () => console.log("Supprimer Pressed")}
+        { text: "Supprimer", onPress: deleteMessage}
       ]
     );
     console.log('ok')
@@ -107,8 +121,16 @@ const ConversationScreen = ({ route, navigation })  => {
             <Pressable 
               style={msg.user_id_from == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
               title={conversationId} 
-              onPress={deleteMessage}
-              onLongPress={() => {console.log('ouaaaaaaaip')}}
+              onPress={() => { Alert.alert(
+                "Suppression",
+                "Souhaitez vous supprimer ce message ?",
+                [
+                  { text: "Annuler", onPress: () => console.log("Annuler Pressed" + msg.id)},
+                  { text: "Supprimer", onPress: () => deleteMessage(msg.id)}
+                ]
+              );
+              console.log('ok')
+            }}
             >
               <Text>{msg.message}</Text>
             </Pressable>

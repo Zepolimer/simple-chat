@@ -16,6 +16,6 @@ export default StyleSheet.create({
   },
   width90: {
     width: '90%',
-    marginHorizontal: 'auto',
+    marginHorizontal: '5%',
   }
 });

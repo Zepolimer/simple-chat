@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
+import { postRequest } from '../security/Api';
+
 import BlackPressable from '../components/BlackPressable';
 import FormInput from '../components/FormInput'
 import styles from '../style/style';
-import { postRequest } from '../utils/Api';
 
 
 export default function RegisterScreen({ navigation }) {

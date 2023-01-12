@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
-import { secureGetRequest } from '../utils/Api';
-import { getAccessToken, getRefreshToken, getUserId } from '../utils/AsyncStorage';
-import { regenerateToken } from '../utils/Interceptor';
+import { secureGetRequest } from '../security/Api';
+import { getAccessToken, getRefreshToken, getUserId } from '../security/AsyncStorage';
+import { regenerateToken } from '../security/Credential';
+
 import styles from '../style/style';
 
 

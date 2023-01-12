@@ -1,18 +1,4 @@
-import { SITE_URL } from '@env';
-import jwt_decode from "jwt-decode";
-
 import { setAccessToken, setRefreshToken } from './AsyncStorage';
-
-
-const isTokenExpired = async (token) => {
-  var decoded = await jwt_decode(token)
-
-  if (decoded.exp < Date.now() / 1000) {
-    return true
-  } else {
-    return false
-  }
-}
 
 
 /**
@@ -21,7 +7,7 @@ const isTokenExpired = async (token) => {
  * @param {*} token
  */
 const regenerateToken = async (token) => {  
-  await fetch(SITE_URL + 'refreshtoken', {
+  await fetch('http://127.0.0.1:3000/api/refreshtoken', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +22,6 @@ const regenerateToken = async (token) => {
 };
 
 export {
-  isTokenExpired,
   regenerateToken,
 } 
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, Text, View } from 'react-native';
-import { setAccessToken, setRefreshToken } from '../utils/AsyncStorage';
+
+import { setAccessToken, setRefreshToken } from '../security/AsyncStorage';
 
 
 const HomeScreen = ({ navigation }) => {
@@ -11,14 +12,14 @@ const HomeScreen = ({ navigation }) => {
   const getUsers = async () => {
     await setAccessToken('');
     await setRefreshToken('');
-    return navigation.navigate('Connexion')
+    // return navigation.navigate('Connexion')
   };
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-    <Text>Home Screen</Text>
-    <Button title="Utilisateurs" onPress={getUsers} />
-  </View>
+      <Text>Home Screen</Text>
+      <Button title="Utilisateurs" onPress={getUsers} />
+    </View>
   )
 }
 

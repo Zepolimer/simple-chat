@@ -1,5 +1,3 @@
-import { SITE_URL } from '@env';
-
 
 /**
  * GET
@@ -7,7 +5,7 @@ import { SITE_URL } from '@env';
  * @param {*} path
  */
 const getRequest = async (path) => {  
-  await fetch(SITE_URL + path, {
+  await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -27,7 +25,7 @@ const getRequest = async (path) => {
 const postRequest = async (path, content) => {  
   let result = null;
   
-  await fetch(SITE_URL + path, {
+  await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -50,7 +48,7 @@ const postRequest = async (path, content) => {
  * @param {*} content 
  */
 const putRequest = async (path, content) => {  
-  await fetch(SITE_URL + path, {
+  await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -68,7 +66,7 @@ const putRequest = async (path, content) => {
  * @param {*} path 
  */
 const deleteRequest = async (path) => {  
-  await fetch(SITE_URL + path, {
+  await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
@@ -88,7 +86,7 @@ const deleteRequest = async (path) => {
 const secureGetRequest = async (path, token) => {  
   let result = null;
 
-  await fetch(SITE_URL + path, {
+  await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -112,7 +110,7 @@ const secureGetRequest = async (path, token) => {
  * @param {*} token 
  */
 const securePostRequest = async (path, content, token) => {  
-  await fetch(SITE_URL + path, {
+  await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -133,7 +131,7 @@ const securePostRequest = async (path, content, token) => {
  * @param {*} token 
  */
 const securePutRequest = async (path, content, token) => {  
-  await fetch(SITE_URL + path, {
+  await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -153,7 +151,7 @@ const securePutRequest = async (path, content, token) => {
  * @param {*} token 
  */
 const secureDeleteRequest = async (path, token) => {  
-  await fetch(SITE_URL + path, {
+  await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

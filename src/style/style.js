@@ -16,7 +16,7 @@ export default StyleSheet.create({
   input: {
     ...common.paddingBorder,
     height: 40,
-    margin: 12,
+    marginVertical: 12,
     borderRadius: 5,
     ...common.width100,
   },
@@ -25,9 +25,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   authBtnSwitchText: {
-    fontWeight: 600,
+    fontWeight: '600',
   },
   blackBtn: {
+    ...common.width90,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
