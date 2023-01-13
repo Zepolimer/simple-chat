@@ -1,100 +1,16 @@
 import * as React from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { AppRegistry } from 'react-native';
 
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, AppRegistry } from 'react-native';
-import { getAccessToken, getRefreshToken, getUserId } from './src/security/AsyncStorage';
-import { regenerateToken } from './src/security/Credential';
+import { getCredentials, regenerateToken } from './src/security/Credential';
 
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
-import HomeScreen from './src/screens/HomeScreen';
-import ConversationsScreen from './src/screens/ConversationsScreen';
-import ConversationScreen from './src/screens/ConversationScreen';
-import ChannelsScreen from './src/screens/ChannelsScreen';
-import ChannelScreen from './src/screens/ChannelScreen';
+import LoggedInNavigator from './src/navigators/LoggedInNavigator';
 
 
-/**
- * ChannelStackScreen contains :
- * ChannelsScreen : All user channels
- * ChannelScreen : All messages inside a channel
- */
-const ChannelStack = createNativeStackNavigator();
-
-function ChannelStackScreen() {
-  return (
-    <ChannelStack.Navigator>
-      <ChannelStack.Screen 
-        name="Channels" 
-        component={ChannelsScreen} 
-      />
-      <ChannelStack.Screen 
-        name="Channel" 
-        component={ChannelScreen} 
-        options={({ route }) => ({ title: route.params.name })}
-      />
-    </ChannelStack.Navigator>
-  );
-}
-
-/**
- * ConversationStackScreen contains :
- * ConversationsScreen : All user private conversations
- * ConversationScreen : All messages inside a private
- */
-const ConversationStack = createNativeStackNavigator();
-
-function ConversationStackScreen() {
-  return (
-    <ConversationStack.Navigator>
-      <ConversationStack.Screen 
-        name="Conversations" 
-        component={ConversationsScreen}
-      />
-      <ConversationStack.Screen 
-        name="Conversation" 
-        component={ConversationScreen} 
-        options={({ route }) => ({ title: route.params.name })}  
-      />
-    </ConversationStack.Navigator>
-  );
-}
-
-const UserTab = createBottomTabNavigator();
-
-// function UserTabScreen() {
-//   return (
-//     <UserTab.Navigator screenOptions={({ route }) => ({
-//       tabBarIcon: ({ focused, color, size }) => {
-//         let iconName;
-
-//         if (route.name === 'Accueil') {
-//           iconName = focused ? 'ios-home' : 'ios-home-outline';
-//         } else if (route.name === 'Messages') {
-//           iconName = focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline';
-//         } else if (route.name === 'Groupes') {
-//           iconName = focused ? 'ios-people' : 'ios-people-outline';
-//         }
-
-//         return <Ionicons name={iconName} size={size} color={color} />;
-//       },
-//       tabBarActiveTintColor: 'tomato',
-//       tabBarInactiveTintColor: 'gray',
-//     })}>
-//       <UserTab.Screen name="Accueil" component={HomeScreen} />
-//       <UserTab.Screen name="Messages" component={ConversationStackScreen} />
-//       <UserTab.Screen name="Groupes" component={ChannelStackScreen} />
-//     </UserTab.Navigator>
-//   )
-// }
-
-const AuthStack = createNativeStackNavigator();
-
-const AppScreen = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
   const [authenticated, setAuthenticated] = React.useState(false);
@@ -102,82 +18,56 @@ export default function App() {
   const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
-  const userInfos = async () => {
-    await getAccessToken().then((token) => { 
-      setAccess(token);
+  const userCredential = async () => {
+    await getCredentials()
+    .then((res) => {
+      if(res) {
+        setAccess(res.access);
+        setRefresh(res.refresh);
+        setUser(res.user);
 
-      if(token != '') setAuthenticated(true);
-      else setAuthenticated(false);
+        if(res.access != '') {
+          setAuthenticated(true);
+        } else {
+          setAuthenticated(false);
+        }
+      }
     });
 
-    await getRefreshToken().then((token) => { 
-      setRefresh(token) 
-    });
-
-    await getUserId().then((user) => { 
-      setUser(user) 
-    });
-
-    if(authenticated !== '') await regenerateToken(refresh);
-  };
+    if(authenticated !== true) await regenerateToken(refresh);
+  }
 
   React.useEffect(() => {
-    userInfos();
+    userCredential();
   })
+
 
   return (
     <NavigationContainer>
-    <UserTab.Navigator screenOptions={({ route }) => ({
-    tabBarIcon: ({ focused, color, size }) => {
-    let iconName;
+      <Stack.Navigator>
+        <Stack.Group screenOptions={{ headerShown: false }}>
+          <Stack.Screen 
+            name="Connexion" 
+            component={LoginScreen}              
+          />
+          <Stack.Screen 
+            name="Inscription" 
+            component={RegisterScreen} 
+          />
+        </Stack.Group>
 
-    if (route.name === 'Accueil') {
-      iconName = focused ? 'ios-home' : 'ios-home-outline';
-    } else if (route.name === 'Messages') {
-      iconName = focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline';
-    } else if (route.name === 'Groupes') {
-      iconName = focused ? 'ios-people' : 'ios-people-outline';
-    }
-
-    return <Ionicons name={iconName} size={size} color={color} />;
-    },
-    tabBarActiveTintColor: 'tomato',
-    tabBarInactiveTintColor: 'gray',
-    })}>
-      <UserTab.Screen name="Connexion" component={LoginScreen} />
-      <UserTab.Screen name="Inscription" component={RegisterScreen} />
-      <UserTab.Screen name="Accueil" component={HomeScreen} />
-      <UserTab.Screen name="Messages" component={ConversationStackScreen} />
-      <UserTab.Screen name="Groupes" component={ChannelStackScreen} />
-    </UserTab.Navigator>
-  </NavigationContainer>
+        <Stack.Group>
+          <Stack.Screen 
+            name="App" 
+            component={LoggedInNavigator} 
+            options={{ headerShown: false }}
+          />
+        </Stack.Group>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 AppRegistry.registerComponent('Appname', () => App);
 
-{/* <NavigationContainer>
-<UserTab.Navigator screenOptions={({ route }) => ({
-tabBarIcon: ({ focused, color, size }) => {
-  let iconName;
-
-  if (route.name === 'Accueil') {
-    iconName = focused ? 'ios-home' : 'ios-home-outline';
-  } else if (route.name === 'Messages') {
-    iconName = focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline';
-  } else if (route.name === 'Groupes') {
-    iconName = focused ? 'ios-people' : 'ios-people-outline';
-  }
-
-  return <Ionicons name={iconName} size={size} color={color} />;
-},
-tabBarActiveTintColor: 'tomato',
-tabBarInactiveTintColor: 'gray',
-})}>
-  <UserTab.Screen name="Connexion" component={LoginScreen} />
-  <UserTab.Screen name="Inscription" component={RegisterScreen} />
-  <UserTab.Screen name="Accueil" component={HomeScreen} />
-  <UserTab.Screen name="Messages" component={ConversationStackScreen} />
-  <UserTab.Screen name="Groupes" component={ChannelStackScreen} />
-</UserTab.Navigator>
-</NavigationContainer> */}
+// screenOptions={{ presentation: 'modal' }}

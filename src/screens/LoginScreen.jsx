@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView, SafeAreaView } from 'react-native';
 
 import { postRequest } from '../security/Api';
 import { setCredentials } from '../security/Credential';
@@ -14,7 +14,7 @@ export default function LoginScreen({ navigation }) {
   const [password, onChangePassword] = React.useState('');
 
   const isLoggedIn = async () => {
-    return navigation.navigate('Messages')
+    return navigation.navigate('App')
   }
 
   const userLogin = async () => {
@@ -37,7 +37,7 @@ export default function LoginScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.viewDisplay}>
+    <SafeAreaView style={styles.viewDisplay}>
       <Text style={styles.selfAlignItem}>Email</Text>
       <FormInput
         onChangeText={onChangeEmail}
@@ -69,6 +69,6 @@ export default function LoginScreen({ navigation }) {
           Créer un compte.
         </Text>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }

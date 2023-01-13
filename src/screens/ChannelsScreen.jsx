@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pressable, Text, View, ScrollView } from 'react-native';
+import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
 
 import { secureGetRequest, secureFastPostRequest } from '../security/Api';
 import { getCredentials, regenerateToken } from '../security/Credential';
@@ -81,7 +81,9 @@ const ChannelsScreen = ({ navigation }) => {
 
 
   return (
+    <SafeAreaView>
     <ScrollView>
+    {user != 0 &&
       <View>
       {channelList != null &&
         <View style={styles.horizontalWrapper}>
@@ -104,7 +106,9 @@ const ChannelsScreen = ({ navigation }) => {
         </View>
       }
       </View>
+    }
 
+    {user != 0 &&
       <View style={styles.viewChat}>
         <Text style={styles.title}>Vos groupes</Text>
         <ScrollView style={{flexDirection: 'column'}}>
@@ -130,9 +134,11 @@ const ChannelsScreen = ({ navigation }) => {
         ) : (
           <Text>Pas de groupe rejoint..</Text>
         )}
-      </ScrollView>
-    </View>
-  </ScrollView>
+        </ScrollView>
+      </View>
+    }
+    </ScrollView>
+    </SafeAreaView>
   )
 }
 

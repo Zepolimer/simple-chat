@@ -1,15 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const removeCredentials = async (keys) => {
-  try {
-    await AsyncStorage.multiRemove(keys)
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-
 /**
  * 
  * @param {*} value 
@@ -117,9 +108,20 @@ const getStorage = async (key) => {
   }
 }
 
+/**
+ * 
+ * @param {*} key 
+ */
+const removeStorage = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key)
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 
 export {
-  removeCredentials,
   setAccessToken,
   getAccessToken,
   setRefreshToken,
@@ -128,4 +130,5 @@ export {
   getUserId,
   setStorage,
   getStorage,
+  removeStorage,
 }

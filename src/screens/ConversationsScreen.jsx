@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pressable, Text, View, ScrollView } from 'react-native';
+import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
 
 import { getRequest, secureGetRequest, secureFastPostRequest } from '../security/Api';
 import { getCredentials, regenerateToken } from '../security/Credential';
@@ -75,6 +75,7 @@ const ConversationScreen = ({ navigation }) => {
 
 
   return (
+    <SafeAreaView>
     <ScrollView>
       {userList != null && 
       <View style={styles.horizontalWrapper}>
@@ -130,11 +131,12 @@ const ConversationScreen = ({ navigation }) => {
             )
           })
         ) : (
-          <Text>Pas de conversations. N'hésitez pas à démarrer une discussion avec l'un ou l'une de vos ami(e) !</Text>
+          <Text>Veuillez vous connecter pour utiliser cet écran.</Text>
         )}
         </ScrollView>
       </View>
     </ScrollView>
+    </SafeAreaView>
   )
 }
 

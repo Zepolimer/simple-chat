@@ -1,4 +1,13 @@
-import { getAccessToken, getRefreshToken, getUserId, setAccessToken, setRefreshToken, setUserId } from './AsyncStorage';
+import { 
+  getAccessToken, 
+  getRefreshToken, 
+  getUserId, 
+  setAccessToken, 
+  setRefreshToken, 
+  setUserId, 
+  removeStorage 
+} from './AsyncStorage';
+
 
 /**
  * SET AsyncStorage values
@@ -21,11 +30,26 @@ const getCredentials = async () => {
   const refresh = await getRefreshToken()
   const user = await getUserId()
 
+  console.log(access);
+  console.log(user);
+
   return {
     access: access,
     refresh: refresh,
     user: user,
   }
+}
+
+/**
+ * DELETE AsyncStorage values
+ */
+const resetCredentials = async () => {
+  await setAccessToken('');
+  await setRefreshToken('');
+  await setUserId(0);
+  // await removeStorage('access_token')
+  // await removeStorage('refresh_token')
+  // await removeStorage('user_id')
 }
 
 /**
@@ -52,6 +76,7 @@ const regenerateToken = async (token) => {
 export {
   setCredentials,
   getCredentials,
+  resetCredentials,
   regenerateToken,
 } 
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, SafeAreaView } from 'react-native';
 
 import { postRequest } from '../security/Api';
 
@@ -33,7 +33,7 @@ export default function RegisterScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.viewDisplay}>
+    <SafeAreaView style={styles.viewDisplay}>
       <Text style={styles.selfAlignItem}>Nom d'utilisateur</Text>
       <FormInput
         onChangeText={onChangeUsername}
@@ -89,6 +89,6 @@ export default function RegisterScreen({ navigation }) {
           Se connecter.
         </Text>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pressable, Text, ScrollView, View, Alert } from 'react-native';
+import { Pressable, Text, ScrollView, View, Alert, SafeAreaView } from 'react-native';
 
 import { secureGetRequest, securePostRequest, secureDeleteRequest } from '../security/Api';
 import { getCredentials, regenerateToken } from '../security/Credential';
@@ -91,6 +91,7 @@ const ConversationScreen = ({ route, navigation })  => {
 
 
   return (
+    <SafeAreaView>
     <ScrollView style={styles.viewChat}>
     {status == 'Success' && conversation != null ? (
       conversation.map((msg, index) => {
@@ -131,6 +132,7 @@ const ConversationScreen = ({ route, navigation })  => {
         text={'Envoyer'}
       />
     </ScrollView>
+    </SafeAreaView>
   )
 }
 

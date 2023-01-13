@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pressable, Text, Alert, ScrollView } from 'react-native';
+import { Pressable, Text, Alert, ScrollView, SafeAreaView } from 'react-native';
 import BlackPressable from '../components/BlackPressable';
 import FormInput from '../components/FormInput';
 
@@ -86,6 +86,7 @@ const ChannelScreen = ({ route, navigation }) => {
   
 
   return (
+    <SafeAreaView>
     <ScrollView style={styles.viewChat}>
     {status == 'Success' && channel != null ? (
       channel.map((msg, index) => {
@@ -125,6 +126,7 @@ const ChannelScreen = ({ route, navigation }) => {
         text={'Envoyer'}
       />
     </ScrollView>
+    </SafeAreaView>
   )
 }
 

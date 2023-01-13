@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Button, Pressable, Text, View } from 'react-native';
+import { Button, Pressable, Text, View, SafeAreaView } from 'react-native';
 
 import { getRequest, secureGetRequest } from '../security/Api';
-import { removeCredentials } from '../security/AsyncStorage';
 import { getCredentials, regenerateToken } from '../security/Credential';
 
 import styles from '../style/style';
@@ -27,17 +26,6 @@ const HomeScreen = ({ navigation }) => {
     });
   }
 
-  const getUsers = async () => {
-    await removeCredentials([
-      'access_token', 
-      'refresh_token', 
-      'user_id'
-    ])
-    .then((res) => {
-      navigation.navigate('Connexion')
-    })
-  };
-
   const getAllChannels = async () => {
     await getRequest('channels')
     .then((res) => {
@@ -59,7 +47,7 @@ const HomeScreen = ({ navigation }) => {
 
 
   return (
-    <View style={styles.viewChat}>
+    <SafeAreaView style={styles.viewChat}>
       <Text>Liste des groupes</Text>
       {status == 'Success' && channels != null ? (
       channels.map((channel, index) => {
@@ -85,8 +73,7 @@ const HomeScreen = ({ navigation }) => {
     ) : (
       <Text>Pas de groupe rejoint..</Text>
     )}
-      <Button title="Deconnexion" onPress={getUsers} />
-    </View>
+    </SafeAreaView>
   )
 }
 
