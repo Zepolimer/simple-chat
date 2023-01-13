@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { Pressable, Text, View, ScrollView } from 'react-native';
+import { Pressable, Text, Alert, ScrollView } from 'react-native';
 import BlackPressable from '../components/BlackPressable';
 import FormInput from '../components/FormInput';
 
-import { secureGetRequest, securePostRequest } from '../security/Api';
-import { getAccessToken, getRefreshToken, getUserId } from '../security/AsyncStorage';
-import { regenerateToken } from '../security/Credential';
+import { secureGetRequest, securePostRequest, secureDeleteRequest } from '../security/Api';
+import { getCredentials, regenerateToken } from '../security/Credential';
 
 import styles from '../style/style';
 
@@ -22,19 +21,16 @@ const ChannelScreen = ({ route, navigation }) => {
 
   const [message, onChangeMessage] = React.useState('');
 
-  const userInfos = async () => {
-    await getAccessToken().then((token) => { 
-      setAccess(token) 
+  const userCredential = async () => {
+    await getCredentials()
+    .then((res) => {
+      if(res) {
+        setAccess(res.access);
+        setRefresh(res.refresh);
+        setUser(res.user);
+      }
     });
-
-    await getRefreshToken().then((token) => { 
-      setRefresh(token) 
-    });
-
-    await getUserId().then((user) => { 
-      setUser(user) 
-    });
-  };
+  }
 
   const getMessages = async () => {
     await secureGetRequest(
@@ -42,7 +38,6 @@ const ChannelScreen = ({ route, navigation }) => {
       access,
     )
     .then((res) => {
-      console.log(res.data.messages)
       setStatus(res.status);
       setChannel(res.data.messages);
     });
@@ -60,16 +55,26 @@ const ChannelScreen = ({ route, navigation }) => {
         access,
       )
       .then((res) => {
-        console.log(res)
         onChangeMessage('');
         getMessages();
       })
     }
   }
 
+  const deleteMessage = async (msg_id) => {
+    await secureDeleteRequest(
+      `user/${user}/channel/${id}/message/${msg_id}`,
+      access,
+    )
+    .then((res) => {
+      getMessages();
+      Alert.alert('Message supprimé')
+    })
+  }
+
 
   React.useEffect(() => {
-    userInfos();
+    userCredential();
 
     if(access != '' && user != 0) getMessages();
     if(status == 'Error') {
@@ -92,7 +97,14 @@ const ChannelScreen = ({ route, navigation }) => {
             <Pressable 
               style={msg.user_id == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
               title={msg.id} 
-              onPress={() => {console.log('ouaip')}}>
+              onLongPress={() => { Alert.alert(
+                "",
+                "Souhaitez vous supprimer ce message ?",
+                [
+                  { text: "Annuler", onPress: () => console.log("Annuler Pressed")},
+                  { text: "Supprimer", onPress: () => deleteMessage(msg.id)}
+                ]
+              )}}>
               <Text style={styles.chatBubbletext}>{msg.message}</Text>
             </Pressable>
           </ScrollView>

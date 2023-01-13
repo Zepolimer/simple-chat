@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View, ScrollView } from 'react-native';
 
 import { secureGetRequest, secureFastPostRequest } from '../security/Api';
-import { getAccessToken, getRefreshToken, getUserId } from '../security/AsyncStorage';
-import { regenerateToken } from '../security/Credential';
+import { getCredentials, regenerateToken } from '../security/Credential';
 
 import styles from '../style/style';
 
@@ -17,19 +16,16 @@ const ChannelsScreen = ({ navigation }) => {
   const [status, setStatus] = React.useState(null)
   const [channels, setChannels] = React.useState(null);
 
-  const userInfos = async () => {
-    await getAccessToken().then((token) => { 
-      setAccess(token) 
+  const userCredential = async () => {
+    await getCredentials()
+    .then((res) => {
+      if(res) {
+        setAccess(res.access);
+        setRefresh(res.refresh);
+        setUser(res.user);
+      }
     });
-
-    await getRefreshToken().then((token) => { 
-      setRefresh(token) 
-    });
-
-    await getUserId().then((user) => { 
-      setUser(user) 
-    });
-  };
+  }
 
   const getAllChannels = async () => {
     await secureGetRequest(
@@ -51,7 +47,6 @@ const ChannelsScreen = ({ navigation }) => {
       access
     )
     .then((res) => {
-      console.log(res.data)
       setStatus(res.status);
       setChannels(res.data);
     });
@@ -63,7 +58,6 @@ const ChannelsScreen = ({ navigation }) => {
       access
     )
     .then((res) => {
-      console.log(res)
       navigation.navigate('Channel', {
         id: id,
       })
@@ -71,7 +65,7 @@ const ChannelsScreen = ({ navigation }) => {
   }
 
   React.useEffect(() => {
-    userInfos();
+    userCredential();
 
     if(access != '' && user != 0) {
       getAllChannels();
@@ -87,48 +81,58 @@ const ChannelsScreen = ({ navigation }) => {
 
 
   return (
-    <View style={styles.viewDisplay}>
+    <ScrollView>
       <View>
       {channelList != null &&
-        channelList.map((channel, index) => {
+        <View style={styles.horizontalWrapper}>
+        <ScrollView horizontal={true}>
+        {channelList.map((channel, index) => {
           return (
             <View key={index}>
               <Pressable 
-                style={styles.blackBtn}
+                style={styles.horizontalItemGroupe}
                 title={channel.Channel.id} 
                 onPress={() =>  postJoinChannel(channel.Channel.id)}> 
-                <Text style={styles.blackBtnText}>
+                <Text style={styles.horizontalItemTextGroupe}>
                 {channel.Channel.name}
                 </Text>
               </Pressable>
             </View>
           )
-        })
+        })}
+        </ScrollView>
+        </View>
       }
       </View>
 
-    {status == 'Success' && channels != null ? (
-      channels.map((channel, index) => {
-        return (
-          <View key={index}>
-            <Pressable 
-              style={styles.blackBtn}
-              title={channel.Channel.id} 
-              onPress={() => { navigation.navigate('Channel', {
-                  id: channel.Channel.id,
-              })}
-            }>
-              <Text style={styles.blackBtnText}>
-              {channel.Channel.name}
-              </Text>
-            </Pressable>
-          </View>
-        )
-      })
-    ) : (
-      <Text>Pas de groupe rejoint..</Text>
-    )}
-  </View>
+      <View style={styles.viewChat}>
+        <Text style={styles.title}>Vos groupes</Text>
+        <ScrollView style={{flexDirection: 'column'}}>
+        {status == 'Success' && channels != null ? (
+          channels.map((channel, index) => {
+            return (
+              <View key={index}>
+                <Pressable 
+                  style={styles.chatBtn}
+                  title={channel.Channel.id} 
+                  onPress={() => { navigation.navigate('Channel', {
+                      id: channel.Channel.id,
+                      name: channel.Channel.name,
+                  })}
+                }>
+                  <Text style={styles.chatText}>
+                  {channel.Channel.name}
+                  </Text>
+                </Pressable>
+              </View>
+            )
+          })
+        ) : (
+          <Text>Pas de groupe rejoint..</Text>
+        )}
+      </ScrollView>
+    </View>
+  </ScrollView>
   )
 }
 

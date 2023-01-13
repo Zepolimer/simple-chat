@@ -2,8 +2,7 @@ import * as React from 'react';
 import { Pressable, Text, View, ScrollView } from 'react-native';
 
 import { getRequest, secureGetRequest, secureFastPostRequest } from '../security/Api';
-import { getAccessToken, getRefreshToken, getUserId } from '../security/AsyncStorage';
-import { regenerateToken } from '../security/Credential';
+import { getCredentials, regenerateToken } from '../security/Credential';
 
 import styles from '../style/style';
 
@@ -17,19 +16,16 @@ const ConversationScreen = ({ navigation }) => {
   const [status, setStatus] = React.useState(null);
   const [conversations, setConversations] = React.useState(null);
 
-  const userInfos = async () => {
-    await getAccessToken().then((token) => { 
-      setAccess(token) 
+  const userCredential = async () => {
+    await getCredentials()
+    .then((res) => {
+      if(res) {
+        setAccess(res.access);
+        setRefresh(res.refresh);
+        setUser(res.user);
+      }
     });
-
-    await getRefreshToken().then((token) => { 
-      setRefresh(token) 
-    });
-
-    await getUserId().then((user) => { 
-      setUser(user) 
-    });
-  };
+  }
 
   const getAllUsers = async () => {
     await getRequest('users')
@@ -47,7 +43,6 @@ const ConversationScreen = ({ navigation }) => {
     )
     .then((res) => {
       setStatus(res.status)
-      console.log(res.data)
       if(res.status != 'Error') {
         setConversations(res.data);
       }
@@ -60,7 +55,6 @@ const ConversationScreen = ({ navigation }) => {
       access
     )
     .then((res) => {
-      console.log(res.data)
       if(res.status != 'Error') {
         getConversations();
       }
@@ -68,7 +62,7 @@ const ConversationScreen = ({ navigation }) => {
   }
 
   React.useEffect(() => {
-    userInfos();
+    userCredential();
     getAllUsers();
 
     if(access != '' && user != 0) getConversations();
@@ -81,7 +75,7 @@ const ConversationScreen = ({ navigation }) => {
 
 
   return (
-    <View>
+    <ScrollView>
       {userList != null && 
       <View style={styles.horizontalWrapper}>
         <ScrollView horizontal={true}>
@@ -106,7 +100,7 @@ const ConversationScreen = ({ navigation }) => {
       </View>
       }
       <View style={styles.viewChat}>
-        <Text>Vos messages</Text>
+        <Text style={styles.title}>Vos messages</Text>
         <ScrollView style={{flexDirection: 'column'}}>
         {status == 'Success' && conversations != null ? (
           conversations.map((conversation, index) => {
@@ -118,6 +112,7 @@ const ConversationScreen = ({ navigation }) => {
                   onPress={() => { navigation.navigate('Conversation', {
                     itemId: user,
                     convId: conversation.id,
+                    name: conversation.id_from.firstname + " " + conversation.id_from.lastname
                   })}
                 }>
                   <View style={styles.horizontalItemImg}></View>
@@ -139,7 +134,7 @@ const ConversationScreen = ({ navigation }) => {
         )}
         </ScrollView>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 

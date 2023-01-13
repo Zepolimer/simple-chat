@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Button, Pressable, Text, View } from 'react-native';
 
 import { getRequest, secureGetRequest } from '../security/Api';
-import { setAccessToken, getAccessToken, setRefreshToken, getRefreshToken, getUserId } from '../security/AsyncStorage';
-import { regenerateToken } from '../security/Credential';
+import { removeCredentials } from '../security/AsyncStorage';
+import { getCredentials, regenerateToken } from '../security/Credential';
 
 import styles from '../style/style';
 
@@ -16,23 +16,26 @@ const HomeScreen = ({ navigation }) => {
   const [status, setStatus] = React.useState(null)
   const [channels, setChannels] = React.useState(null);
 
+  const userCredential = async () => {
+    await getCredentials()
+    .then((res) => {
+      if(res) {
+        setAccess(res.access);
+        setRefresh(res.refresh);
+        setUser(res.user);
+      }
+    });
+  }
+
   const getUsers = async () => {
-    await setAccessToken('');
-    await setRefreshToken('');
-  };
-
-  const userInfos = async () => {
-    await getAccessToken().then((token) => { 
-      setAccess(token) 
-    });
-
-    await getRefreshToken().then((token) => { 
-      setRefresh(token) 
-    });
-
-    await getUserId().then((user) => { 
-      setUser(user) 
-    });
+    await removeCredentials([
+      'access_token', 
+      'refresh_token', 
+      'user_id'
+    ])
+    .then((res) => {
+      navigation.navigate('Connexion')
+    })
   };
 
   const getAllChannels = async () => {
@@ -44,7 +47,7 @@ const HomeScreen = ({ navigation }) => {
   }
 
   React.useEffect(() => {
-    userInfos();
+    userCredential();
 
     if(access != '' && user != 0) getAllChannels();
     if(status == 'Error') {

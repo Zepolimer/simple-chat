@@ -2,8 +2,7 @@ import * as React from 'react';
 import { Pressable, Text, ScrollView, View, Alert } from 'react-native';
 
 import { secureGetRequest, securePostRequest, secureDeleteRequest } from '../security/Api';
-import { getAccessToken, getRefreshToken, getUserId } from '../security/AsyncStorage';
-import { regenerateToken } from '../security/Credential';
+import { getCredentials, regenerateToken } from '../security/Credential';
 
 import FormInput from '../components/FormInput';
 import BlackPressable from '../components/BlackPressable';
@@ -24,19 +23,16 @@ const ConversationScreen = ({ route, navigation })  => {
 
   const [message, onChangeMessage] = React.useState('');
 
-  const userInfos = async () => {
-    await getAccessToken().then((token) => { 
-      setAccess(token) 
+  const userCredential = async () => {
+    await getCredentials()
+    .then((res) => {
+      if(res) {
+        setAccess(res.access);
+        setRefresh(res.refresh);
+        setUser(res.user);
+      }
     });
-
-    await getRefreshToken().then((token) => { 
-      setRefresh(token) 
-    });
-
-    await getUserId().then((user) => { 
-      setUser(user) 
-    });
-  };
+  }
 
   const getMessages = async () => {
     await secureGetRequest(
@@ -77,12 +73,13 @@ const ConversationScreen = ({ route, navigation })  => {
     )
     .then((res) => {
       getMessages();
+      Alert.alert('Message supprimé')
     })
   }
 
 
   React.useEffect(() => {
-    userInfos();
+    userCredential();
 
     if(access != '' && user != 0) getMessages();
     if(status == 'Error') {
@@ -99,25 +96,22 @@ const ConversationScreen = ({ route, navigation })  => {
       conversation.map((msg, index) => {
         return (
           <ScrollView key={index}>
-            {msg.user_id_from == user ? (
-              <Text style={styles.nameChatFrom}>Vous</Text>
-            ) : (
+            {msg.user_id_from != user &&
               <Text style={styles.nameChatTo}>{msg.id_from.firstname} {msg.id_from.lastname}</Text>
-            )}
+            }
             <Pressable 
               style={msg.user_id_from == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
               title={conversationId} 
-              onPress={() => { Alert.alert(
-                "Suppression",
+              onLongPress={() => { Alert.alert(
+                "",
                 "Souhaitez vous supprimer ce message ?",
                 [
                   { text: "Annuler", onPress: () => console.log("Annuler Pressed" + msg.id)},
                   { text: "Supprimer", onPress: () => deleteMessage(msg.id)}
                 ]
-              );
-            }}
+              )}}
             >
-              <Text>{msg.message}</Text>
+              <Text style={styles.chatBubbletext}>{msg.message}</Text>
             </Pressable>
           </ScrollView>
         )

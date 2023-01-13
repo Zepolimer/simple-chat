@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 
 import { postRequest } from '../security/Api';
-import { setAccessToken, setRefreshToken, setUserId } from '../security/AsyncStorage';
+import { setCredentials } from '../security/Credential';
 
 import BlackPressable from '../components/BlackPressable';
 import FormInput from '../components/FormInput';
@@ -14,7 +14,7 @@ export default function LoginScreen({ navigation }) {
   const [password, onChangePassword] = React.useState('');
 
   const isLoggedIn = async () => {
-    return navigation.navigate('Accueil')
+    return navigation.navigate('Messages')
   }
 
   const userLogin = async () => {
@@ -26,9 +26,11 @@ export default function LoginScreen({ navigation }) {
 
       await postRequest('login', user)
       .then((res) => {
-        setAccessToken(res.data.access_token);
-        setRefreshToken(res.data.refresh_token);
-        setUserId(res.data.user_id);
+        setCredentials(
+          res.data.access_token, 
+          res.data.refresh_token, 
+          res.data.user_id
+        )
       })
       .then(user => isLoggedIn());
     }

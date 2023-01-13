@@ -10,6 +10,9 @@ export default StyleSheet.create({
   viewChat: {
     ...common.width90,
   },
+  title: {
+    marginVertical: 15,
+  },
   selfAlignItem: {
     alignSelf: "start",
   },
@@ -100,7 +103,6 @@ export default StyleSheet.create({
     alignItems: "center",
     height: 120,
     backgroundColor: '#000000',
-    marginBottom: 30,
   },
   horizontalItem: {
     height: 80,
@@ -109,6 +111,20 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: "center",
     marginHorizontal: 10,
+  },
+  horizontalItemGroupe: {
+    height: 80,
+    padding: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: "center",
+    marginHorizontal: 10,
+    borderRadius: 10,
+    backgroundColor: '#F1F1F1',
+  },
+  horizontalItemTextGroupe: {
+    color: '#000000',
+    fontSize: 16,
   },
   horizontalItemText: {
     color: '#FFFFFF',

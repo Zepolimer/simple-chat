@@ -28,8 +28,15 @@ const ChannelStack = createNativeStackNavigator();
 function ChannelStackScreen() {
   return (
     <ChannelStack.Navigator>
-      <ChannelStack.Screen name="Channels" component={ChannelsScreen} />
-      <ChannelStack.Screen name="Channel" component={ChannelScreen} />
+      <ChannelStack.Screen 
+        name="Channels" 
+        component={ChannelsScreen} 
+      />
+      <ChannelStack.Screen 
+        name="Channel" 
+        component={ChannelScreen} 
+        options={({ route }) => ({ title: route.params.name })}
+      />
     </ChannelStack.Navigator>
   );
 }
@@ -44,8 +51,15 @@ const ConversationStack = createNativeStackNavigator();
 function ConversationStackScreen() {
   return (
     <ConversationStack.Navigator>
-      <ConversationStack.Screen name="Conversations" component={ConversationsScreen} />
-      <ConversationStack.Screen name="Conversation" component={ConversationScreen} />
+      <ConversationStack.Screen 
+        name="Conversations" 
+        component={ConversationsScreen}
+      />
+      <ConversationStack.Screen 
+        name="Conversation" 
+        component={ConversationScreen} 
+        options={({ route }) => ({ title: route.params.name })}  
+      />
     </ConversationStack.Navigator>
   );
 }
@@ -139,15 +153,6 @@ export default function App() {
   </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 AppRegistry.registerComponent('Appname', () => App);
 
