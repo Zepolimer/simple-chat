@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Text, View, ScrollView, SafeAreaView } from 'react-native';
 
-import { postRequest } from '../security/Api';
-import { setCredentials } from '../security/Credential';
+import { postRequest } from '../../security/Api';
+import { setCredentials } from '../../security/Credential';
 
-import BlackPressable from '../components/BlackPressable';
-import FormInput from '../components/FormInput';
-import styles from '../style/style';
+import BlackPressable from '../../components/BlackPressable';
+import FormInput from '../../components/FormInput';
+import styles from '../../style/style';
 
 
 export default function LoginScreen({ navigation }) {

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import FixedHeader from '../components/FixedHeader';
 
 import { secureGetRequest, secureFastPostRequest } from '../security/Api';
 import { getCredentials, regenerateToken } from '../security/Credential';
@@ -82,62 +83,66 @@ const ChannelsScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-    <ScrollView>
-    {user != 0 &&
-      <View>
-      {channelList != null &&
-        <View style={styles.horizontalWrapper}>
-        <ScrollView horizontal={true}>
-        {channelList.map((channel, index) => {
-          return (
-            <View key={index}>
-              <Pressable 
-                style={styles.horizontalItemGroupe}
-                title={channel.Channel.id} 
-                onPress={() =>  postJoinChannel(channel.Channel.id)}> 
-                <Text style={styles.horizontalItemTextGroupe}>
-                {channel.Channel.name}
-                </Text>
-              </Pressable>
-            </View>
-          )
-        })}
-        </ScrollView>
-        </View>
-      }
-      </View>
-    }
-
-    {user != 0 &&
-      <View style={styles.viewChat}>
-        <Text style={styles.title}>Vos groupes</Text>
-        <ScrollView style={{flexDirection: 'column'}}>
-        {status == 'Success' && channels != null ? (
-          channels.map((channel, index) => {
+      <FixedHeader 
+        iconName={'pencil'}
+        navigateTo={() => navigation.navigate('NewChannel')}
+      />
+      <ScrollView>
+      {user != 0 &&
+        <View>
+        {channelList != null &&
+          <View style={styles.horizontalWrapper}>
+          <ScrollView horizontal={true}>
+          {channelList.map((channel, index) => {
             return (
               <View key={index}>
                 <Pressable 
-                  style={styles.chatBtn}
+                  style={styles.horizontalItemGroupe}
                   title={channel.Channel.id} 
-                  onPress={() => { navigation.navigate('Channel', {
-                      id: channel.Channel.id,
-                      name: channel.Channel.name,
-                  })}
-                }>
-                  <Text style={styles.chatText}>
+                  onPress={() =>  postJoinChannel(channel.Channel.id)}> 
+                  <Text style={styles.horizontalItemTextGroupe}>
                   {channel.Channel.name}
                   </Text>
                 </Pressable>
               </View>
             )
-          })
-        ) : (
-          <Text>Pas de groupe rejoint..</Text>
-        )}
-        </ScrollView>
-      </View>
-    }
-    </ScrollView>
+          })}
+          </ScrollView>
+          </View>
+        }
+        </View>
+      }
+
+      {user != 0 &&
+        <View style={styles.viewChat}>
+          <Text style={styles.title}>Vos groupes</Text>
+          <ScrollView style={{flexDirection: 'column'}}>
+          {status == 'Success' && channels != null ? (
+            channels.map((channel, index) => {
+              return (
+                <View key={index}>
+                  <Pressable 
+                    style={styles.chatBtn}
+                    title={channel.Channel.id} 
+                    onPress={() => { navigation.navigate('Channel', {
+                        id: channel.Channel.id,
+                        name: channel.Channel.name,
+                    })}
+                  }>
+                    <Text style={styles.chatText}>
+                    {channel.Channel.name}
+                    </Text>
+                  </Pressable>
+                </View>
+              )
+            })
+          ) : (
+            <Text>Pas de groupe rejoint..</Text>
+          )}
+          </ScrollView>
+        </View>
+      }
+      </ScrollView>
     </SafeAreaView>
   )
 }

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import FixedHeader from '../components/FixedHeader';
 
 import { getRequest, secureGetRequest, secureFastPostRequest } from '../security/Api';
 import { getCredentials, regenerateToken } from '../security/Credential';
@@ -55,10 +56,27 @@ const ConversationScreen = ({ navigation }) => {
       access
     )
     .then((res) => {
+      console.log(res)
       if(res.status != 'Error') {
         getConversations();
       }
     });
+  }
+
+  const messageSendBy = async (conversation) => {
+    let routename = '';
+
+    if(user == conversation.id_from.id) {
+      routename = conversation.id_to.firstname + " " + conversation.id_to.lastname
+    } else {
+      routename = conversation.id_from.firstname + " " + conversation.id_from.lastname
+    }
+
+    return navigation.navigate('Conversation', {
+      itemId: user,
+      convId: conversation.id,
+      name: routename
+    })
   }
 
   React.useEffect(() => {
@@ -76,66 +94,64 @@ const ConversationScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-    <ScrollView>
-      {userList != null && 
-      <View style={styles.horizontalWrapper}>
-        <ScrollView horizontal={true}>
-          <Text>U</Text>
-          {userList.map((u, index) => {
+      <FixedHeader 
+        iconName={'pencil'}
+      />
+      <ScrollView>
+        {userList != null && 
+        <View style={styles.horizontalWrapper}>
+          <ScrollView horizontal={true}>
+            <Text>U</Text>
+            {userList.map((u, index) => {
+                return (
+                  <View key={index}>
+                    {u.id != user && 
+                      <Pressable 
+                        style={styles.horizontalItem}
+                        title={u.id} 
+                        onPress={() => createConversation(u.id)}>
+                        <View style={styles.horizontalItemImg}></View>
+                        <Text style={styles.horizontalItemText}>{u.firstname} {u.lastname}</Text>
+                      </Pressable>
+                    }
+                  </View>
+                )
+              })
+            }
+          </ScrollView>
+        </View>
+        }
+        <View style={styles.viewChat}>
+          <Text style={styles.title}>Vos messages</Text>
+          <ScrollView style={{flexDirection: 'column'}}>
+          {status == 'Success' && conversations != null ? (
+            conversations.map((conversation, index) => {
               return (
-                <View key={index}>
-                  {u.id != user && 
-                    <Pressable 
-                      style={styles.horizontalItem}
-                      title={u.id} 
-                      onPress={() => createConversation(u.id)}>
-                      <View style={styles.horizontalItemImg}></View>
-                      <Text style={styles.horizontalItemText}>{u.firstname} {u.lastname}</Text>
-                    </Pressable>
-                  }
+                <View key={index} style={styles.chatWrapper}>
+                  <Pressable
+                    style={styles.chatBtn}
+                    title={conversation.id}
+                    onPress={() => messageSendBy(conversation)}>
+                    <View style={styles.horizontalItemImg}></View>
+                    {user == conversation.id_from.id ? (
+                      <Text style={styles.chatText}>
+                      {conversation.id_to.firstname} {conversation.id_to.lastname}
+                      </Text>
+                    ) : (
+                      <Text style={styles.chatText}>
+                      {conversation.id_from.firstname} {conversation.id_from.lastname}
+                      </Text>
+                    )}
+                  </Pressable>
                 </View>
               )
             })
-          }
-        </ScrollView>
-      </View>
-      }
-      <View style={styles.viewChat}>
-        <Text style={styles.title}>Vos messages</Text>
-        <ScrollView style={{flexDirection: 'column'}}>
-        {status == 'Success' && conversations != null ? (
-          conversations.map((conversation, index) => {
-            return (
-              <View key={index}>
-                <Pressable 
-                  style={styles.chatBtn}
-                  title={conversation.id} 
-                  onPress={() => { navigation.navigate('Conversation', {
-                    itemId: user,
-                    convId: conversation.id,
-                    name: conversation.id_from.firstname + " " + conversation.id_from.lastname
-                  })}
-                }>
-                  <View style={styles.horizontalItemImg}></View>
-                  {user == conversation.id_from ? (
-                    <Text style={styles.chatText}>
-                    {conversation.id_to.firstname} {conversation.id_to.lastname}
-                    </Text>
-                  ) : (
-                    <Text style={styles.chatText}>
-                    {conversation.id_from.firstname} {conversation.id_from.lastname}
-                    </Text>
-                  )}
-                </Pressable>
-              </View>
-            )
-          })
-        ) : (
-          <Text>Veuillez vous connecter pour utiliser cet écran.</Text>
-        )}
-        </ScrollView>
-      </View>
-    </ScrollView>
+          ) : (
+            <Text>Veuillez vous connecter pour utiliser cet écran.</Text>
+          )}
+          </ScrollView>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

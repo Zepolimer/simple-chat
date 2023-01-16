@@ -38,10 +38,12 @@ function LoggedInNavigator() {
       <UserTab.Screen 
         name="Messages" 
         component={ConversationNavigator} 
+        options={{ headerShown: false }}
       />
       <UserTab.Screen 
         name="Groupes" 
         component={ChannelNavigator}
+        options={{ headerShown: false }}
       />
       <UserTab.Screen 
         name="Profil" 

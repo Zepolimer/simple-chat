@@ -67,6 +67,8 @@ const putRequest = async (path, content) => {
   .then((data) => {
     result = data
   });
+
+  return result;
 };
 
 
@@ -88,6 +90,8 @@ const deleteRequest = async (path) => {
   .then((data) => {
     result = data
   });
+
+  return result;
 };
 
 
@@ -138,6 +142,8 @@ const securePostRequest = async (path, content, token) => {
   .then((data) => {
     result = data
   });
+
+  return result;
 };
 
 /**
@@ -160,6 +166,8 @@ const secureFastPostRequest = async (path, token) => {
   .then((data) => {
     result = data
   });
+
+  return result;
 };
 
 
@@ -185,6 +193,8 @@ const securePutRequest = async (path, content, token) => {
   .then((data) => {
     result = data
   });
+
+  return result;
 };
 
 
@@ -208,6 +218,8 @@ const secureDeleteRequest = async (path, token) => {
   .then((data) => {
     result = data
   });
+
+  return result;
 };
 
 

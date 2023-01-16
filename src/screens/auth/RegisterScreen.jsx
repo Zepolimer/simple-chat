@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Text, View, SafeAreaView } from 'react-native';
 
-import { postRequest } from '../security/Api';
+import { postRequest } from '../../security/Api';
 
-import BlackPressable from '../components/BlackPressable';
-import FormInput from '../components/FormInput'
-import styles from '../style/style';
+import BlackPressable from '../../components/BlackPressable';
+import FormInput from '../../components/FormInput'
+import styles from '../../style/style';
 
 
 export default function RegisterScreen({ navigation }) {

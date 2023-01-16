@@ -5,8 +5,8 @@ import { AppRegistry } from 'react-native';
 
 import { getCredentials, regenerateToken } from './src/security/Credential';
 
-import LoginScreen from './src/screens/LoginScreen';
-import RegisterScreen from './src/screens/RegisterScreen';
+import LoginScreen from './src/screens/auth/LoginScreen';
+import RegisterScreen from './src/screens/auth/RegisterScreen';
 import LoggedInNavigator from './src/navigators/LoggedInNavigator';
 
 
@@ -45,7 +45,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Group screenOptions={{ headerShown: false }}>
+        {/* <Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen 
             name="Connexion" 
             component={LoginScreen}              
@@ -54,7 +54,7 @@ export default function App() {
             name="Inscription" 
             component={RegisterScreen} 
           />
-        </Stack.Group>
+        </Stack.Group> */}
 
         <Stack.Group>
           <Stack.Screen 
