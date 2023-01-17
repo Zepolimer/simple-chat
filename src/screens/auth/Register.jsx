@@ -8,7 +8,7 @@ import FormInput from '../../components/FormInput'
 import styles from '../../style/style';
 
 
-export default function RegisterScreen({ navigation }) {
+export default function Register({ navigation }) {
   const [username, onChangeUsername] = React.useState('');
   const [firstname, onChangeFirstname] = React.useState('');
   const [lastname, onChangeLastname] = React.useState('');

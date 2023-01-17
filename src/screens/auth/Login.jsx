@@ -9,7 +9,7 @@ import FormInput from '../../components/FormInput';
 import styles from '../../style/style';
 
 
-export default function LoginScreen({ navigation }) {
+export default function Login({ navigation }) {
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
 

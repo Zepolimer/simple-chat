@@ -33,12 +33,12 @@ function FixedHeader(props) {
         placeholderTextColor="#aaa"
         onSubmitEditing={() => console.log('key pressed')}
       />
-      <Pressable style={styles.checkbox} onPress={props.navigateTo}>
+      <Pressable style={styles.headerCta} onPress={props.navigateTo}>
         <Text>
           <Ionicons
             name={icon}
             color={iconColor} 
-            size={'20px'}
+            size={'25px'}
           />
         </Text>
       </Pressable>

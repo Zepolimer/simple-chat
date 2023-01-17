@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Text, Pressable, View, SafeAreaView } from 'react-native';
 
-import { secureGetRequest, securePutRequest, secureDeleteRequest } from '../security/Api';
-import { getCredentials, resetCredentials, regenerateToken } from '../security/Credential';
+import { secureGetRequest, securePutRequest, secureDeleteRequest } from '../../security/Api';
+import { getCredentials, resetCredentials, regenerateToken } from '../../security/Credential';
 
-import BlackPressable from '../components/BlackPressable';
-import FormInput from '../components/FormInput';
-import styles from '../style/style';
+import BlackPressable from '../../components/BlackPressable';
+import FormInput from '../../components/FormInput';
+import styles from '../../style/style';
 
-const ProfilScreen = ({ navigation }) => {
+const Profil = ({ navigation }) => {
   const [access, setAccess] = React.useState('');
   const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
@@ -159,4 +159,4 @@ const ProfilScreen = ({ navigation }) => {
   )
 }
 
-export default ProfilScreen
+export default Profil

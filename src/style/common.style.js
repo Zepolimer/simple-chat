@@ -38,6 +38,10 @@ export default StyleSheet.create({
     width: '70%',
   },
 
+  mauto: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
   mv12: {
     marginVertical: 12,
   },
@@ -54,6 +58,9 @@ export default StyleSheet.create({
     marginHorizontal: 10,
   },
 
+  p10: {
+    padding: 10,
+  },
   ph10: {
     paddingHorizontal: 10,
   },

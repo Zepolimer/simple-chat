@@ -1,15 +1,15 @@
 import * as React from 'react'
 import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
 
-import { securePostRequest } from '../security/Api';
-import { getCredentials, regenerateToken } from '../security/Credential';
+import { securePostRequest } from '../../security/Api';
+import { getCredentials, regenerateToken } from '../../security/Credential';
 
-import BlackPressable from '../components/BlackPressable';
-import FormInput from '../components/FormInput';
-import styles from '../style/style';
+import BlackPressable from '../../components/BlackPressable';
+import FormInput from '../../components/FormInput';
+import styles from '../../style/style';
 
 
-const NewChannelScreen = ({ navigation }) => {
+const ChannelCreate = ({ navigation }) => {
   const [access, setAccess] = React.useState('');
   const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
@@ -50,7 +50,7 @@ const NewChannelScreen = ({ navigation }) => {
       .then((res) => {
         setStatus(res.status)
         if(res.status != 'Error') {
-          navigation.navigate('AddUserToChannel', {
+          navigation.navigate('ChannelUsers', {
             id: res.data.id,
             name: res.data.name,
           })
@@ -101,4 +101,4 @@ const NewChannelScreen = ({ navigation }) => {
   )
 }
 
-export default NewChannelScreen
+export default ChannelCreate

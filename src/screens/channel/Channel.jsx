@@ -1,25 +1,26 @@
 import * as React from 'react';
-import { Pressable, Text, ScrollView, View, Alert, SafeAreaView } from 'react-native';
+import { Pressable, Text, Alert, ScrollView, SafeAreaView } from 'react-native';
 
-import { secureGetRequest, securePostRequest, secureDeleteRequest } from '../security/Api';
-import { getCredentials, regenerateToken } from '../security/Credential';
+import FixedHeader from '../../components/FixedHeader';
+import BlackPressable from '../../components/BlackPressable';
+import FormInput from '../../components/FormInput';
 
-import FormInput from '../components/FormInput';
-import BlackPressable from '../components/BlackPressable';
+import { secureGetRequest, securePostRequest, secureDeleteRequest } from '../../security/Api';
+import { getCredentials, regenerateToken } from '../../security/Credential';
 
-import styles from '../style/style';
+import styles from '../../style/style';
 
 
-const ConversationScreen = ({ route, navigation })  => {
-  const { itemId, convId } = route.params;
+const Channel = ({ route, navigation }) => {
+  const { id } = route.params;
+  const { name } = route.params;
 
   const [access, setAccess] = React.useState('');
   const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
-  const [status, setStatus] = React.useState(null)
-  const [conversationId, setConversationId] = React.useState(null);
-  const [conversation, setConversation] = React.useState(null);
+  const [status, setStatus] = React.useState(null);
+  const [channel, setChannel] = React.useState(null);
 
   const [message, onChangeMessage] = React.useState('');
 
@@ -36,15 +37,13 @@ const ConversationScreen = ({ route, navigation })  => {
 
   const getMessages = async () => {
     await secureGetRequest(
-      `user/${itemId}/conversation/${JSON.stringify(convId)}`,
-      access
+      `channel/${id}`, 
+      access,
     )
     .then((res) => {
-      setStatus(res.status)
-      if(res.status != 'Error') {
-        setConversationId(res.conversation_id)
-        setConversation(res.data.messages);
-      }
+      console.log(res)
+      setStatus(res.status);
+      setChannel(res.data.messages);
     });
   }
 
@@ -55,20 +54,21 @@ const ConversationScreen = ({ route, navigation })  => {
       }
 
       await securePostRequest(
-        `user/${itemId}/conversation/${JSON.stringify(convId)}/message`,
+        `user/${user}/channel/${id}/message`,
         msg,
         access,
       )
       .then((res) => {
+        console.log(res);
         onChangeMessage('');
         getMessages();
       })
     }
   }
 
-  const deleteMessage = async (id) => {
+  const deleteMessage = async (msg_id) => {
     await secureDeleteRequest(
-      `user/${itemId}/conversation/${JSON.stringify(convId)}/message/${id}`,
+      `user/${user}/channel/${id}/message/${msg_id}`,
       access,
     )
     .then((res) => {
@@ -87,31 +87,42 @@ const ConversationScreen = ({ route, navigation })  => {
     } else if(status != 'Error') {
       getMessages();
     }
-  }, [status])
 
+    console.log(channel)
+  }, [status])
+  
 
   return (
     <SafeAreaView>
+    <FixedHeader 
+      iconName={'settings-outline'}
+      navigateTo={() => {
+        navigation.navigate('ChannelSettings', {
+          id: id,
+          name: name,
+        })
+      }}
+    /> 
+
     <ScrollView style={styles.viewChat}>
-    {status == 'Success' && conversation != null ? (
-      conversation.map((msg, index) => {
+    {status == 'Success' && channel != null ? (
+      channel.map((msg, index) => {
         return (
           <ScrollView key={index}>
-            {msg.user_id_from != user &&
-              <Text style={styles.nameChatTo}>{msg.id_from.firstname} {msg.id_from.lastname}</Text>
+            {msg.user_id != user && 
+              <Text style={styles.nameChatTo}>{msg.User.firstname} {msg.User.lastname}</Text>
             }
             <Pressable 
-              style={msg.user_id_from == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
-              title={conversationId} 
+              style={msg.user_id == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
+              title={msg.id} 
               onLongPress={() => { Alert.alert(
                 "",
                 "Souhaitez vous supprimer ce message ?",
                 [
-                  { text: "Annuler", onPress: () => console.log("Annuler Pressed" + msg.id)},
+                  { text: "Annuler", onPress: () => console.log("Annuler Pressed")},
                   { text: "Supprimer", onPress: () => deleteMessage(msg.id)}
                 ]
-              )}}
-            >
+              )}}>
               <Text style={styles.chatBubbletext}>{msg.message}</Text>
             </Pressable>
           </ScrollView>
@@ -137,4 +148,4 @@ const ConversationScreen = ({ route, navigation })  => {
 }
 
 
-export default ConversationScreen
+export default Channel

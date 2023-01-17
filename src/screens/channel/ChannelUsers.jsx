@@ -2,16 +2,16 @@ import * as React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Pressable, Text, View, ScrollView, SafeAreaView, Alert } from 'react-native';
 
-import { getRequest, secureFastPostRequest, secureDeleteRequest } from '../security/Api';
-import { getCredentials, regenerateToken } from '../security/Credential';
+import { getRequest, secureFastPostRequest, secureDeleteRequest } from '../../security/Api';
+import { getCredentials, regenerateToken } from '../../security/Credential';
 
-import styles from '../style/style';
-import BlackPressable from '../components/BlackPressable';
+import styles from '../../style/style';
+import BlackPressable from '../../components/BlackPressable';
 
 
-const AddUserInChannelScreen = ({ route, navigation }) => {
+const ChannelUsers = ({ route, navigation }) => {
   const { id } = route.params;
-  const { name } = route.params.name;
+  const { name } = route.params;
 
   const [access, setAccess] = React.useState('');
   const [refresh, setRefresh] = React.useState('');
@@ -85,6 +85,7 @@ const AddUserInChannelScreen = ({ route, navigation }) => {
 
   React.useEffect(() => {
     userCredential();
+    getUserInChannel();
     getAllUsers();
   }, [status])
 
@@ -110,7 +111,8 @@ const AddUserInChannelScreen = ({ route, navigation }) => {
                 {u.User.id != user &&
                   <View style={styles.chatBtn}>
                     <View style={styles.horizontalItemImg}></View>
-                    <Text style={styles.chatText}>{u.User.firstname} {u.User.lastname}</Text>
+                    <Text style={styles.chatText}>
+                    {u.User.firstname} {u.User.lastname}</Text>
                     <Pressable 
                       style={styles.addOrRemoveBtn}
                       title={u.User.firstname} 
@@ -164,4 +166,4 @@ const AddUserInChannelScreen = ({ route, navigation }) => {
   )
 }
 
-export default AddUserInChannelScreen
+export default ChannelUsers

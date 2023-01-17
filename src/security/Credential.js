@@ -30,9 +30,6 @@ const getCredentials = async () => {
   const refresh = await getRefreshToken()
   const user = await getUserId()
 
-  console.log(access);
-  console.log(user);
-
   return {
     access: access,
     refresh: refresh,

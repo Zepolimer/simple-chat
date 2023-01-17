@@ -3,7 +3,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeScreen from '../screens/HomeScreen';
-import ProfilScreen from '../screens/ProfilScreen';
+import Profil from '../screens/user/Profil';
 import ConversationNavigator from './ConversationNavigator';
 import ChannelNavigator from './ChannelNavigator';
 
@@ -47,7 +47,7 @@ function LoggedInNavigator() {
       />
       <UserTab.Screen 
         name="Profil" 
-        component={ProfilScreen} 
+        component={Profil} 
         options={{ headerShown: false }}
       />
     </UserTab.Navigator>

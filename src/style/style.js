@@ -143,6 +143,14 @@ export default StyleSheet.create({
     ...common.borderRadius50,
     height: 40,
   },
+  headerCta: {
+    ...common.flexCenter,
+    ...common.borderRadius50,
+    height: 40,
+    width: 40,
+    borderWidth: 1,
+    borderColor: '#000000',
+  },
   headerBtn: {
     ...common.rounded50x50,
   },
@@ -175,5 +183,17 @@ export default StyleSheet.create({
     borderColor: 'gray',
     position: 'absolute',
     right: '5%',
-  }
+  },
+
+  deletePressable: {
+    ...common.width70,
+    ...common.mauto,
+    ...common.p10,
+    ...common.borderRadius5,
+    backgroundColor: 'red',
+  },
+  deletePressableText: {
+    ...common.textWhite,
+    textAlign: 'center',
+  },
 });

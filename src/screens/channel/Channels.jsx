@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
-import FixedHeader from '../components/FixedHeader';
 
-import { secureGetRequest, secureFastPostRequest } from '../security/Api';
-import { getCredentials, regenerateToken } from '../security/Credential';
+import FixedHeader from '../../components/FixedHeader';
 
-import styles from '../style/style';
+import { secureGetRequest, secureFastPostRequest } from '../../security/Api';
+import { getCredentials, regenerateToken } from '../../security/Credential';
+
+import styles from '../../style/style';
 
 
-const ChannelsScreen = ({ navigation }) => {
+const Channels = ({ navigation }) => {
   const [access, setAccess] = React.useState('');
   const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
@@ -148,4 +149,4 @@ const ChannelsScreen = ({ navigation }) => {
 }
 
 
-export default ChannelsScreen
+export default Channels

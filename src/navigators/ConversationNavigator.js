@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import ConversationsScreen from '../screens/ConversationsScreen';
-import ConversationScreen from '../screens/ConversationScreen';
+import Conversations from '../screens/conversation/Conversations';
+import Conversation from '../screens/conversation/Conversation';
 
 const ConversationStack = createNativeStackNavigator();
 
@@ -11,12 +11,12 @@ function ConversationNavigator() {
     <ConversationStack.Navigator>
       <ConversationStack.Screen 
         name="Conversations" 
-        component={ConversationsScreen}
+        component={Conversations}
         options={{ headerShown: false }}
       />
       <ConversationStack.Screen 
         name="Conversation" 
-        component={ConversationScreen} 
+        component={Conversation} 
         options={({ route }) => ({ title: route.params.name })}  
       />
     </ConversationStack.Navigator>

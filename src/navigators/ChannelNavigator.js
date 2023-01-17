@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import ChannelScreen from '../screens/ChannelScreen';
-import ChannelsScreen from '../screens/ChannelsScreen';
-import NewChannelScreen from '../screens/NewChannelScreen';
-import AddUserInChannelScreen from '../screens/AddUserInChannelScreen';
+import Channel from '../screens/channel/Channel';
+import Channels from '../screens/channel/Channels';
+import ChannelCreate from '../screens/channel/ChannelCreate';
+import ChannelUsers from '../screens/channel/ChannelUsers';
+import ChannelSettings from '../screens/channel/ChannelSettings';
 
 const ChannelStack = createNativeStackNavigator();
 
@@ -13,22 +14,27 @@ function ChannelNavigator() {
     <ChannelStack.Navigator>
       <ChannelStack.Screen 
         name="Channels" 
-        component={ChannelsScreen}
+        component={Channels}
         options={{ headerShown: false }}
       />
       <ChannelStack.Screen 
         name="Channel" 
-        component={ChannelScreen} 
+        component={Channel} 
         options={({ route }) => ({ title: route.params.name })}
       />
       <ChannelStack.Screen 
         name="NewChannel"
-        component={NewChannelScreen}
+        component={ChannelCreate}
         options={{ title: 'Créer un groupe' }}
       />
       <ChannelStack.Screen 
-        name="AddUserToChannel"
-        component={AddUserInChannelScreen}
+        name="ChannelUsers"
+        component={ChannelUsers}
+        options={({ route }) => ({ title: route.params.name })}
+      />
+      <ChannelStack.Screen 
+        name="ChannelSettings"
+        component={ChannelSettings}
         options={({ route }) => ({ title: route.params.name })}
       />
     </ChannelStack.Navigator>
