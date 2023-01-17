@@ -7,6 +7,7 @@ import { getCredentials, regenerateToken } from '../../security/Credential';
 
 import styles from '../../style/style';
 import BlackPressable from '../../components/BlackPressable';
+import HeaderChat from '../../components/HeaderChat';
 
 
 const ChannelUsers = ({ route, navigation }) => {
@@ -91,76 +92,80 @@ const ChannelUsers = ({ route, navigation }) => {
 
 
   return (
-    <SafeAreaView style={styles.viewChat}>
-    <ScrollView>
-      <BlackPressable
-        title={'Continuer'}
-        onPress={() => navigation.navigate('Channel', {
-          id: id,
-          name: name,
-        })}
-        text={'Continuer'}
+    <SafeAreaView style={styles.screen}>
+      <HeaderChat
+        iconName={'checkmark-outline'}
+        title={'Liste des membres'}
+        navigateTo={() => {
+          navigation.navigate('Channel', {
+            id: id,
+            name: name,
+          })
+        }}
+        goBack={() => navigation.goBack()}
       />
-      <View>
-        {addedUsers != null && 
-        <ScrollView style={{flexDirection: 'column'}}>
-          <Text style={styles.title}>Utilisateurs invités :</Text>
-          {addedUsers.map((u, index) => {
-            return (
-              <View key={index}>
-                {u.User.id != user &&
-                  <View style={styles.chatBtn}>
-                    <View style={styles.horizontalItemImg}></View>
-                    <Text style={styles.chatText}>
-                    {u.User.firstname} {u.User.lastname}</Text>
-                    <Pressable 
-                      style={styles.addOrRemoveBtn}
-                      title={u.User.firstname} 
-                      onPress={() => removeUser(u.User.id)}
-                    >
-                      <Ionicons 
-                        name={'close'}
-                        color={'gray'} 
-                        size={'20px'}
-                      />
-                    </Pressable>
-                  </View>
-                }
-              </View>
-            )
-          })}
-        </ScrollView>
-        }
-      </View>
+    
+      <ScrollView style={styles.viewChat}>
+        <View>
+          {addedUsers != null && 
+          <ScrollView style={{flexDirection: 'column'}}>
+            <Text style={styles.title}>Utilisateurs invités :</Text>
+            {addedUsers.map((u, index) => {
+              return (
+                <View key={index}>
+                  {u.User.id != user &&
+                    <View style={styles.chatBtn}>
+                      <View style={styles.horizontalItemImg}></View>
+                      <Text style={styles.chatText}>
+                      {u.User.firstname} {u.User.lastname}</Text>
+                      <Pressable 
+                        style={styles.addOrRemoveBtn}
+                        title={u.User.firstname} 
+                        onPress={() => removeUser(u.User.id)}
+                      >
+                        <Ionicons 
+                          name={'close'}
+                          color={'gray'} 
+                          size={'20px'}
+                        />
+                      </Pressable>
+                    </View>
+                  }
+                </View>
+              )
+            })}
+          </ScrollView>
+          }
+        </View>
 
-      {userList != null && 
-        <ScrollView style={{flexDirection: 'column'}}>
-          <Text style={styles.title}>Utilisateurs que vous pouvez inviter :</Text>
-          {userList.map((u, index) => {
-            return (
-              <View key={index}>
-                {u.id != user && 
-                  <View style={styles.chatBtn}>
-                    <View style={styles.horizontalItemImg}></View>
-                    <Text style={styles.chatText}>{u.firstname} {u.lastname}</Text>
-                    <Pressable 
-                      style={styles.addOrRemoveBtn}
-                      title={u.firstname} 
-                      onPress={() => addUser(u.id)}
-                    >
-                      <Ionicons 
-                        name={'add'}
-                        color={'gray'} 
-                        size={'20px'}
-                      />
-                    </Pressable>
-                  </View>
-                }
-              </View>
-            )
-          })}
-        </ScrollView>
-      }
+        {userList != null && 
+          <ScrollView style={{flexDirection: 'column'}}>
+            <Text style={styles.title}>Utilisateurs que vous pouvez inviter :</Text>
+            {userList.map((u, index) => {
+              return (
+                <View key={index}>
+                  {u.id != user && 
+                    <View style={styles.chatBtn}>
+                      <View style={styles.horizontalItemImg}></View>
+                      <Text style={styles.chatText}>{u.firstname} {u.lastname}</Text>
+                      <Pressable 
+                        style={styles.addOrRemoveBtn}
+                        title={u.firstname} 
+                        onPress={() => addUser(u.id)}
+                      >
+                        <Ionicons 
+                          name={'add'}
+                          color={'gray'} 
+                          size={'20px'}
+                        />
+                      </Pressable>
+                    </View>
+                  }
+                </View>
+              )
+            })}
+          </ScrollView>
+        }
       </ScrollView>
     </SafeAreaView>
   )

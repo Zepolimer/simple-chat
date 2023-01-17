@@ -3,6 +3,10 @@ import common from '../style/common.style.js';
 
 
 export default StyleSheet.create({
+  screen: {
+    position: 'relative',
+    minHeight: '100%',
+  },
   viewDisplay: {
     ...common.flex,
     ...common.flexCenter,
@@ -10,6 +14,12 @@ export default StyleSheet.create({
   },
   viewChat: {
     ...common.width90,
+  },
+  screenView: {
+    ...common.width90,
+    ...common.mt12,
+    ...common.paddingBorder,
+    ...common.borderRadius5,
   },
 
   title: {
@@ -34,19 +44,18 @@ export default StyleSheet.create({
     fontWeight: '600',
   },
   blackBtn: {
-    ...common.width90,
-    ...common.flexCenter,
+    ...common.width70,
+    ...common.mauto,
+    ...common.p10,
     ...common.borderRadius5,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    elevation: 3,
+    ...common.boxShadow,
     backgroundColor: 'black',
   },
   blackBtnText: {
-    fontSize: 16,
+    fontSize: 15,
     lineHeight: 21,
     fontWeight: 'bold',
-    letterSpacing: 0.25,
+    textAlign: 'center',
     color: 'white',
   },
   chatWrapper: {
@@ -131,11 +140,10 @@ export default StyleSheet.create({
   },
 
   header: {
-    ...common.width100,
+    ...common.width90,
     ...common.flexRow,
     ...common.flexBetweenCenter,
     height: 60,
-    ...common.ph10,
   },
   headerInput: {
     ...common.width70,
@@ -163,6 +171,12 @@ export default StyleSheet.create({
     ...common.boxShadow,
     backgroundColor: '#FFFFFF',
   },
+  flexRowBetween: {
+    ...common.width100,
+    ...common.flexRow,
+    ...common.flexBetweenCenter,
+    ...common.mv25,
+  },
   checkbox: {
     ...common.rounded30x30,
     backgroundColor: 'transparent',
@@ -172,7 +186,6 @@ export default StyleSheet.create({
   checkboxChecked: {
     ...common.rounded30x30,
     borderWidth: 1,
-    borderColor: 'tomato',
     backgroundColor: 'tomato',
   },
 
@@ -185,15 +198,52 @@ export default StyleSheet.create({
     right: '5%',
   },
 
+  getPressable: {
+    ...common.width70,
+    ...common.mauto,
+    ...common.p10,
+    ...common.borderRadius5,
+    ...common.boxShadow,
+    backgroundColor: 'lightskyblue',
+  },
   deletePressable: {
     ...common.width70,
     ...common.mauto,
     ...common.p10,
     ...common.borderRadius5,
+    ...common.boxShadow,
     backgroundColor: 'red',
   },
   deletePressableText: {
     ...common.textWhite,
     textAlign: 'center',
+    fontSize: 15,
+    lineHeight: 21,
+    fontWeight: 'bold',
+  },
+  deletePressableWarning: {
+    marginBottom: 15,
+  },
+
+  keyboardWrapper: {
+    ...common.width90,
+    ...common.flexRow,
+    ...common.flexBetweenCenter,
+    position: 'absolute',
+    bottom: 10,
+    left: 0,
+  },
+  keyboardInput: {
+    ...common.width80,
+    ...common.paddingBorder,
+    ...common.borderRadius5,
+    height: 40,
+  },
+  keyboardBtn: {
+    ...common.flexCenter,
+    ...common.borderRadius5,
+    width: 40,
+    height: 40,
+    backgroundColor: 'black',
   },
 });

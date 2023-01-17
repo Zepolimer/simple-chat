@@ -4,8 +4,10 @@ import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
 import { securePostRequest } from '../../security/Api';
 import { getCredentials, regenerateToken } from '../../security/Credential';
 
+import FixedHeaderGoBack from '../../components/FixedHeaderGoBack';
 import BlackPressable from '../../components/BlackPressable';
 import FormInput from '../../components/FormInput';
+
 import styles from '../../style/style';
 
 
@@ -69,7 +71,11 @@ const ChannelCreate = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView style={{ width: '100%', flex: 1 }}>
+    <SafeAreaView style={styles.screen}>
+      <FixedHeaderGoBack 
+        goBack={() => navigation.goBack()}
+      />
+
       <View style={styles.viewChat}>
         <Text style={styles.title}>Vous pouvez créer un groupe depuis cette page.</Text>
         <Text style={styles.title}>1. Veuillez renseigner le nom que portera votre groupe. Celui-ci sera ensuite éditable si besoin.</Text>
@@ -85,11 +91,13 @@ const ChannelCreate = ({ navigation }) => {
           keyboardType="default"
         />
 
-        <Text style={styles.selfAlignItem}>Souhaitez vous que votre groupe soit privé ?</Text>
-        <Pressable 
-          style={privacy ? styles.checkboxChecked : styles.checkbox}
-          onPress={() => handlePrivacy()}
-        />
+        <View style={styles.flexRowBetween}>
+          <Text>Cochez cette case si vous souhaitez que votre groupe soit en privé :</Text>
+          <Pressable 
+            style={privacy ? styles.checkboxChecked : styles.checkbox}
+            onPress={() => handlePrivacy()}
+          />
+        </View>
 
         <BlackPressable 
           title={'Enregistrer'}

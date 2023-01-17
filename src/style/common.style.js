@@ -48,6 +48,9 @@ export default StyleSheet.create({
   mv15: {
     marginVertical: 15,
   },
+  mv25: {
+    marginVertical: 25,
+  },
   mt10: {
     marginTop: 10,
   },

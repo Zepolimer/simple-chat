@@ -7,7 +7,7 @@ import styles from '../style/style';
 const FormInput = (props) => {
   return (
     <TextInput
-      style={styles.input}
+      style={props.style ? props.style : styles.input}
       onChangeText={props.onChangeText}
       value={props.value}
       placeholder={props.placeholder}

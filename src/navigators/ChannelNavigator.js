@@ -11,7 +11,7 @@ const ChannelStack = createNativeStackNavigator();
 
 function ChannelNavigator() {
   return (
-    <ChannelStack.Navigator>
+    <ChannelStack.Navigator screenOptions={{ headerShown: false }}>
       <ChannelStack.Screen 
         name="Channels" 
         component={Channels}

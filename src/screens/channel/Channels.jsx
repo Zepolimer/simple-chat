@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
 
-import FixedHeader from '../../components/FixedHeader';
-
 import { secureGetRequest, secureFastPostRequest } from '../../security/Api';
 import { getCredentials, regenerateToken } from '../../security/Credential';
+
+import FixedHeader from '../../components/FixedHeader';
 
 import styles from '../../style/style';
 
@@ -79,11 +79,21 @@ const Channels = ({ navigation }) => {
       getAllChannels();
       getChannels();
     }
+
+    /**
+     * CLEAN STATE
+     */
+    const handleFocus = navigation.addListener('focus', () => {
+      getAllChannels();
+      getChannels();
+    });
+
+    return handleFocus;
   }, [status])
 
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.screen}>
       <FixedHeader 
         iconName={'pencil'}
         navigateTo={() => navigation.navigate('NewChannel')}

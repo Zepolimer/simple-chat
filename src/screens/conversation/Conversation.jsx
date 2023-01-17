@@ -8,10 +8,13 @@ import FormInput from '../../components/FormInput';
 import BlackPressable from '../../components/BlackPressable';
 
 import styles from '../../style/style';
+import HeaderChat from '../../components/HeaderChat';
+import IconButton from '../../components/Iconbutton';
 
 
 const Conversation = ({ route, navigation })  => {
   const { itemId, convId } = route.params;
+  const { name } = route.params;
 
   const [access, setAccess] = React.useState('');
   const [refresh, setRefresh] = React.useState('');
@@ -91,47 +94,63 @@ const Conversation = ({ route, navigation })  => {
 
 
   return (
-    <SafeAreaView>
-    <ScrollView style={styles.viewChat}>
-    {status == 'Success' && conversation != null ? (
-      conversation.map((msg, index) => {
-        return (
-          <ScrollView key={index}>
-            {msg.user_id_from != user &&
-              <Text style={styles.nameChatTo}>{msg.id_from.firstname} {msg.id_from.lastname}</Text>
-            }
-            <Pressable 
-              style={msg.user_id_from == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
-              title={conversationId} 
-              onLongPress={() => { Alert.alert(
-                "",
-                "Souhaitez vous supprimer ce message ?",
-                [
-                  { text: "Annuler", onPress: () => console.log("Annuler Pressed" + msg.id)},
-                  { text: "Supprimer", onPress: () => deleteMessage(msg.id)}
-                ]
-              )}}
-            >
-              <Text style={styles.chatBubbletext}>{msg.message}</Text>
-            </Pressable>
-          </ScrollView>
-        )
-      })
-    ) : (
-      <Text>Pas de message. N'hésitez pas à envoyer un message !</Text>
-    )}
-      <FormInput 
-        onChangeText={onChangeMessage}
-        value={message}
-        placeholder="Saisir quelque chose .."
-        keyboardType="default"
+    <SafeAreaView style={styles.screen}>
+      <HeaderChat
+        iconName={'settings-outline'}
+        title={name}
+        navigateTo={() => {
+          navigation.navigate('ChannelSettings', {
+            id: id,
+            name: name,
+          })
+        }}
+        goBack={() => navigation.goBack()}
       />
-      <BlackPressable
-        title={'Envoyer'}
-        onPress={postMessage}
-        text={'Envoyer'}
-      />
-    </ScrollView>
+
+      <ScrollView style={styles.viewChat}>
+      {status == 'Success' && conversation != null ? (
+        conversation.map((msg, index) => {
+          return (
+            <ScrollView key={index}>
+              {msg.user_id_from != user &&
+                <Text style={styles.nameChatTo}>{msg.id_from.firstname} {msg.id_from.lastname}</Text>
+              }
+              <Pressable 
+                style={msg.user_id_from == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
+                title={conversationId} 
+                onLongPress={() => { Alert.alert(
+                  "",
+                  "Souhaitez vous supprimer ce message ?",
+                  [
+                    { text: "Annuler", onPress: () => console.log("Annuler Pressed" + msg.id)},
+                    { text: "Supprimer", onPress: () => deleteMessage(msg.id)}
+                  ]
+                )}}
+              >
+                <Text style={styles.chatBubbletext}>{msg.message}</Text>
+              </Pressable>
+            </ScrollView>
+          )
+        })
+      ) : (
+        <Text>Pas de message. N'hésitez pas à envoyer un message !</Text>
+      )}
+      </ScrollView>
+
+      <View style={styles.keyboardWrapper}>
+        <FormInput 
+          style={styles.keyboardInput}
+          onChangeText={onChangeMessage}
+          value={message}
+          placeholder="Saisir quelque chose .."
+          keyboardType="default"
+        />
+        <IconButton 
+          title={'Envoyer'}
+          onPress={postMessage}
+          iconName={'send'}
+        />
+      </View>
     </SafeAreaView>
   )
 }

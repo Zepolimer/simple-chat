@@ -94,7 +94,7 @@ const Conversations = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.screen}>
       <FixedHeader 
         iconName={'pencil'}
       />
