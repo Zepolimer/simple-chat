@@ -44,12 +44,13 @@ const ChannelUsers = ({ route, navigation }) => {
   }
 
   const getAllUsers = async () => {
-    await getRequest('users')
+    await getRequest(`channel/${id}/users-not-in`)
     .then((res) => {
       setStatus(res.status)
+      console.log(res)
       if(res.status != 'Error') {
-        setUserList(res.data);
-      }
+        setUserList(res.data); 
+      } 
     });
   }
 
