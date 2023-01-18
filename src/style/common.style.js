@@ -24,6 +24,10 @@ export default StyleSheet.create({
     alignItems: "center",
   },
 
+  alignCenter: {
+    alignItems: 'center', 
+  },
+
   width100: {
     width: '100%',
   },

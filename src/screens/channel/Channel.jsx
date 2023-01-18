@@ -135,14 +135,14 @@ const Channel = ({ route, navigation }) => {
       </ScrollView>
 
       <View style={styles.keyboardWrapper}>
-      <FormInput 
-        style={styles.keyboardInput}
-        onChangeText={onChangeMessage}
-        value={message}
-        placeholder="Saisir quelque chose .."
-        keyboardType="default"
-        lines={3}
-      />
+        <FormInput 
+          style={styles.keyboardInput}
+          onChangeText={onChangeMessage}
+          value={message}
+          placeholder="Saisir quelque chose .."
+          keyboardType="default"
+          lines={3}
+        />
         <IconButton 
           title={'Envoyer'}
           onPress={postMessage}
@@ -155,11 +155,3 @@ const Channel = ({ route, navigation }) => {
 
 
 export default Channel
-
-{/* <FormInput 
-style={styles.keyboardInput}
-onChangeText={onChangeMessage}
-value={message}
-placeholder="Saisir quelque chose .."
-keyboardType="default"
-/> */}

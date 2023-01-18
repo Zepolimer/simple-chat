@@ -1,14 +1,14 @@
 import * as React from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { Pressable, Text, View, ScrollView, SafeAreaView, Alert } from 'react-native';
 
 import { getRequest, securePutRequest, secureDeleteRequest } from '../../security/Api';
 import { getCredentials } from '../../security/Credential';
 
-import styles from '../../style/style';
 import FormInput from '../../components/input/FormInput';
 import BlackPressable from '../../components/button/BlackPressable';
 import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
+
+import styles from '../../style/style';
 
 
 export default function ChannelSettings({ route, navigation }) {
@@ -120,7 +120,7 @@ export default function ChannelSettings({ route, navigation }) {
       }
 
       <View style={styles.whiteCard}>
-        <Text style={styles.deletePressableWarning}>Vous pouvez consulter la liste des membres présents dans votre groupe. Vous pourrez ainsi en ajouter et/ou en supprimer.</Text>
+        <Text style={styles.pressableWarning}>Vous pouvez consulter la liste des membres présents dans votre groupe. Vous pourrez ainsi en ajouter et/ou en supprimer.</Text>
         <Pressable
           style={styles.getPressable}
           onPress={() => navigation.navigate('ChannelUsers', {
@@ -132,7 +132,8 @@ export default function ChannelSettings({ route, navigation }) {
       </View>
 
       <View style={styles.whiteCard}>
-        <Text style={styles.deletePressableWarning}>Attention, cette action est irréversible. Le groupe sera définitivement supprimé, tout comme les messages échangés par ses membres...</Text>
+        <Text style={styles.pressableWarningBold}>Attention, cette action est irréversible.</Text> 
+        <Text style={styles.pressableWarning}>Le groupe sera définitivement supprimé, tout comme les messages échangés par ses membres...</Text>
         <Pressable 
           style={styles.deletePressable}
           onPress={() => deleteChannel()}

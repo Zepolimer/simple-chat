@@ -47,7 +47,7 @@ const Conversations = ({ navigation }) => {
       setStatus(res.status)
       if(res.status != 'Error') {
         setConversations(res.data);
-      }
+      } 
     });
   }
 
@@ -74,8 +74,7 @@ const Conversations = ({ navigation }) => {
     }
 
     return navigation.navigate('Conversation', {
-      itemId: user,
-      convId: conversation.id,
+      id: conversation.id,
       name: routename
     })
   }
@@ -90,6 +89,17 @@ const Conversations = ({ navigation }) => {
     } else if(status != 'Error') {
       getConversations();
     }
+
+    console.log('conversations : ' + conversations)
+
+    /**
+    * CLEAN STATE
+    */
+    const handleFocus = navigation.addListener('focus', () => {
+      getConversations();
+    });
+
+    return handleFocus;
   }, [status])
 
 
@@ -123,7 +133,7 @@ const Conversations = ({ navigation }) => {
         </View>
         }
         <View style={styles.viewChat}>
-          <Text style={styles.title}>Vos messages</Text>
+          <Text style={styles.title}>Vos conversations privées</Text>
           <ScrollView style={{flexDirection: 'column'}}>
           {status == 'Success' && conversations != null ? (
             conversations.map((conversation, index) => {
@@ -150,6 +160,9 @@ const Conversations = ({ navigation }) => {
           ) : (
             <Text>Veuillez vous connecter pour utiliser cet écran.</Text>
           )}
+          {conversations == '' &&
+            <Text>Vous n'avez aucune conversation. Commencez à discuter avec les utilisateurs présentés juste au dessus !</Text>
+          }
           </ScrollView>
         </View>
       </ScrollView>

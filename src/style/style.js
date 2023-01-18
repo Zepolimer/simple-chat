@@ -240,8 +240,32 @@ export default StyleSheet.create({
     lineHeight: 21,
     fontWeight: 'bold',
   },
-  deletePressableWarning: {
+  pressableWarning: {
     marginBottom: 15,
+  },
+  pressableWarningBold: {
+    marginBottom: 15,
+    fontWeight: '600',
+    color: 'red',
+  },
+
+  toggleCheckoxWrapper: {
+    ...common.flexRow,
+    ...common.alignCenter,
+    ...common.width70,
+    ...common.mauto,
+    ...common.mt12,
+    ...common.paddingBorder,
+    ...common.borderRadius5,
+    paddingLeft: 15,
+  },
+  toggleCheckboxText: {
+    paddingLeft: 15,
+  },
+  toggleCheckboxTextBold: {
+    paddingLeft: 15,
+    fontWeight: '600',
+    color: 'tomato',
   },
 
   keyboardWrapper: {

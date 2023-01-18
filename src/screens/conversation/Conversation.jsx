@@ -13,7 +13,7 @@ import IconButton from '../../components/Iconbutton';
 
 
 const Conversation = ({ route, navigation })  => {
-  const { itemId, convId } = route.params;
+  const { id } = route.params;
   const { name } = route.params;
 
   const [access, setAccess] = React.useState('');
@@ -21,9 +21,9 @@ const Conversation = ({ route, navigation })  => {
   const [user, setUser] = React.useState(0);
 
   const [status, setStatus] = React.useState(null)
-  const [conversationId, setConversationId] = React.useState(null);
   const [conversation, setConversation] = React.useState(null);
 
+  const [blockedValue, setBlockedValue] = React.useState(false);
   const [message, onChangeMessage] = React.useState('');
 
   const userCredential = async () => {
@@ -39,13 +39,13 @@ const Conversation = ({ route, navigation })  => {
 
   const getMessages = async () => {
     await secureGetRequest(
-      `user/${itemId}/conversation/${JSON.stringify(convId)}`,
+      `user/${user}/conversation/${id}`,
       access
     )
     .then((res) => {
       setStatus(res.status)
       if(res.status != 'Error') {
-        setConversationId(res.conversation_id)
+        setBlockedValue(res.data.blocked) 
         setConversation(res.data.messages);
       }
     });
@@ -58,20 +58,24 @@ const Conversation = ({ route, navigation })  => {
       }
 
       await securePostRequest(
-        `user/${itemId}/conversation/${JSON.stringify(convId)}/message`,
+        `user/${user}/conversation/${id}/message`,
         msg,
         access,
       )
       .then((res) => {
+        if(res.status == 'Blocked') {
+          Alert.alert('Votre conversation est bloqué, vous ne pouvez plus rédiger de message.')
+        }
+        
         onChangeMessage('');
         getMessages();
       })
     }
   }
 
-  const deleteMessage = async (id) => {
+  const deleteMessage = async (msg_id) => {
     await secureDeleteRequest(
-      `user/${itemId}/conversation/${JSON.stringify(convId)}/message/${id}`,
+      `user/${user}/conversation/${JSON.stringify(id)}/message/${msg_id}`,
       access,
     )
     .then((res) => {
@@ -99,7 +103,7 @@ const Conversation = ({ route, navigation })  => {
         iconName={'settings-outline'}
         title={name}
         navigateTo={() => {
-          navigation.navigate('ChannelSettings', {
+          navigation.navigate('ConversationSettings', {
             id: id,
             name: name,
           })
@@ -117,7 +121,7 @@ const Conversation = ({ route, navigation })  => {
               }
               <Pressable 
                 style={msg.user_id_from == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
-                title={conversationId} 
+                title={id} 
                 onLongPress={() => { Alert.alert(
                   "",
                   "Souhaitez vous supprimer ce message ?",
