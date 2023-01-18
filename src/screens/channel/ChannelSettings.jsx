@@ -88,7 +88,7 @@ export default function ChannelSettings({ route, navigation }) {
   React.useEffect(() => {
     userCredential();
     getChannelInformations();
-  }, [])
+  }, [status])
 
 
   return (
