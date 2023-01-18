@@ -15,7 +15,6 @@ function ChannelNavigator() {
       <ChannelStack.Screen 
         name="Channels" 
         component={Channels}
-        options={{ headerShown: false }}
       />
       <ChannelStack.Screen 
         name="Channel" 

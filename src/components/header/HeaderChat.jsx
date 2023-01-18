@@ -2,7 +2,7 @@ import * as React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Pressable, Text, View } from 'react-native';
 
-import styles from '../style/style';
+import styles from '../../style/style';
 
 export default function HeaderChat(props) {
   const [icon, setIcon] = React.useState(null);

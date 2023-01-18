@@ -8,11 +8,10 @@ const ConversationStack = createNativeStackNavigator();
 
 function ConversationNavigator() {
   return (
-    <ConversationStack.Navigator>
+    <ConversationStack.Navigator screenOptions={{ headerShown: false }}>
       <ConversationStack.Screen 
         name="Conversations" 
         component={Conversations}
-        options={{ headerShown: false }}
       />
       <ConversationStack.Screen 
         name="Conversation" 

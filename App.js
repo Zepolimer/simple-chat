@@ -45,7 +45,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Group screenOptions={{ headerShown: false }}>
+        <Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen 
             name="Connexion" 
             component={Login}              
@@ -54,7 +54,7 @@ export default function App() {
             name="Inscription" 
             component={Register} 
           />
-        </Stack.Group> */}
+        </Stack.Group>
 
         <Stack.Group>
           <Stack.Screen 

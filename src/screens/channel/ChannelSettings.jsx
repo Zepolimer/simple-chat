@@ -6,9 +6,9 @@ import { getRequest, securePutRequest, secureDeleteRequest } from '../../securit
 import { getCredentials } from '../../security/Credential';
 
 import styles from '../../style/style';
-import FormInput from '../../components/FormInput';
-import BlackPressable from '../../components/BlackPressable';
-import FixedHeaderGoBack from '../../components/FixedHeaderGoBack';
+import FormInput from '../../components/input/FormInput';
+import BlackPressable from '../../components/button/BlackPressable';
+import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
 
 
 export default function ChannelSettings({ route, navigation }) {
@@ -74,7 +74,7 @@ export default function ChannelSettings({ route, navigation }) {
       if(res.status == 'Success') {
         navigation.navigate('Channels')
       } else {
-        Alert.alert('Une erreur est survenue, veuillez réessayer.')
+        Alert.alert(res.message)
       }
     });
   }

@@ -36,6 +36,25 @@ export default StyleSheet.create({
     ...common.borderRadius5,
     height: 40,
   },
+  passwordInput: {
+    ...common.width100,
+    ...common.flexRow,
+    ...common.flexBetweenCenter,
+    ...common.mv12,
+    ...common.paddingPasswordInput,
+    ...common.borderRadius5,
+    height: 40,
+  },
+  passwordText: {
+    width: '90%',
+  },
+  passwordEye: {
+    ...common.flexCenter,
+    ...common.borderRadius5,
+    height: 38,
+    width: 40,
+    // backgroundColor: 'tomato',
+  },
   authBtnSwitchView: {
     ...common.width100,
     ...common.flexRow,
@@ -237,7 +256,8 @@ export default StyleSheet.create({
     ...common.width80,
     ...common.paddingBorder,
     ...common.borderRadius5,
-    height: 40,
+    minHeight: 40,
+    maxHeight: 80,
   },
   keyboardBtn: {
     ...common.flexCenter,

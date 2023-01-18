@@ -5,8 +5,8 @@ import { Pressable, Text, Alert, ScrollView, SafeAreaView, View } from 'react-na
 import { secureGetRequest, securePostRequest, secureDeleteRequest } from '../../security/Api';
 import { getCredentials, regenerateToken } from '../../security/Credential';
 
-import FormInput from '../../components/FormInput';
-import HeaderChat from '../../components/HeaderChat';
+import FormInput from '../../components/input/FormInput';
+import HeaderChat from '../../components/header/HeaderChat';
 import IconButton from '../../components/Iconbutton';
 
 import styles from '../../style/style';
@@ -135,13 +135,14 @@ const Channel = ({ route, navigation }) => {
       </ScrollView>
 
       <View style={styles.keyboardWrapper}>
-        <FormInput 
-          style={styles.keyboardInput}
-          onChangeText={onChangeMessage}
-          value={message}
-          placeholder="Saisir quelque chose .."
-          keyboardType="default"
-        />
+      <FormInput 
+        style={styles.keyboardInput}
+        onChangeText={onChangeMessage}
+        value={message}
+        placeholder="Saisir quelque chose .."
+        keyboardType="default"
+        lines={3}
+      />
         <IconButton 
           title={'Envoyer'}
           onPress={postMessage}
@@ -154,3 +155,11 @@ const Channel = ({ route, navigation }) => {
 
 
 export default Channel
+
+{/* <FormInput 
+style={styles.keyboardInput}
+onChangeText={onChangeMessage}
+value={message}
+placeholder="Saisir quelque chose .."
+keyboardType="default"
+/> */}

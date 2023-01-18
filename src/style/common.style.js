@@ -71,6 +71,11 @@ export default StyleSheet.create({
     padding: 10,
     borderWidth: 1,
   },
+  paddingPasswordInput : {
+    paddingLeft: 10,
+    paddingVertical: 10,
+    borderWidth: 1,
+  },
   paddingBorder20: {
     padding: 20,
     borderWidth: 1,

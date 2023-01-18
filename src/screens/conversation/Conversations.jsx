@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
 
-import FixedHeader from '../../components/FixedHeader';
+import FixedHeader from '../../components/header/FixedHeader';
 
 import { getRequest, secureGetRequest, secureFastPostRequest } from '../../security/Api';
 import { getCredentials, regenerateToken } from '../../security/Credential';

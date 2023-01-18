@@ -6,8 +6,7 @@ import { getRequest, secureFastPostRequest, secureDeleteRequest } from '../../se
 import { getCredentials, regenerateToken } from '../../security/Credential';
 
 import styles from '../../style/style';
-import BlackPressable from '../../components/BlackPressable';
-import HeaderChat from '../../components/HeaderChat';
+import HeaderChat from '../../components/header/HeaderChat';
 
 
 const ChannelUsers = ({ route, navigation }) => {
@@ -47,7 +46,6 @@ const ChannelUsers = ({ route, navigation }) => {
     await getRequest(`channel/${id}/users-not-in`)
     .then((res) => {
       setStatus(res.status)
-      console.log(res)
       if(res.status != 'Error') {
         setUserList(res.data); 
       } 
@@ -60,10 +58,6 @@ const ChannelUsers = ({ route, navigation }) => {
       access,
     )
     .then((res) => {
-      if(res.status != 'Error') {
-        Alert.alert("L'utilisateur à été ajouté à votre groupe avec succès.")
-      }
-
       getUserInChannel();
       getAllUsers();
     })
@@ -75,10 +69,6 @@ const ChannelUsers = ({ route, navigation }) => {
       access,
     )
     .then((res) => {
-      if(res.status != 'Error') {
-        Alert.alert("L'utilisateur à été supprimé de votre groupe avec succès.")
-      }
-
       getUserInChannel();
       getAllUsers();
     })
@@ -107,10 +97,10 @@ const ChannelUsers = ({ route, navigation }) => {
       />
     
       <ScrollView style={styles.viewChat}>
-        <View>
+        <View style={{ marginBottom:40}}>
           {addedUsers != null && 
           <ScrollView style={{flexDirection: 'column'}}>
-            <Text style={styles.title}>Utilisateurs invités :</Text>
+            <Text style={styles.title}>Membres :</Text>
             {addedUsers.map((u, index) => {
               return (
                 <View key={index}>
@@ -141,7 +131,7 @@ const ChannelUsers = ({ route, navigation }) => {
 
         {userList != null && 
           <ScrollView style={{flexDirection: 'column'}}>
-            <Text style={styles.title}>Utilisateurs que vous pouvez inviter :</Text>
+            <Text style={styles.title}>Utilisateurs qui pourraient rejoindre votre groupe :</Text>
             {userList.map((u, index) => {
               return (
                 <View key={index}>

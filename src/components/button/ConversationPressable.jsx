@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Pressable } from 'react-native';
 
-import styles from '../style/style';
+import styles from '../../style/style';
 
 
 const ConversationPressable = (props, {children}) => {

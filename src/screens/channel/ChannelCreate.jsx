@@ -4,9 +4,9 @@ import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
 import { securePostRequest } from '../../security/Api';
 import { getCredentials, regenerateToken } from '../../security/Credential';
 
-import FixedHeaderGoBack from '../../components/FixedHeaderGoBack';
-import BlackPressable from '../../components/BlackPressable';
-import FormInput from '../../components/FormInput';
+import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
+import BlackPressable from '../../components/button/BlackPressable';
+import FormInput from '../../components/input/FormInput';
 
 import styles from '../../style/style';
 

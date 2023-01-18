@@ -4,8 +4,10 @@ import { Text, View, ScrollView, SafeAreaView } from 'react-native';
 import { postRequest } from '../../security/Api';
 import { setCredentials } from '../../security/Credential';
 
-import BlackPressable from '../../components/BlackPressable';
-import FormInput from '../../components/FormInput';
+import BlackPressable from '../../components/button/BlackPressable';
+import FormInput from '../../components/input/FormInput';
+import SecureInput from '../../components/input/SecureInput';
+
 import styles from '../../style/style';
 
 
@@ -47,11 +49,9 @@ export default function Login({ navigation }) {
       />
 
       <Text style={styles.selfAlignItem}>Mot de passe</Text>
-      <FormInput
+      <SecureInput 
         onChangeText={onChangePassword}
         value={password}
-        placeholder="motdepasse"
-        keyboardType="default"
       />
 
       <BlackPressable 

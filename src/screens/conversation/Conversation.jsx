@@ -4,11 +4,11 @@ import { Pressable, Text, ScrollView, View, Alert, SafeAreaView } from 'react-na
 import { secureGetRequest, securePostRequest, secureDeleteRequest } from '../../security/Api';
 import { getCredentials, regenerateToken } from '../../security/Credential';
 
-import FormInput from '../../components/FormInput';
-import BlackPressable from '../../components/BlackPressable';
+import FormInput from '../../components/input/FormInput';
+import BlackPressable from '../../components/button/BlackPressable';
 
 import styles from '../../style/style';
-import HeaderChat from '../../components/HeaderChat';
+import HeaderChat from '../../components/header/HeaderChat';
 import IconButton from '../../components/Iconbutton';
 
 
@@ -144,6 +144,7 @@ const Conversation = ({ route, navigation })  => {
           value={message}
           placeholder="Saisir quelque chose .."
           keyboardType="default"
+          lines={3}
         />
         <IconButton 
           title={'Envoyer'}

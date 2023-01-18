@@ -3,8 +3,10 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 import { postRequest } from '../../security/Api';
 
-import BlackPressable from '../../components/BlackPressable';
-import FormInput from '../../components/FormInput'
+import BlackPressable from '../../components/button/BlackPressable';
+import FormInput from '../../components/input/FormInput';
+import SecureInput from '../../components/input/SecureInput';
+
 import styles from '../../style/style';
 
 
@@ -67,11 +69,9 @@ export default function Register({ navigation }) {
       />
 
       <Text style={styles.selfAlignItem}>Mot de passe</Text>
-      <FormInput
+      <SecureInput 
         onChangeText={onChangePassword}
         value={password}
-        placeholder="Ex: motdepasse"
-        keyboardType="default"
       />
 
       <BlackPressable 
