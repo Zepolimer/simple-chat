@@ -69,5 +69,3 @@ export default function App() {
 }
 
 AppRegistry.registerComponent('Appname', () => App);
-
-// screenOptions={{ presentation: 'modal' }}

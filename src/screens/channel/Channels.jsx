@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
 
-import { secureGetRequest, secureFastPostRequest } from '../../security/Api';
+import { getRequest, secureGetRequest, secureFastPostRequest } from '../../security/Api';
 import { getCredentials, regenerateToken } from '../../security/Credential';
 
 import FixedHeader from '../../components/header/FixedHeader';
@@ -30,9 +30,8 @@ const Channels = ({ navigation }) => {
   }
 
   const getAllChannels = async () => {
-    await secureGetRequest(
-      `user/${user}/channelstojoin`, 
-      access
+    await getRequest(
+      `channels`, 
     )
     .then((res) => {
       if(res.status == 'Error') {
@@ -109,10 +108,10 @@ const Channels = ({ navigation }) => {
               <View key={index}>
                 <Pressable 
                   style={styles.horizontalItemGroupe}
-                  title={channel.Channel.id} 
-                  onPress={() =>  postJoinChannel(channel.Channel.id)}> 
+                  title={channel.id} 
+                  onPress={() =>  postJoinChannel(channel.id)}> 
                   <Text style={styles.horizontalItemTextGroupe}>
-                  {channel.Channel.name}
+                  {channel.name}
                   </Text>
                 </Pressable>
               </View>
