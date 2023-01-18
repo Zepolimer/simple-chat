@@ -94,6 +94,15 @@ const Conversation = ({ route, navigation })  => {
     } else if(status != 'Error') {
       getMessages();
     }
+
+    /**
+    * CLEAN STATE
+    */
+    const handleFocus = navigation.addListener('focus', () => {
+      getMessages();
+    });
+
+    return handleFocus;
   }, [status])
 
 

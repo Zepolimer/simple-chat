@@ -87,7 +87,14 @@ const Channel = ({ route, navigation }) => {
       getMessages();
     }
 
-    console.log(channel)
+    /**
+    * CLEAN STATE
+    */
+    const handleFocus = navigation.addListener('focus', () => {
+      getMessages();
+    });
+
+    return handleFocus;
   }, [status])
   
 
