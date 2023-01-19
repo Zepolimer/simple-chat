@@ -5,6 +5,12 @@ import { TextInput, Pressable, Text, View } from 'react-native';
 import styles from '../../style/style';
 
 
+/**
+ * SecureInput is used for password entry only.
+ * On click on the icon, toggle visibility (show / hidden)
+ * @param onChangeText TextInput tag onChangeText method
+ * @param value TextInput tag value
+ */
 const SecureInput = (props) => {
   const [isPasswordSecure, setIsPasswordSecure] = React.useState(true);
 
@@ -39,9 +45,3 @@ const SecureInput = (props) => {
 }
 
 export default SecureInput
-
-{/* <Ionicons 
-            name={'eye-off-outline'} 
-            size={'20px'} 
-            color={'black'} 
-          /> */}

@@ -1,12 +1,25 @@
 import * as React from 'react';
-import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import { 
+  SafeAreaView,
+  View, 
+  FlatList,
+} from 'react-native';
 
-import { getRequest, secureGetRequest, secureFastPostRequest } from '../../security/Api';
-import { getCredentials, regenerateToken } from '../../security/Credential';
+import { 
+  getRequest, 
+  secureGetRequest,
+} from '../../security/Api';
+
+import { 
+  getCredentials, 
+  regenerateToken 
+} from '../../security/Credential';
 
 import FixedHeader from '../../components/header/FixedHeader';
+import UserChannels from '../../components/flatlist/UserChannels';
 
 import styles from '../../style/style';
+import PublicChannel from '../../components/flatlist/PublicChannel';
 
 
 const Channels = ({ navigation }) => {
@@ -53,17 +66,6 @@ const Channels = ({ navigation }) => {
     });
   }
 
-  const postJoinChannel = async (id) => {
-    await secureFastPostRequest(
-      `user/${user}/channel/${id}`, 
-      access
-    )
-    .then((res) => {
-      navigation.navigate('Channel', {
-        id: id,
-      })
-    })
-  }
 
   React.useEffect(() => {
     userCredential();
@@ -97,62 +99,25 @@ const Channels = ({ navigation }) => {
         iconName={'pencil'}
         navigateTo={() => navigation.navigate('NewChannel')}
       />
-      <ScrollView>
-      {user != 0 &&
-        <View>
-        {channelList != null &&
-          <View style={styles.horizontalWrapper}>
-          <ScrollView horizontal={true}>
-          {channelList.map((channel, index) => {
-            return (
-              <View key={index}>
-                <Pressable 
-                  style={styles.horizontalItemGroupe}
-                  title={channel.id} 
-                  onPress={() =>  postJoinChannel(channel.id)}> 
-                  <Text style={styles.horizontalItemTextGroupe}>
-                  {channel.name}
-                  </Text>
-                </Pressable>
-              </View>
-            )
-          })}
-          </ScrollView>
-          </View>
-        }
-        </View>
-      }
 
-      {user != 0 &&
-        <View style={styles.viewChat}>
-          <Text style={styles.title}>Vos groupes</Text>
-          <ScrollView style={{flexDirection: 'column'}}>
-          {status == 'Success' && channels != null ? (
-            channels.map((channel, index) => {
-              return (
-                <View key={index}>
-                  <Pressable 
-                    style={styles.chatBtn}
-                    title={channel.Channel.id} 
-                    onPress={() => { navigation.navigate('Channel', {
-                        id: channel.Channel.id,
-                        name: channel.Channel.name,
-                    })}
-                  }>
-                    <Text style={styles.chatText}>
-                    {channel.Channel.name}
-                    </Text>
-                  </Pressable>
-                </View>
-              )
-            })
-          ) : (
-            <Text>Pas de groupe rejoint..</Text>
-          )}
-          </ScrollView>
-        </View>
-      }
-      </ScrollView>
+      <View style={styles.horizontalWrapper}>
+        <FlatList
+          data={channelList}
+          renderItem={({item}) => <PublicChannel channel={item} user={user} access={access} navigation={navigation} />}
+          keyExtractor={item => item.id}
+          extraData={[user, access, navigation]}
+          horizontal={true}
+        />
+      </View>
+
+      <View style={styles.viewChat}>
+        <FlatList
+          data={channels}
+          renderItem={({item}) => <UserChannels channel={item} navigation={navigation} />}
+          keyExtractor={item => item.id}
+          extraData={[navigation]}
+        />
+      </View>
     </SafeAreaView>
   )
 }

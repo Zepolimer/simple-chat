@@ -46,6 +46,9 @@ export default StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
+  mv8: {
+    marginVertical: 8,
+  },
   mv12: {
     marginVertical: 12,
   },
@@ -68,6 +71,9 @@ export default StyleSheet.create({
   p10: {
     padding: 10,
   },
+  pv10: {
+    paddingVertical: 10,
+  },
   ph10: {
     paddingHorizontal: 10,
   },
@@ -84,6 +90,11 @@ export default StyleSheet.create({
     padding: 20,
     borderWidth: 1,
     borderColor: '#F1F1F1',
+  },
+  border: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#000000',
   },
   borderRadius5: {
     borderRadius: 5,

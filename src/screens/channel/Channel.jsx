@@ -1,12 +1,25 @@
 import * as React from 'react';
-import { Pressable, Text, Alert, ScrollView, SafeAreaView, View } from 'react-native';
+import { 
+  SafeAreaView, 
+  View,
+  FlatList,
+} from 'react-native';
 
 
-import { secureGetRequest, securePostRequest, secureDeleteRequest } from '../../security/Api';
-import { getCredentials, regenerateToken } from '../../security/Credential';
+import { 
+  secureGetRequest, 
+  securePostRequest 
+} from '../../security/Api';
 
-import FormInput from '../../components/input/FormInput';
+import { 
+  getCredentials, 
+  regenerateToken 
+} from '../../security/Credential';
+
 import HeaderChat from '../../components/header/HeaderChat';
+import KeyboardView from '../../components/keyboard/KeyboardView';
+import ChannelMessages from '../../components/flatlist/ChannelMessages'
+import FormInput from '../../components/input/FormInput';
 import IconButton from '../../components/Iconbutton';
 
 import styles from '../../style/style';
@@ -65,18 +78,6 @@ const Channel = ({ route, navigation }) => {
     }
   }
 
-  const deleteMessage = async (msg_id) => {
-    await secureDeleteRequest(
-      `user/${user}/channel/${id}/message/${msg_id}`,
-      access,
-    )
-    .then((res) => {
-      getMessages();
-      Alert.alert('Message supprimé')
-    })
-  }
-
-
   React.useEffect(() => {
     userCredential();
 
@@ -112,50 +113,31 @@ const Channel = ({ route, navigation }) => {
         goBack={() => navigation.navigate('Channels')}
       />
 
-      <ScrollView style={styles.viewChat}>
-      {status == 'Success' && channel != null ? (
-        channel.map((msg, index) => {
-          return (
-            <ScrollView key={index}>
-              {msg.user_id != user && 
-                <Text style={styles.nameChatTo}>{msg.User.firstname} {msg.User.lastname}</Text>
-              }
-              <Pressable 
-                style={msg.user_id == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
-                title={msg.id} 
-                onLongPress={() => { Alert.alert(
-                  "",
-                  "Souhaitez vous supprimer ce message ?",
-                  [
-                    { text: "Annuler", onPress: () => console.log("Annuler Pressed")},
-                    { text: "Supprimer", onPress: () => deleteMessage(msg.id)}
-                  ]
-                )}}>
-                <Text style={styles.chatBubbletext}>{msg.message}</Text>
-              </Pressable>
-            </ScrollView>
-          )
-        })
-      ) : (
-        <Text>Pas de message. N'hésitez pas à envoyer un message !</Text>
-      )}
-      </ScrollView>
-
-      <View style={styles.keyboardWrapper}>
-        <FormInput 
-          style={styles.keyboardInput}
-          onChangeText={onChangeMessage}
-          value={message}
-          placeholder="Saisir quelque chose .."
-          keyboardType="default"
-          lines={3}
+      <KeyboardView>
+        <FlatList
+          data={channel}
+          renderItem={({item}) => <ChannelMessages channel={item} user={user} id={id} access={access} onPress={getMessages} />}
+          keyExtractor={item => item.id}
+          extraData={[user, id, access]}
+          scrollToEnd
         />
-        <IconButton 
-          title={'Envoyer'}
-          onPress={postMessage}
-          iconName={'send'}
-        />
-      </View>
+        
+        <View style={styles.keyboardWrapper}>
+          <FormInput 
+            style={styles.keyboardInput}
+            onChangeText={onChangeMessage}
+            value={message}
+            placeholder="Saisir quelque chose .."
+            keyboardType="default"
+            lines={3}
+          />
+          <IconButton 
+            title={'Envoyer'}
+            onPress={postMessage}
+            iconName={'send'}
+          />
+        </View>
+      </KeyboardView>
     </SafeAreaView>
   )
 }

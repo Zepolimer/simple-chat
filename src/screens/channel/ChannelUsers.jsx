@@ -1,9 +1,24 @@
 import * as React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Pressable, Text, View, ScrollView, SafeAreaView, Alert } from 'react-native';
+import { 
+  SafeAreaView, 
+  View, 
+  ScrollView, 
+  Pressable, 
+  Text, 
+  Alert 
+} from 'react-native';
 
-import { getRequest, secureFastPostRequest, secureDeleteRequest } from '../../security/Api';
-import { getCredentials, regenerateToken } from '../../security/Credential';
+import { 
+  getRequest, 
+  secureFastPostRequest, 
+  secureDeleteRequest 
+} from '../../security/Api';
+
+import { 
+  getCredentials, 
+  regenerateToken
+} from '../../security/Credential';
 
 import styles from '../../style/style';
 import HeaderChat from '../../components/header/HeaderChat';
@@ -96,8 +111,8 @@ const ChannelUsers = ({ route, navigation }) => {
         goBack={() => navigation.goBack()}
       />
     
-      <ScrollView style={styles.viewChat}>
-        <View style={{ marginBottom:40}}>
+      <ScrollView style={styles.viewMessages}>
+        <View style={{ marginBottom:40 }}>
           {addedUsers != null && 
           <ScrollView style={{flexDirection: 'column'}}>
             <Text style={styles.title}>Membres :</Text>

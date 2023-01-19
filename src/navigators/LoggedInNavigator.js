@@ -31,18 +31,13 @@ function LoggedInNavigator() {
       tabBarInactiveTintColor: 'gray',
     })}>
       <UserTab.Screen 
-        name="Accueil" 
-        component={HomeScreen} 
-        options={{ headerShown: false }} 
+        name="Groupes" 
+        component={ChannelNavigator}
+        options={{ headerShown: false }}
       />
       <UserTab.Screen 
         name="Messages" 
         component={ConversationNavigator} 
-        options={{ headerShown: false }}
-      />
-      <UserTab.Screen 
-        name="Groupes" 
-        component={ChannelNavigator}
         options={{ headerShown: false }}
       />
       <UserTab.Screen 

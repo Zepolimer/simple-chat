@@ -1,15 +1,28 @@
 import * as React from 'react';
-import { Pressable, Text, ScrollView, View, Alert, SafeAreaView } from 'react-native';
+import { 
+  SafeAreaView, 
+  View,
+  FlatList,
+  Alert,
+} from 'react-native';
 
-import { secureGetRequest, securePostRequest, secureDeleteRequest } from '../../security/Api';
-import { getCredentials, regenerateToken } from '../../security/Credential';
+import { 
+  secureGetRequest, 
+  securePostRequest 
+} from '../../security/Api';
 
+import { 
+  getCredentials, 
+  regenerateToken 
+} from '../../security/Credential';
+
+import HeaderChat from '../../components/header/HeaderChat';
+import KeyboardView from '../../components/keyboard/KeyboardView';
+import ConversationMessages from '../../components/flatlist/ConversationMessages';
 import FormInput from '../../components/input/FormInput';
-import BlackPressable from '../../components/button/BlackPressable';
+import IconButton from '../../components/Iconbutton';
 
 import styles from '../../style/style';
-import HeaderChat from '../../components/header/HeaderChat';
-import IconButton from '../../components/Iconbutton';
 
 
 const Conversation = ({ route, navigation })  => {
@@ -73,17 +86,6 @@ const Conversation = ({ route, navigation })  => {
     }
   }
 
-  const deleteMessage = async (msg_id) => {
-    await secureDeleteRequest(
-      `user/${user}/conversation/${JSON.stringify(id)}/message/${msg_id}`,
-      access,
-    )
-    .then((res) => {
-      getMessages();
-      Alert.alert('Message supprimé')
-    })
-  }
-
 
   React.useEffect(() => {
     userCredential();
@@ -120,51 +122,31 @@ const Conversation = ({ route, navigation })  => {
         goBack={() => navigation.goBack()}
       />
 
-      <ScrollView style={styles.viewChat}>
-      {status == 'Success' && conversation != null ? (
-        conversation.map((msg, index) => {
-          return (
-            <ScrollView key={index}>
-              {msg.user_id_from != user &&
-                <Text style={styles.nameChatTo}>{msg.id_from.firstname} {msg.id_from.lastname}</Text>
-              }
-              <Pressable 
-                style={msg.user_id_from == user ? styles.chatBubbleFrom : styles.chatBubbleTo}
-                title={id} 
-                onLongPress={() => { Alert.alert(
-                  "",
-                  "Souhaitez vous supprimer ce message ?",
-                  [
-                    { text: "Annuler", onPress: () => console.log("Annuler Pressed" + msg.id)},
-                    { text: "Supprimer", onPress: () => deleteMessage(msg.id)}
-                  ]
-                )}}
-              >
-                <Text style={styles.chatBubbletext}>{msg.message}</Text>
-              </Pressable>
-            </ScrollView>
-          )
-        })
-      ) : (
-        <Text>Pas de message. N'hésitez pas à envoyer un message !</Text>
-      )}
-      </ScrollView>
+      <KeyboardView>
+        <FlatList
+          data={conversation}
+          renderItem={({item}) => <ConversationMessages conversation={item} user={user} id={id} access={access} onPress={getMessages} />}
+          keyExtractor={item => item.id}
+          extraData={[user, id, access]}
+          scrollToEnd
+        />
 
-      <View style={styles.keyboardWrapper}>
-        <FormInput 
-          style={styles.keyboardInput}
-          onChangeText={onChangeMessage}
-          value={message}
-          placeholder="Saisir quelque chose .."
-          keyboardType="default"
-          lines={3}
-        />
-        <IconButton 
-          title={'Envoyer'}
-          onPress={postMessage}
-          iconName={'send'}
-        />
-      </View>
+        <View style={styles.keyboardWrapper}>
+          <FormInput 
+            style={styles.keyboardInput}
+            onChangeText={onChangeMessage}
+            value={message}
+            placeholder="Saisir quelque chose .."
+            keyboardType="default"
+            lines={3}
+          />
+          <IconButton 
+            title={'Envoyer'}
+            onPress={postMessage}
+            iconName={'send'}
+          />
+        </View>
+      </KeyboardView>
     </SafeAreaView>
   )
 }

@@ -13,6 +13,9 @@ export default StyleSheet.create({
     ...common.width90,
   },
   viewChat: {
+    ...common.pv10,
+  },
+  viewMessages: {
     ...common.width90,
   },
   screenView: {
@@ -27,6 +30,9 @@ export default StyleSheet.create({
   },
   selfAlignItem: {
     alignSelf: "start",
+  },
+  grayText: {
+    color: '#00000090',
   },
 
   input: {
@@ -81,11 +87,14 @@ export default StyleSheet.create({
     ...common.boxShadow,
   },
   chatBtn: {
+    ...common.width90,
     ...common.flexRow,
     ...common.flexStartCenter,
-    ...common.mt12,
-    ...common.paddingBorder,
+    ...common.mv8,
+    ...common.p10,
     ...common.borderRadius5,
+    ...common.boxShadow,
+    backgroundColor: '#FFFFFF',
     position: 'relative',
   },
   chatText: {
@@ -129,7 +138,7 @@ export default StyleSheet.create({
     ...common.flexStartCenter,
     flexWrap: 'nowrap',
     height: 120,
-    backgroundColor: '#000000',
+    backgroundColor: 'tomato',
   },
   horizontalItem: {
     height: 80,
@@ -141,11 +150,13 @@ export default StyleSheet.create({
   horizontalItemGroupe: {
     height: 80,
     padding: 10,
+    width: 150,
     ...common.flexColumn,
-    ...common.flexBetweenCenter,
+    ...common.flexCenter,
     ...common.mh10,
     ...common.borderRadius10,
-    backgroundColor: '#F1F1F1',
+    ...common.boxShadow,
+    backgroundColor: '#FFFFFF',
   },
   horizontalItemTextGroupe: {
     ...common.textBlack,
@@ -176,7 +187,7 @@ export default StyleSheet.create({
     height: 40,
     width: 40,
     borderWidth: 1,
-    borderColor: '#000000',
+    borderColor: 'gray',
   },
   headerBtn: {
     ...common.rounded50x50,
@@ -269,23 +280,20 @@ export default StyleSheet.create({
   },
 
   keyboardWrapper: {
-    ...common.width90,
+    ...common.width100,
     ...common.flexRow,
     ...common.flexBetweenCenter,
-    position: 'absolute',
-    bottom: 10,
-    left: 0,
+    ...common.border,
   },
   keyboardInput: {
-    ...common.width80,
-    ...common.paddingBorder,
-    ...common.borderRadius5,
+    ...common.p10,
+    width: '90%',
     minHeight: 40,
     maxHeight: 80,
+    backgroundColor: '#FFFFFF',
   },
   keyboardBtn: {
     ...common.flexCenter,
-    ...common.borderRadius5,
     width: 40,
     height: 40,
     backgroundColor: 'black',

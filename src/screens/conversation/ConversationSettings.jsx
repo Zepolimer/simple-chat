@@ -1,12 +1,26 @@
 import * as React from 'react';
-import { Pressable, Text, View, ScrollView, SafeAreaView, Alert } from 'react-native';
+import { 
+  SafeAreaView, 
+  View, 
+  ScrollView, 
+  Pressable, 
+  Text, 
+} from 'react-native';
 
-import { getCredentials, regenerateToken } from '../../security/Credential';
+import { 
+  secureGetRequest, 
+  securePutRequest, 
+  secureDeleteRequest 
+} from '../../security/Api';
+
+import { 
+  getCredentials, 
+  regenerateToken 
+} from '../../security/Credential';
 
 import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
 
 import styles from '../../style/style';
-import { secureGetRequest, securePutRequest, secureDeleteRequest } from '../../security/Api';
 
 
 const ConversationSettings = ({ route, navigation }) => {

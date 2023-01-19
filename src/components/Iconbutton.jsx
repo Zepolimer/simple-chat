@@ -5,6 +5,11 @@ import { Pressable, Text } from 'react-native';
 import styles from '../style/style';
 
 
+/**
+ * @param iconName Ionicon icon name
+ * @param title Pressable title
+ * @param onPress Pressable onPress
+ */
 const IconButton = (props) => {
   const [icon, setIcon] = React.useState(null);
 

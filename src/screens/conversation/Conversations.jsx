@@ -1,10 +1,25 @@
 import * as React from 'react';
-import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import { 
+  SafeAreaView,
+  View, 
+  FlatList,
+} from 'react-native';
+
+
+import { 
+  getRequest, 
+  secureGetRequest, 
+  secureFastPostRequest 
+} from '../../security/Api';
+
+import { 
+  getCredentials, 
+  regenerateToken 
+} from '../../security/Credential';
 
 import FixedHeader from '../../components/header/FixedHeader';
-
-import { getRequest, secureGetRequest, secureFastPostRequest } from '../../security/Api';
-import { getCredentials, regenerateToken } from '../../security/Credential';
+import UserConversations from '../../components/flatlist/UserConversations'
+import PublicUser from '../../components/flatlist/PublicUser';
 
 import styles from '../../style/style';
 
@@ -51,33 +66,6 @@ const Conversations = ({ navigation }) => {
     });
   }
 
-  const createConversation = async (id) => {
-    await secureFastPostRequest(
-      `user/${user}/conversation/${id}`, 
-      access
-    )
-    .then((res) => {
-      console.log(res)
-      if(res.status != 'Error') {
-        getConversations();
-      }
-    });
-  }
-
-  const messageSendBy = async (conversation) => {
-    let routename = '';
-
-    if(user == conversation.id_from.id) {
-      routename = conversation.id_to.firstname + " " + conversation.id_to.lastname
-    } else {
-      routename = conversation.id_from.firstname + " " + conversation.id_from.lastname
-    }
-
-    return navigation.navigate('Conversation', {
-      id: conversation.id,
-      name: routename
-    })
-  }
 
   React.useEffect(() => {
     userCredential();
@@ -89,8 +77,6 @@ const Conversations = ({ navigation }) => {
     } else if(status != 'Error') {
       getConversations();
     }
-
-    console.log('conversations : ' + conversations)
 
     /**
     * CLEAN STATE
@@ -108,64 +94,25 @@ const Conversations = ({ navigation }) => {
       <FixedHeader 
         iconName={'pencil'}
       />
-      <ScrollView>
-        {userList != null && 
-        <View style={styles.horizontalWrapper}>
-          <ScrollView horizontal={true}>
-            <Text>U</Text>
-            {userList.map((u, index) => {
-                return (
-                  <View key={index}>
-                    {u.id != user && 
-                      <Pressable 
-                        style={styles.horizontalItem}
-                        title={u.id} 
-                        onPress={() => createConversation(u.id)}>
-                        <View style={styles.horizontalItemImg}></View>
-                        <Text style={styles.horizontalItemText}>{u.firstname} {u.lastname}</Text>
-                      </Pressable>
-                    }
-                  </View>
-                )
-              })
-            }
-          </ScrollView>
-        </View>
-        }
-        <View style={styles.viewChat}>
-          <Text style={styles.title}>Vos conversations privées</Text>
-          <ScrollView style={{flexDirection: 'column'}}>
-          {status == 'Success' && conversations != null ? (
-            conversations.map((conversation, index) => {
-              return (
-                <View key={index} style={styles.chatWrapper}>
-                  <Pressable
-                    style={styles.chatBtn}
-                    title={conversation.id}
-                    onPress={() => messageSendBy(conversation)}>
-                    <View style={styles.horizontalItemImg}></View>
-                    {user == conversation.id_from.id ? (
-                      <Text style={styles.chatText}>
-                      {conversation.id_to.firstname} {conversation.id_to.lastname}
-                      </Text>
-                    ) : (
-                      <Text style={styles.chatText}>
-                      {conversation.id_from.firstname} {conversation.id_from.lastname}
-                      </Text>
-                    )}
-                  </Pressable>
-                </View>
-              )
-            })
-          ) : (
-            <Text>Veuillez vous connecter pour utiliser cet écran.</Text>
-          )}
-          {conversations == '' &&
-            <Text>Vous n'avez aucune conversation. Commencez à discuter avec les utilisateurs présentés juste au dessus !</Text>
-          }
-          </ScrollView>
-        </View>
-      </ScrollView>
+      
+      <View style={styles.horizontalWrapper}>
+        <FlatList
+          data={userList}
+          renderItem={({item}) => <PublicUser u={item} user={user} access={access} navigation={navigation} />}
+          keyExtractor={item => item.id}
+          extraData={[user, access, navigation]}
+          horizontal={true}
+        />
+      </View>
+
+      <View style={styles.viewChat}>
+        <FlatList
+          data={conversations}
+          renderItem={({item}) => <UserConversations conversation={item} user={user} navigation={navigation} />}
+          keyExtractor={item => item.id}
+          extraData={[user, navigation]}
+        />
+      </View>
     </SafeAreaView>
   )
 }

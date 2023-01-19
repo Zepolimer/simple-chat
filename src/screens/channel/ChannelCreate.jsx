@@ -1,8 +1,18 @@
 import * as React from 'react'
-import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import { 
+  SafeAreaView,
+  View, 
+  ScrollView, 
+  Pressable, 
+  Text, 
+} from 'react-native';
 
 import { securePostRequest } from '../../security/Api';
-import { getCredentials, regenerateToken } from '../../security/Credential';
+
+import { 
+  getCredentials, 
+  regenerateToken 
+} from '../../security/Credential';
 
 import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
 import BlackPressable from '../../components/button/BlackPressable';

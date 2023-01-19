@@ -1,7 +1,19 @@
 import * as React from 'react';
-import { Pressable, Text, View, ScrollView, SafeAreaView, Alert } from 'react-native';
+import { 
+  SafeAreaView, 
+  View, 
+  ScrollView, 
+  Pressable, 
+  Text, 
+  Alert 
+} from 'react-native';
 
-import { getRequest, securePutRequest, secureDeleteRequest } from '../../security/Api';
+import { 
+  getRequest, 
+  securePutRequest, 
+  secureDeleteRequest 
+} from '../../security/Api';
+
 import { getCredentials } from '../../security/Credential';
 
 import FormInput from '../../components/input/FormInput';

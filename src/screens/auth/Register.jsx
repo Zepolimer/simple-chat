@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { Text, View, SafeAreaView } from 'react-native';
+import { 
+  SafeAreaView,
+  View, 
+  Text, 
+} from 'react-native';
 
 import { postRequest } from '../../security/Api';
 

@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { Text, View, ScrollView, SafeAreaView } from 'react-native';
+import { 
+  SafeAreaView,
+  View, 
+  ScrollView, 
+  Text, 
+} from 'react-native';
 
 import { postRequest } from '../../security/Api';
 import { setCredentials } from '../../security/Credential';

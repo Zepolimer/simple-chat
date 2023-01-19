@@ -1,8 +1,21 @@
 import * as React from 'react'
-import { Pressable, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import { 
+  SafeAreaView,
+  View, 
+  ScrollView, 
+  Pressable, 
+  Text, 
+} from 'react-native';
 
-import { secureGetRequest, secureFastPostRequest } from '../../security/Api';
-import { getCredentials, regenerateToken } from '../../security/Credential';
+import { 
+  secureGetRequest, 
+  secureFastPostRequest 
+} from '../../security/Api';
+
+import { 
+  getCredentials, 
+  regenerateToken 
+} from '../../security/Credential';
 
 import BlackPressable from '../../components/BlackPressable';
 import FormInput from '../../components/FormInput';
@@ -30,8 +43,6 @@ const ConversationCreate = ({ navigation }) =>  {
 
   React.useEffect(() => {
     userCredential();
-
-    // if(access != '' && user != 0) userInformations();
   })
 
 

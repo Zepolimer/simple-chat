@@ -1,12 +1,28 @@
 import * as React from 'react';
-import { Text, Pressable, View, SafeAreaView } from 'react-native';
+import { 
+  SafeAreaView,
+  View, 
+  Text, 
+  Pressable, 
+} from 'react-native';
 
-import { secureGetRequest, securePutRequest, secureDeleteRequest } from '../../security/Api';
-import { getCredentials, resetCredentials, regenerateToken } from '../../security/Credential';
+import { 
+  secureGetRequest, 
+  securePutRequest, 
+  secureDeleteRequest 
+} from '../../security/Api';
+
+import { 
+  getCredentials, 
+  resetCredentials, 
+  regenerateToken 
+} from '../../security/Credential';
 
 import BlackPressable from '../../components/button/BlackPressable';
 import FormInput from '../../components/input/FormInput';
+
 import styles from '../../style/style';
+
 
 const Profil = ({ navigation }) => {
   const [access, setAccess] = React.useState('');
