@@ -9,7 +9,7 @@ import ChannelSettings from '../screens/channel/ChannelSettings';
 
 const ChannelStack = createNativeStackNavigator();
 
-function ChannelNavigator() {
+export default function ChannelNavigator() {
   return (
     <ChannelStack.Navigator screenOptions={{ headerShown: false }}>
       <ChannelStack.Screen 
@@ -39,5 +39,3 @@ function ChannelNavigator() {
     </ChannelStack.Navigator>
   );
 }
-
-export default ChannelNavigator

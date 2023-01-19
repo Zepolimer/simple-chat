@@ -2,13 +2,14 @@ import * as React from 'react';
 import { 
   SafeAreaView,
   View, 
-  ScrollView, 
   Text, 
 } from 'react-native';
 
 import { postRequest } from '../../security/Api';
 import { setCredentials } from '../../security/Credential';
 
+import KeyboardView from '../../components/keyboard/KeyboardView';
+import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
 import BlackPressable from '../../components/button/BlackPressable';
 import FormInput from '../../components/input/FormInput';
 import SecureInput from '../../components/input/SecureInput';
@@ -44,36 +45,33 @@ export default function Login({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.viewDisplay}>
-      <Text style={styles.selfAlignItem}>Email</Text>
-      <FormInput
-        onChangeText={onChangeEmail}
-        value={email}
-        placeholder="email@email.com"
-        keyboardType="email-address"
+    <SafeAreaView style={styles.screen}>
+      <FixedHeaderGoBack 
+        goBack={() => navigation.goBack()}
       />
+      <KeyboardView>
+        <View style={styles.viewAuth}>
+          <View style={styles.whiteCard}>
+            <FormInput
+              onChangeText={onChangeEmail}
+              value={email}
+              placeholder="Email"
+              keyboardType="email-address"
+            />
 
-      <Text style={styles.selfAlignItem}>Mot de passe</Text>
-      <SecureInput 
-        onChangeText={onChangePassword}
-        value={password}
-      />
+            <SecureInput 
+              onChangeText={onChangePassword}
+              value={password}
+            />
 
-      <BlackPressable 
-        title={'Connexion'}
-        onPress={userLogin}
-        text={'Connexion'}
-      />
-
-      <View style={styles.authBtnSwitchView}>
-        <Text>Pas encore inscrit ? </Text>
-        <Text 
-          style={styles.authBtnSwitchText}
-          onPress={() => navigation.navigate('Inscription')}
-        >
-          Créer un compte.
-        </Text>
-      </View>
+            <BlackPressable 
+              title={'Connexion'}
+              onPress={userLogin}
+              text={'Connexion'}
+            />
+          </View>
+        </View>
+      </KeyboardView>
     </SafeAreaView>
   )
 }

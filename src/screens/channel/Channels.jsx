@@ -90,7 +90,7 @@ const Channels = ({ navigation }) => {
     });
 
     return handleFocus;
-  }, [status])
+  }, [status, user])
 
 
   return (

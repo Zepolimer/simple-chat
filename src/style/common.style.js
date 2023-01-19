@@ -64,6 +64,9 @@ export default StyleSheet.create({
   mt12: {
     marginTop: 12,
   },
+  mt40: {
+    marginTop: 40,
+  },
   mh10: {
     marginHorizontal: 10,
   },
@@ -81,10 +84,14 @@ export default StyleSheet.create({
     padding: 10,
     borderWidth: 1,
   },
+  paddingInput : {
+    padding: 10,
+    borderBottomWidth: 1,
+  },
   paddingPasswordInput : {
     paddingLeft: 10,
     paddingVertical: 10,
-    borderWidth: 1,
+    borderBottomWidth: 1,
   },
   paddingBorder20: {
     padding: 20,

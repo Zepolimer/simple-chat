@@ -20,7 +20,7 @@ const SecureInput = (props) => {
         style={styles.passwordText}
         onChangeText={props.onChangeText}
         value={props.value}
-        placeholder="Ex: motdepasse"
+        placeholder="Mot de passe"
         keyboardType="default"
         autoCapitalize="none"
         placeholderTextColor="#aaa"

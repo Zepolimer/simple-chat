@@ -7,7 +7,7 @@ import ConversationSettings from '../screens/conversation/ConversationSettings';
 
 const ConversationStack = createNativeStackNavigator();
 
-function ConversationNavigator() {
+export default function ConversationNavigator() {
   return (
     <ConversationStack.Navigator screenOptions={{ headerShown: false }}>
       <ConversationStack.Screen 
@@ -27,6 +27,3 @@ function ConversationNavigator() {
     </ConversationStack.Navigator>
   );
 }
-
-
-export default ConversationNavigator

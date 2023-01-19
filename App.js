@@ -3,10 +3,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AppRegistry } from 'react-native';
 
-import { getCredentials, regenerateToken } from './src/security/Credential';
+import { 
+  getCredentials, 
+  regenerateToken 
+} from './src/security/Credential';
 
-import Login from './src/screens/auth/Login';
-import Register from './src/screens/auth/Register';
+import AuthNavigator from './src/navigators/AuthNavigator';
 import LoggedInNavigator from './src/navigators/LoggedInNavigator';
 
 
@@ -46,13 +48,9 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Group screenOptions={{ headerShown: false }}>
-          <Stack.Screen 
-            name="Connexion" 
-            component={Login}              
-          />
-          <Stack.Screen 
-            name="Inscription" 
-            component={Register} 
+          <Stack.Screen
+            name="Auth"
+            component={AuthNavigator}
           />
         </Stack.Group>
 

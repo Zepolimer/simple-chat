@@ -7,10 +7,19 @@ export default StyleSheet.create({
     position: 'relative',
     minHeight: '100%',
   },
+  viewAuth: {
+    ...common.flex,
+    ...common.flexCenter,
+    ...common.width100,
+  },
   viewDisplay: {
     ...common.flex,
     ...common.flexCenter,
     ...common.width90,
+  },
+  view90paddingVertical: {
+    ...common.width90,
+    ...common.pv10,
   },
   viewChat: {
     ...common.pv10,
@@ -38,8 +47,9 @@ export default StyleSheet.create({
   input: {
     ...common.width100,
     ...common.mv12,
-    ...common.paddingBorder,
+    ...common.p10,
     ...common.borderRadius5,
+    borderBottomWidth: 1,
     height: 40,
   },
   passwordInput: {
@@ -64,6 +74,7 @@ export default StyleSheet.create({
   authBtnSwitchView: {
     ...common.width100,
     ...common.flexRow,
+    ...common.mt40,
   },
   authBtnSwitchText: {
     fontWeight: '600',
@@ -71,6 +82,15 @@ export default StyleSheet.create({
   blackBtn: {
     ...common.width70,
     ...common.mauto,
+    ...common.p10,
+    ...common.borderRadius5,
+    ...common.boxShadow,
+    backgroundColor: 'black',
+  },
+  buttonMv: {
+    ...common.width70,
+    ...common.mauto,
+    ...common.mv12,
     ...common.p10,
     ...common.borderRadius5,
     ...common.boxShadow,

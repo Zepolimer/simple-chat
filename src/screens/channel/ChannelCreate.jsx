@@ -86,7 +86,7 @@ const ChannelCreate = ({ navigation }) => {
         goBack={() => navigation.goBack()}
       />
 
-      <View style={styles.viewChat}>
+      <View style={styles.view90paddingVertical}>
         <Text style={styles.title}>Vous pouvez créer un groupe depuis cette page.</Text>
         <Text style={styles.title}>1. Veuillez renseigner le nom que portera votre groupe. Celui-ci sera ensuite éditable si besoin.</Text>
         <Text style={styles.title}>2. Veuillez indiquer si votre groupe est visible par tous les utilisateurs ou uniquement les utilisateurs invités par vos soins.</Text>

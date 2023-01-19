@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import Profil from '../screens/user/Profil';
 import ConversationNavigator from './ConversationNavigator';
 import ChannelNavigator from './ChannelNavigator';
+import ProfilNavigator from './ProfilNavigator';
 
 const UserTab = createBottomTabNavigator();
 
@@ -21,7 +22,7 @@ function LoggedInNavigator() {
           iconName = focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline';
         } else if (route.name === 'Groupes') {
           iconName = focused ? 'ios-people' : 'ios-people-outline';
-        } else if (route.name === 'Profil') {
+        } else if (route.name === 'Compte') {
           iconName = focused ? 'ios-man' : 'ios-man-outline';
         }
         
@@ -41,8 +42,8 @@ function LoggedInNavigator() {
         options={{ headerShown: false }}
       />
       <UserTab.Screen 
-        name="Profil" 
-        component={Profil} 
+        name="Compte" 
+        component={ProfilNavigator} 
         options={{ headerShown: false }}
       />
     </UserTab.Navigator>

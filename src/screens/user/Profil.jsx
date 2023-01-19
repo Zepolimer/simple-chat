@@ -7,9 +7,7 @@ import {
 } from 'react-native';
 
 import { 
-  secureGetRequest, 
-  securePutRequest, 
-  secureDeleteRequest 
+  secureGetRequest
 } from '../../security/Api';
 
 import { 
@@ -18,8 +16,6 @@ import {
   regenerateToken 
 } from '../../security/Credential';
 
-import BlackPressable from '../../components/button/BlackPressable';
-import FormInput from '../../components/input/FormInput';
 
 import styles from '../../style/style';
 
@@ -29,15 +25,8 @@ const Profil = ({ navigation }) => {
   const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
-  const [oldUsername, setOldUsername] = React.useState('');
-  const [oldFirstname, setOldFirstname] = React.useState('');
-  const [oldLastname, setOldlastname] = React.useState('');
-  const [oldEmail, setOldEmail] = React.useState('');
-
-  const [username, onChangeUsername] = React.useState('');
-  const [firstname, onChangeFirstname] = React.useState('');
-  const [lastname, onChangeLastname] = React.useState('');
-  const [email, onChangeEmail] = React.useState('');
+  const [createdAt, setCreatedAt] = React.useState('');
+  const [userInfo, setUserInfo] = React.useState(null);
 
   const userCredential = async () => {
     await getCredentials()
@@ -57,48 +46,9 @@ const Profil = ({ navigation }) => {
     )
     .then((res) => {
       if(res.status != 'Error') {
-        console.log(res.data)
-        setOldUsername(res.data.username)
-        setOldFirstname(res.data.firstname)
-        setOldlastname(res.data.lastname)
-        setOldEmail(res.data.email)
+        setUserInfo(res.data);
+        setCreatedAt(formatDate(res.data.created_at))
       }
-    })
-  }
-
-  const userChanges = async () => {
-    let informations = {}
-
-    if(username != '' && username != oldUsername) {
-      informations.username = username;
-    }
-
-    if(firstname != '' && firstname != oldFirstname) {
-      informations.firstname = firstname;
-    }
-
-    if(lastname != '' && lastname != oldLastname) {
-      informations.lastname = lastname;
-    }
-
-    if(email != '' && email != oldEmail) {
-      informations.email = email;
-    }
-
-    return informations
-  }
-
-  const putUserInformations = async () => {
-    await userChanges()
-    .then((body) => {
-      securePutRequest(
-        `user/${user}`,
-        body,
-        access,
-      )
-      .then((res) => {
-        console.log(res);
-      })
     })
   }
 
@@ -109,68 +59,48 @@ const Profil = ({ navigation }) => {
     })
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric"}
+    return new Date(dateString).toLocaleDateString(undefined, options)
+  }
+
   React.useEffect(() => {
     userCredential();
 
     if(access != '' && user != 0) userInformations();
   })
 
+
   return (
-    <SafeAreaView style={{ width: '100%', flex: 1 }}>
-    {access != '' && user != 0 ? (
-      <View style={styles.viewDisplay}>
-        <Text style={styles.selfAlignItem}>Modifier vos informations</Text>
-        <Text style={styles.selfAlignItem}>Vous pouvez modifier une ou plusieurs information(s) en renseignant les champs ci-dessous.</Text>
-
-        <Text style={styles.selfAlignItem}>Nom d'utilisateur</Text>
-        <FormInput
-          onChangeText={onChangeUsername}
-          value={username != '' ? username : oldUsername}
-          placeholder={oldUsername}
-          keyboardType="default"
-        />
-
-        <Text style={styles.selfAlignItem}>Prénom</Text>
-        <FormInput
-          onChangeText={onChangeFirstname}
-          value={firstname != '' ? firstname : oldFirstname}
-          placeholder={oldFirstname}
-          keyboardType="default"
-        />
-
-        <Text style={styles.selfAlignItem}>Nom</Text>
-        <FormInput
-          onChangeText={onChangeLastname}
-          value={lastname != '' ? lastname : oldLastname}
-          placeholder={oldLastname}
-          keyboardType="default"
-        />
-
-        <Text style={styles.selfAlignItem}>Email</Text>
-        <FormInput
-          onChangeText={onChangeEmail}
-          value={email != '' ? email : oldEmail}
-          placeholder={oldEmail}
-          keyboardType="email-address"
-        />
-
-        <BlackPressable 
-          title={'Enregister'}
-          onPress={putUserInformations}
-          text={'Enregister'}
-        />
-
-        <View>
-          <Pressable onPress={disconnect}>
-            <Text>Deconnexion</Text>
-          </Pressable>
+    <SafeAreaView style={styles.screen}>
+      {userInfo != null && 
+        <View style={styles.whiteCard}>
+          <Text style={styles.pressableWarning}>VOS INFORMATIONS</Text>
+          <Text>Pseudo : {userInfo.username}</Text>
+          <Text style={styles.pressableWarning}>Email : {userInfo.email}</Text>
+          <Text>Inscription : le {createdAt}</Text> 
         </View>
+      }
+
+      <View style={styles.whiteCard}>
+        <Text style={styles.pressableWarning}>Vous pouvez modifier votre nom d'utilisateur, prénom, nom et/ou email sous réserve que l'email ne soit pas déjà utilisée.</Text>
+        <Pressable 
+          style={styles.getPressable}
+          onPress={() => navigation.navigate('ProfilUpdate')}
+        >
+          <Text style={styles.deletePressableText}>Modifier vos informations</Text>
+        </Pressable>
       </View>
-    ) : (
-      <View>
-        <Text>Veuillez vous connecter pour accéder à cet écran.</Text>
+
+      <View style={styles.whiteCard}>
+        <Text style={styles.pressableWarning}>Vous devrez vous reconnecter pour accéder à nouveau à vos conversations et groupes.</Text>
+        <Pressable 
+          style={styles.deletePressable}
+          onPress={disconnect}
+        >
+          <Text style={styles.deletePressableText}>Deconnexion</Text>
+        </Pressable>
       </View>
-    )}
     </SafeAreaView>
   )
 }

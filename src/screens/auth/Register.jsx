@@ -7,6 +7,8 @@ import {
 
 import { postRequest } from '../../security/Api';
 
+import KeyboardView from '../../components/keyboard/KeyboardView';
+import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
 import BlackPressable from '../../components/button/BlackPressable';
 import FormInput from '../../components/input/FormInput';
 import SecureInput from '../../components/input/SecureInput';
@@ -39,60 +41,54 @@ export default function Register({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.viewDisplay}>
-      <Text style={styles.selfAlignItem}>Nom d'utilisateur</Text>
-      <FormInput
-        onChangeText={onChangeUsername}
-        value={username}
-        placeholder="Ex: JohnDoe012"
-        keyboardType="default"
+    <SafeAreaView style={styles.screen}>
+      <FixedHeaderGoBack 
+        goBack={() => navigation.goBack()}
       />
+      <KeyboardView>
+        <View style={styles.viewAuth}>
+          <View style={styles.whiteCard}>
+            <FormInput
+              onChangeText={onChangeUsername}
+              value={username}
+              placeholder="Nom d'utilisateur"
+              keyboardType="default"
+            />
 
-      <Text style={styles.selfAlignItem}>Prénom</Text>
-      <FormInput
-        onChangeText={onChangeFirstname}
-        value={firstname}
-        placeholder="Ex: John"
-        keyboardType="default"
-      />
+            <FormInput
+              onChangeText={onChangeFirstname}
+              value={firstname}
+              placeholder="Prénom"
+              keyboardType="default"
+            />
 
-      <Text style={styles.selfAlignItem}>Nom</Text>
-      <FormInput
-        onChangeText={onChangeLastname}
-        value={lastname}
-        placeholder="Ex: Doe"
-        keyboardType="default"
-      />
+            <FormInput
+              onChangeText={onChangeLastname}
+              value={lastname}
+              placeholder="Nom"
+              keyboardType="default"
+            />
 
-      <Text style={styles.selfAlignItem}>Email</Text>
-      <FormInput
-        onChangeText={onChangeEmail}
-        value={email}
-        placeholder="Ex: johndoe@email.com"
-        keyboardType="email-address"
-      />
+            <FormInput
+              onChangeText={onChangeEmail}
+              value={email}
+              placeholder="Email"
+              keyboardType="email-address"
+            />
 
-      <Text style={styles.selfAlignItem}>Mot de passe</Text>
-      <SecureInput 
-        onChangeText={onChangePassword}
-        value={password}
-      />
+            <SecureInput 
+              onChangeText={onChangePassword}
+              value={password}
+            />
 
-      <BlackPressable 
-        title={'Enregistrer'}
-        onPress={userRegister}
-        text={'Enregistrer'}
-      />
-
-      <View style={styles.authBtnSwitchView}>
-        <Text>Déjà inscrit ? </Text>
-        <Text 
-          style={styles.authBtnSwitchText}
-          onPress={() => navigation.navigate('Connexion')} 
-        >
-          Se connecter.
-        </Text>
-      </View>
+            <BlackPressable 
+              title={'Enregistrer'}
+              onPress={userRegister}
+              text={'Enregistrer'}
+            />
+          </View>
+        </View>
+      </KeyboardView>
     </SafeAreaView>
   )
 }
