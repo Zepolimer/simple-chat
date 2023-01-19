@@ -47,11 +47,9 @@ const Channels = ({ navigation }) => {
       `channels`, 
     )
     .then((res) => {
-      if(res.status == 'Error') {
-        regenerateToken(refresh);
-      } else {
-        setChannelList(res.data);
-      }
+      setStatus(res.status);
+
+      if(res.status != 'Error') setChannelList(res.data);
     });
   }
 
@@ -62,7 +60,8 @@ const Channels = ({ navigation }) => {
     )
     .then((res) => {
       setStatus(res.status);
-      setChannels(res.data);
+
+      if(res.status != 'Error') setChannels(res.data);
     });
   }
 
@@ -70,10 +69,6 @@ const Channels = ({ navigation }) => {
   React.useEffect(() => {
     userCredential();
 
-    if(access != '' && user != 0) {
-      getAllChannels();
-      getChannels();
-    }
     if(status == 'Error') {
       regenerateToken(refresh);
     } else if(status != 'Error') {
@@ -82,8 +77,8 @@ const Channels = ({ navigation }) => {
     }
 
     /**
-     * CLEAN STATE
-     */
+    * CLEAN STATE
+    */
     const handleFocus = navigation.addListener('focus', () => {
       getAllChannels();
       getChannels();

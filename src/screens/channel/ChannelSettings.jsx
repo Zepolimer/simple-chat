@@ -53,8 +53,11 @@ export default function ChannelSettings({ route, navigation }) {
       `channel/${id}/info`, 
     )
     .then((res) => {
-      setChannelInfo(res.data);
-      setChannelDate(formatDate(res.data.channel.created_at))
+      setStatus(res.status);
+      if(res.status != 'Error') {
+        setChannelInfo(res.data);
+        setChannelDate(formatDate(res.data.channel.created_at))
+      }
     });
   }
 
@@ -70,10 +73,8 @@ export default function ChannelSettings({ route, navigation }) {
         access,
       )
       .then((res) => {
-        console.log(res.data)
         setStatus(res.status);
       });
-
     }
   }
 
@@ -99,7 +100,15 @@ export default function ChannelSettings({ route, navigation }) {
 
   React.useEffect(() => {
     userCredential();
-    getChannelInformations();
+
+    /**
+    * CLEAN STATE
+    */
+    const handleFocus = navigation.addListener('focus', () => {
+      getChannelInformations();
+    });
+
+    return handleFocus;
   }, [status])
 
 

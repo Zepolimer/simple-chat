@@ -11,6 +11,13 @@ import { secureDeleteRequest } from '../../security/Api';
 import styles from '../../style/style';
 
 
+/**
+ * @param {*} channel List of channel messages returned by request
+ * @param {*} user Connected user ID 
+ * @param {*} id Channel ID
+ * @param {*} access Connected user access token 
+ * @param {*} onPress Function for re-render
+ */
 export default function ChannelMessages({ channel, user, id, access, onPress }) {
 
   const deleteMessage = async (msg_id) => {

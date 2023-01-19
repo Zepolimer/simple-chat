@@ -4,7 +4,8 @@ import { TextInput, Pressable, Text, View } from 'react-native';
 
 import styles from '../../style/style';
 
-function FixedHeader(props) {
+
+export default function FixedHeader(props) {
   const [icon, setIcon] = React.useState(null);
   const [iconColor, setIconColor] = React.useState('gray');
   const [focused, setFocused] = React.useState(false);
@@ -45,5 +46,3 @@ function FixedHeader(props) {
     </View>
   )
 }
-
-export default FixedHeader

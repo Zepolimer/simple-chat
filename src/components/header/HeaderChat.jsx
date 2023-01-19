@@ -4,6 +4,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import styles from '../../style/style';
 
+
 export default function HeaderChat(props) {
   const [icon, setIcon] = React.useState(null);
   const [iconColor, setIconColor] = React.useState('gray');

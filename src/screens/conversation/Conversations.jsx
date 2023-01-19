@@ -71,7 +71,6 @@ const Conversations = ({ navigation }) => {
     userCredential();
     getAllUsers();
 
-    if(access != '' && user != 0) getConversations();
     if(status == 'Error') {
       regenerateToken(refresh);
     } else if(status != 'Error') {
@@ -98,9 +97,9 @@ const Conversations = ({ navigation }) => {
       <View style={styles.horizontalWrapper}>
         <FlatList
           data={userList}
-          renderItem={({item}) => <PublicUser u={item} user={user} access={access} navigation={navigation} />}
+          renderItem={({item}) => <PublicUser u={item} user={user} access={access} onPress={getConversations} />}
           keyExtractor={item => item.id}
-          extraData={[user, access, navigation]}
+          extraData={[user, access, getConversations]}
           horizontal={true}
         />
       </View>

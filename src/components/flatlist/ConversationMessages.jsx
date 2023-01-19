@@ -11,6 +11,13 @@ import { secureDeleteRequest } from '../../security/Api';
 import styles from '../../style/style';
 
 
+/**
+ * @param {*} conversation List of conversation messages returned by request
+ * @param {*} user Connected user ID 
+ * @param {*} id Conversation ID
+ * @param {*} access Connected user access token 
+ * @param {*} onPress Function for re-render
+ */
 export default function ConversationMessages({ conversation, user, id, access, onPress }) {
 
   const deleteMessage = async (msg_id) => {

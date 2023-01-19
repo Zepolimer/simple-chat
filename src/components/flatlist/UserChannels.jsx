@@ -8,6 +8,10 @@ import {
 import styles from '../../style/style';
 
 
+/**
+ * @param {*} channel List of channels returned by request
+ * @param {*} navigation Usefull for navigate method
+ */
 export default function UserChannels({ channel, navigation }) {
   return (
     <View key={channel.id}>

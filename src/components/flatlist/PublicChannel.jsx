@@ -12,6 +12,12 @@ import {
 import styles from '../../style/style';
 
 
+/**
+ * @param {*} channel List of public channels returned by request
+ * @param {*} user Connected user ID 
+ * @param {*} access Connected user access token 
+ * @param {*} navigation Usefull for navigate method
+ */
 export default function PublicChannel({ channel, user, access, navigation }) {
 
   const postJoinChannel = async (id) => {

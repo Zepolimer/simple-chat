@@ -4,7 +4,7 @@ import { Pressable, Text } from 'react-native';
 import styles from '../../style/style';
 
 
-const BlackPressable = (props) => {
+export default function BlackPressable(props) {
   return (
     <Pressable
       style={styles.blackBtn}
@@ -15,5 +15,3 @@ const BlackPressable = (props) => {
     </Pressable>
   )
 }
-
-export default BlackPressable

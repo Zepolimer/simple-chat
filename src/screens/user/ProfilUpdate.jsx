@@ -102,9 +102,8 @@ export default function ProfilUpdate({ navigation }) {
 
   React.useEffect(() => {
     userCredential();
-
-    if(access != '' && user != 0) userInformations();
-  })
+    userInformations();
+  }, [])
   
 
   return (

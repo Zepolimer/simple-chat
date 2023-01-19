@@ -5,14 +5,14 @@ import styles from '../../style/style';
 
 
 /**
- * @param style CSS (default = styles.input) 
- * @param onChangeText TextInput tag onChangeText method
- * @param value TextInput tag value
- * @param placeholder TextInput tag placeholder
- * @param keyboardType TextInput tag keyboardType
- * @param lines TextInput tag numberOfLines (default = 1)
+ * @param {*} style CSS (default = styles.input) 
+ * @param {*} onChangeText TextInput tag onChangeText method
+ * @param {*} value TextInput tag value
+ * @param {*} placeholder TextInput tag placeholder
+ * @param {*} keyboardType TextInput tag keyboardType
+ * @param {*} lines TextInput tag numberOfLines (default = 1)
  */
-const FormInput = (props) => {
+export default function FormInput(props) {
   return (
     <TextInput
       style={props.style ? props.style : styles.input}
@@ -27,5 +27,3 @@ const FormInput = (props) => {
     />
   )
 }
-
-export default FormInput

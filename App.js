@@ -15,33 +15,33 @@ import LoggedInNavigator from './src/navigators/LoggedInNavigator';
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [authenticated, setAuthenticated] = React.useState(false);
-  const [access, setAccess] = React.useState('');
-  const [refresh, setRefresh] = React.useState('');
-  const [user, setUser] = React.useState(0);
+  // const [authenticated, setAuthenticated] = React.useState(false);
+  // const [access, setAccess] = React.useState('');
+  // const [refresh, setRefresh] = React.useState('');
+  // const [user, setUser] = React.useState(0);
 
-  const userCredential = async () => {
-    await getCredentials()
-    .then((res) => {
-      if(res) {
-        setAccess(res.access);
-        setRefresh(res.refresh);
-        setUser(res.user);
+  // const userCredential = async () => {
+  //   await getCredentials()
+  //   .then((res) => {
+  //     if(res) {
+  //       setAccess(res.access);
+  //       setRefresh(res.refresh);
+  //       setUser(res.user);
 
-        if(res.access != '') {
-          setAuthenticated(true);
-        } else {
-          setAuthenticated(false);
-        }
-      }
-    });
+  //       if(res.access != '') {
+  //         setAuthenticated(true);
+  //       } else {
+  //         setAuthenticated(false);
+  //       }
+  //     }
+  //   });
 
-    if(authenticated !== true) await regenerateToken(refresh);
-  }
+  //   if(authenticated !== true) await regenerateToken(refresh);
+  // }
 
-  React.useEffect(() => {
-    userCredential();
-  })
+  // React.useEffect(() => {
+  //   userCredential();
+  // })
 
 
   return (

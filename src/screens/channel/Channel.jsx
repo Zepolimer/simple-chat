@@ -56,7 +56,7 @@ const Channel = ({ route, navigation }) => {
     )
     .then((res) => {
       setStatus(res.status);
-      setChannel(res.data.messages);
+      if(res.status != 'Error') setChannel(res.data.messages);
     });
   }
 
@@ -81,7 +81,6 @@ const Channel = ({ route, navigation }) => {
   React.useEffect(() => {
     userCredential();
 
-    if(access != '' && user != 0) getMessages();
     if(status == 'Error') {
       regenerateToken(refresh);
     } else if(status != 'Error') {

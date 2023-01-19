@@ -11,7 +11,12 @@ import {
 
 import styles from '../../style/style';
 
-
+/**
+ * @param {*} u List of users returned by request
+ * @param {*} user Connected user ID 
+ * @param {*} access Connected user access token 
+ * @param {*} onPress Function for re-render
+ */
 export default function PublicUser({ u, user, access, onPress }) {
 
   const createConversation = async (id) => {

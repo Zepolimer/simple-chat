@@ -8,6 +8,11 @@ import {
 import styles from '../../style/style';
 
 
+/**
+ * @param {*} conversation List of conversations returned by request
+ * @param {*} user Connected user ID 
+ * @param {*} navigation Usefull for navigate method
+ */
 export default function UserConversations({ conversation, user, navigation }) {
 
   const messageSendBy = async (item) => {

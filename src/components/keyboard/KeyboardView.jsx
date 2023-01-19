@@ -6,10 +6,8 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-import styles from '../../style/style';
 
-
-const KeyboardView = ({ children }) => {
+export default function KeyboardView({ children }) {
   return (
     <KeyboardAvoidingView
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -22,5 +20,3 @@ const KeyboardView = ({ children }) => {
     </KeyboardAvoidingView>
   )
 }
-
-export default KeyboardView

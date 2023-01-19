@@ -92,8 +92,16 @@ const ChannelUsers = ({ route, navigation }) => {
 
   React.useEffect(() => {
     userCredential();
-    getUserInChannel();
-    getAllUsers();
+    
+    /**
+    * CLEAN STATE
+    */
+    const handleFocus = navigation.addListener('focus', () => {
+      getUserInChannel();
+      getAllUsers();
+    });
+
+    return handleFocus;
   }, [status])
 
 

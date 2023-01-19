@@ -2,7 +2,6 @@ import * as React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import HomeScreen from '../screens/HomeScreen';
 import Profil from '../screens/user/Profil';
 import ConversationNavigator from './ConversationNavigator';
 import ChannelNavigator from './ChannelNavigator';
@@ -10,7 +9,7 @@ import ProfilNavigator from './ProfilNavigator';
 
 const UserTab = createBottomTabNavigator();
 
-function LoggedInNavigator() {
+export default function LoggedInNavigator() {
   return (
     <UserTab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
@@ -49,5 +48,3 @@ function LoggedInNavigator() {
     </UserTab.Navigator>
   )
 }
-
-export default LoggedInNavigator

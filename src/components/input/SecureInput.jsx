@@ -8,10 +8,10 @@ import styles from '../../style/style';
 /**
  * SecureInput is used for password entry only.
  * On click on the icon, toggle visibility (show / hidden)
- * @param onChangeText TextInput tag onChangeText method
- * @param value TextInput tag value
+ * @param {*} onChangeText TextInput tag onChangeText method
+ * @param {*} value TextInput tag value
  */
-const SecureInput = (props) => {
+export default function SecureInput(props) {
   const [isPasswordSecure, setIsPasswordSecure] = React.useState(true);
 
   return (
@@ -43,5 +43,3 @@ const SecureInput = (props) => {
     </View>
   )
 }
-
-export default SecureInput

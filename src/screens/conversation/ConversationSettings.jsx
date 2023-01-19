@@ -101,13 +101,20 @@ const ConversationSettings = ({ route, navigation }) => {
   React.useEffect(() => {
     userCredential();
 
-    if(access != '' && user != 0) getBlockedStatus();
-
     if(status == 'Error') {
       regenerateToken(refresh);
     } else if(status != 'Error') {
       getBlockedStatus();
     }
+
+    /**
+    * CLEAN STATE
+    */
+    const handleFocus = navigation.addListener('focus', () => {
+      getBlockedStatus();
+    });
+
+    return handleFocus;
   }, [status])
 
 

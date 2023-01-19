@@ -10,7 +10,7 @@ import styles from '../style/style';
  * @param title Pressable title
  * @param onPress Pressable onPress
  */
-const IconButton = (props) => {
+export default function IconButton(props) {
   const [icon, setIcon] = React.useState(null);
 
   React.useEffect(() => {
@@ -31,5 +31,3 @@ const IconButton = (props) => {
     </Pressable>
   )
 }
-
-export default IconButton

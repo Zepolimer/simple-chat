@@ -90,7 +90,6 @@ const Conversation = ({ route, navigation })  => {
   React.useEffect(() => {
     userCredential();
 
-    if(access != '' && user != 0) getMessages();
     if(status == 'Error') {
       regenerateToken(refresh);
     } else if(status != 'Error') {

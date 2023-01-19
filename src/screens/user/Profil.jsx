@@ -67,7 +67,14 @@ const Profil = ({ navigation }) => {
   React.useEffect(() => {
     userCredential();
 
-    if(access != '' && user != 0) userInformations();
+    /**
+    * CLEAN STATE
+    */
+    const handleFocus = navigation.addListener('focus', () => {
+      userInformations();
+    });
+
+    return handleFocus;
   })
 
 
