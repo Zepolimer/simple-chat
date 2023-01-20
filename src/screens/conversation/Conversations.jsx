@@ -12,10 +12,8 @@ import {
   secureFastPostRequest 
 } from '../../security/Api';
 
-import { 
-  getCredentials, 
-  regenerateToken 
-} from '../../security/Credential';
+import { getUserId } from '../../security/AsyncStorage';
+import { regenerateToken } from '../../security/Credential';
 
 import FixedHeader from '../../components/header/FixedHeader';
 import UserConversations from '../../components/flatlist/UserConversations'
@@ -25,8 +23,6 @@ import styles from '../../style/style';
 
 
 const Conversations = ({ navigation }) => {
-  const [access, setAccess] = React.useState('');
-  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [userList, setUserList] = React.useState(null);
@@ -34,46 +30,38 @@ const Conversations = ({ navigation }) => {
   const [conversations, setConversations] = React.useState(null);
 
   const userCredential = async () => {
-    await getCredentials()
-    .then((res) => {
-      if(res) {
-        setAccess(res.access);
-        setRefresh(res.refresh);
-        setUser(res.user);
-      }
-    });
+    await getUserId()
+    .then((res) => setUser(res))
   }
 
   const getAllUsers = async () => {
     await getRequest('users')
     .then((res) => {
-      if(res.status != 'Error') {
-        setUserList(res.data);
-      }
+      setStatus(res.status);
+
+      if(res.status != 'Error') setUserList(res.data);
     });
   }
 
   const getConversations = async () => {
     await secureGetRequest(
       `user/${user}/conversations`, 
-      access
     )
     .then((res) => {
       setStatus(res.status)
-      if(res.status != 'Error') {
-        setConversations(res.data);
-      } 
+
+      if(res.status != 'Error') setConversations(res.data);
     });
   }
 
 
   React.useEffect(() => {
     userCredential();
-    getAllUsers();
 
     if(status == 'Error') {
-      regenerateToken(refresh);
+      regenerateToken();
     } else if(status != 'Error') {
+      getAllUsers();
       getConversations();
     }
 
@@ -81,11 +69,12 @@ const Conversations = ({ navigation }) => {
     * CLEAN STATE
     */
     const handleFocus = navigation.addListener('focus', () => {
+      getAllUsers();
       getConversations();
     });
 
     return handleFocus;
-  }, [status])
+  }, [status, user])
 
 
   return (
@@ -97,9 +86,9 @@ const Conversations = ({ navigation }) => {
       <View style={styles.horizontalWrapper}>
         <FlatList
           data={userList}
-          renderItem={({item}) => <PublicUser u={item} user={user} access={access} onPress={getConversations} />}
+          renderItem={({item}) => <PublicUser u={item} user={user} onPress={getConversations} />}
           keyExtractor={item => item.id}
-          extraData={[user, access, getConversations]}
+          extraData={[user, getConversations]}
           horizontal={true}
         />
       </View>

@@ -12,38 +12,27 @@ import {
   secureFastPostRequest 
 } from '../../security/Api';
 
-import { 
-  getCredentials, 
-  regenerateToken 
-} from '../../security/Credential';
+import { getUserId } from '../../security/AsyncStorage';
+import { regenerateToken } from '../../security/Credential';
 
-import BlackPressable from '../../components/BlackPressable';
+
 import FormInput from '../../components/FormInput';
 import styles from '../../style/style';
 
 
 const ConversationCreate = ({ navigation }) =>  {
-  const [access, setAccess] = React.useState('');
-  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [channelName, setChannelName] = React.useState('');
 
-
   const userCredential = async () => {
-    await getCredentials()
-    .then((res) => {
-      if(res) {
-        setAccess(res.access);
-        setRefresh(res.refresh);
-        setUser(res.user);
-      }
-    });
+    await getUserId()
+    .then((res) => setUser(res))
   }
 
   React.useEffect(() => {
     userCredential();
-  })
+  }, [user])
 
 
   return (

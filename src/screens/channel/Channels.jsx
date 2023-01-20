@@ -10,10 +10,8 @@ import {
   secureGetRequest,
 } from '../../security/Api';
 
-import { 
-  getCredentials, 
-  regenerateToken 
-} from '../../security/Credential';
+import { getUserId } from '../../security/AsyncStorage';
+import { regenerateToken } from '../../security/Credential';
 
 import FixedHeader from '../../components/header/FixedHeader';
 import UserChannels from '../../components/flatlist/UserChannels';
@@ -23,29 +21,19 @@ import PublicChannel from '../../components/flatlist/PublicChannel';
 
 
 const Channels = ({ navigation }) => {
-  const [access, setAccess] = React.useState('');
-  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
-  const [channelList, setChannelList] = React.useState(null);
   const [status, setStatus] = React.useState(null)
+  const [channelList, setChannelList] = React.useState(null);
   const [channels, setChannels] = React.useState(null);
 
   const userCredential = async () => {
-    await getCredentials()
-    .then((res) => {
-      if(res) {
-        setAccess(res.access);
-        setRefresh(res.refresh);
-        setUser(res.user);
-      }
-    });
+    await getUserId()
+    .then((res) => setUser(res))
   }
 
   const getAllChannels = async () => {
-    await getRequest(
-      `channels`, 
-    )
+    await getRequest(`channels`)
     .then((res) => {
       setStatus(res.status);
 
@@ -56,7 +44,6 @@ const Channels = ({ navigation }) => {
   const getChannels = async () => {
     await secureGetRequest(
       `user/${user}/channels`, 
-      access
     )
     .then((res) => {
       setStatus(res.status);
@@ -70,7 +57,7 @@ const Channels = ({ navigation }) => {
     userCredential();
 
     if(status == 'Error') {
-      regenerateToken(refresh);
+      regenerateToken();
     } else if(status != 'Error') {
       getAllChannels();
       getChannels();
@@ -98,9 +85,9 @@ const Channels = ({ navigation }) => {
       <View style={styles.horizontalWrapper}>
         <FlatList
           data={channelList}
-          renderItem={({item}) => <PublicChannel channel={item} user={user} access={access} navigation={navigation} />}
+          renderItem={({item}) => <PublicChannel channel={item} user={user} navigation={navigation} />}
           keyExtractor={item => item.id}
-          extraData={[user, access, navigation]}
+          extraData={[user, navigation]}
           horizontal={true}
         />
       </View>

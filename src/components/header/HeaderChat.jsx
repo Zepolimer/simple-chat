@@ -20,7 +20,7 @@ export default function HeaderChat(props) {
         <Ionicons
           name={'arrow-back'}
           color={'gray'} 
-          size={'25px'}
+          size={25}
         />
       </Text>
     </Pressable>
@@ -32,7 +32,7 @@ export default function HeaderChat(props) {
         <Ionicons
           name={icon}
           color={iconColor} 
-          size={'25px'}
+          size={25}
         />
       </Text>
     </Pressable>

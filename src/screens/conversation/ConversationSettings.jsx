@@ -13,10 +13,8 @@ import {
   secureDeleteRequest 
 } from '../../security/Api';
 
-import { 
-  getCredentials, 
-  regenerateToken 
-} from '../../security/Credential';
+import { getUserId } from '../../security/AsyncStorage';
+import { regenerateToken } from '../../security/Credential';
 
 import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
 
@@ -27,8 +25,6 @@ const ConversationSettings = ({ route, navigation }) => {
   const { id } = route.params;
   const { name } = route.params;
 
-  const [access, setAccess] = React.useState('');
-  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [status, setStatus] = React.useState(null)
@@ -36,20 +32,13 @@ const ConversationSettings = ({ route, navigation }) => {
 
   
   const userCredential = async () => {
-    await getCredentials()
-    .then((res) => {
-      if(res) {
-        setAccess(res.access);
-        setRefresh(res.refresh);
-        setUser(res.user);
-      }
-    });
+    await getUserId()
+    .then((res) => setUser(res))
   }
 
   const getBlockedStatus = async () => {
     await secureGetRequest(
       `user/${user}/conversation/${id}/blocked`,
-      access
     )
     .then((res) => {
       setStatus(res.status)
@@ -67,7 +56,6 @@ const ConversationSettings = ({ route, navigation }) => {
     await securePutRequest(
       `user/${user}/conversation/${id}`,
       blocked,
-      access,
     )
     .then((res) => {
       if(res.status != 'Error') {
@@ -89,7 +77,6 @@ const ConversationSettings = ({ route, navigation }) => {
   const deleteConversation = async () => {
     await secureDeleteRequest(
       `user/${user}/conversation/${id}`,
-      access,
     )
     .then((res) => {
       if(res.status == 'Success') {
@@ -102,7 +89,7 @@ const ConversationSettings = ({ route, navigation }) => {
     userCredential();
 
     if(status == 'Error') {
-      regenerateToken(refresh);
+      regenerateToken();
     } else if(status != 'Error') {
       getBlockedStatus();
     }
@@ -115,7 +102,7 @@ const ConversationSettings = ({ route, navigation }) => {
     });
 
     return handleFocus;
-  }, [status])
+  }, [status, user])
 
 
   return (

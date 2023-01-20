@@ -9,10 +9,8 @@ import {
   securePutRequest, 
 } from '../../security/Api';
 
-import { 
-  getCredentials, 
-  regenerateToken 
-} from '../../security/Credential';
+import { getUserId } from '../../security/AsyncStorage';
+import { regenerateToken } from '../../security/Credential';
 
 import KeyboardView from '../../components/keyboard/KeyboardView';
 import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
@@ -23,8 +21,6 @@ import styles from '../../style/style';
 
 
 export default function ProfilUpdate({ navigation }) {
-  const [access, setAccess] = React.useState('');
-  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [oldUsername, setOldUsername] = React.useState('');
@@ -38,24 +34,16 @@ export default function ProfilUpdate({ navigation }) {
   const [email, onChangeEmail] = React.useState('');
 
   const userCredential = async () => {
-    await getCredentials()
-    .then((res) => {
-      if(res) {
-        setAccess(res.access);
-        setRefresh(res.refresh);
-        setUser(res.user);
-      }
-    });
+    await getUserId()
+    .then((res) => setUser(res))
   }
 
   const userInformations = async () => {
     await secureGetRequest(
       `user/${user}`,
-      access,
     )
     .then((res) => {
       if(res.status != 'Error') {
-        console.log(res.data)
         setOldUsername(res.data.username)
         setOldFirstname(res.data.firstname)
         setOldlastname(res.data.lastname)
@@ -92,7 +80,6 @@ export default function ProfilUpdate({ navigation }) {
       securePutRequest(
         `user/${user}`,
         body,
-        access,
       )
       .then((res) => {
         console.log(res);
@@ -103,7 +90,7 @@ export default function ProfilUpdate({ navigation }) {
   React.useEffect(() => {
     userCredential();
     userInformations();
-  }, [])
+  }, [user])
   
 
   return (

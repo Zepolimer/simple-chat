@@ -39,7 +39,7 @@ export default function FixedHeader(props) {
           <Ionicons
             name={icon}
             color={iconColor} 
-            size={'25px'}
+            size={25}
           />
         </Text>
       </Pressable>

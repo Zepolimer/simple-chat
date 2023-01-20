@@ -43,6 +43,10 @@ export default StyleSheet.create({
   grayText: {
     color: '#00000090',
   },
+  whiteText: {
+    color: 'white',
+    fontWeight: '600',
+  },
 
   input: {
     ...common.width100,
@@ -97,7 +101,6 @@ export default StyleSheet.create({
     backgroundColor: 'black',
   },
   blackBtnText: {
-    fontSize: 15,
     lineHeight: 21,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -122,12 +125,28 @@ export default StyleSheet.create({
     marginLeft: 20,
   },
 
+  flatlistWrapper: {
+    ...common.pv40,
+  },
+
+  chatFromWrapper: {
+    ...common.flexRow,
+    ...common.mt10,
+  },
+  chatBubble: {
+    ...common.rounded35x35,
+    ...common.flexCenter,
+    ...common.boxShadow,
+    marginRight: 10,
+    backgroundColor: '#000000',
+  },
   chatBubbleFrom: {
     ...common.width80,
     ...common.mt10,
     ...common.paddingBorder,
     ...common.borderRadius5,
     ...common.chatFromBg,
+    ...common.boxShadow,
     marginLeft: '20%',
   },
   nameChatTo: {
@@ -137,10 +156,10 @@ export default StyleSheet.create({
   },
   chatBubbleTo: {
     ...common.width80,
-    ...common.mt10,
     ...common.paddingBorder,
     ...common.borderRadius5,
     ...common.chatToBg,
+    ...common.boxShadow,
     marginRight: '20%',
   },
   nameChatFrom: {
@@ -186,7 +205,8 @@ export default StyleSheet.create({
   },
   horizontalItemImg: {
     ...common.rounded50x50,
-    backgroundColor: '#' + Math.floor(Math.random()*16777215).toString(16),
+    ...common.flexCenter,
+    backgroundColor: '#000000',
   },
 
   header: {
@@ -194,6 +214,7 @@ export default StyleSheet.create({
     ...common.flexRow,
     ...common.flexBetweenCenter,
     height: 60,
+    marginTop: 30,
   },
   headerInput: {
     ...common.width70,
@@ -267,7 +288,6 @@ export default StyleSheet.create({
   deletePressableText: {
     ...common.textWhite,
     textAlign: 'center',
-    fontSize: 15,
     lineHeight: 21,
     fontWeight: 'bold',
   },

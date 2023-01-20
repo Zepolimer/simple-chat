@@ -15,6 +15,16 @@ import styles from '../../style/style';
  */
 export default function UserConversations({ conversation, user, navigation }) {
 
+  const [initials, setInitials] = React.useState('');
+
+  const handleInitials = async (item) => {
+    if(user == item.id_from.id) {
+      setInitials(item.id_to.firstname.charAt(0) + item.id_to.lastname.charAt(0))
+    } else {
+      setInitials(item.id_from.firstname.charAt(0) + item.id_from.lastname.charAt(0))
+    }
+  }
+
   const messageSendBy = async (item) => {
     let routename = '';
 
@@ -30,6 +40,10 @@ export default function UserConversations({ conversation, user, navigation }) {
     })
   }
 
+  React.useEffect(() => {
+    handleInitials(conversation);
+  }, [conversation])
+
   return (
     <View key={conversation.id} style={styles.chatWrapper}>
       <Pressable
@@ -37,7 +51,9 @@ export default function UserConversations({ conversation, user, navigation }) {
         title={conversation.id}
         onPress={() => messageSendBy(conversation)}
       >
-        <View style={styles.horizontalItemImg}></View>
+        <View style={styles.horizontalItemImg}>
+          <Text style={styles.whiteText}>{initials}</Text>
+        </View>
 
         {user == conversation.id_from.id ? (
           <Text style={styles.chatText}>

@@ -9,10 +9,8 @@ import {
 
 import { securePostRequest } from '../../security/Api';
 
-import { 
-  getCredentials, 
-  regenerateToken 
-} from '../../security/Credential';
+import { getUserId } from '../../security/AsyncStorage';
+import { regenerateToken } from '../../security/Credential';
 
 import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
 import BlackPressable from '../../components/button/BlackPressable';
@@ -22,25 +20,15 @@ import styles from '../../style/style';
 
 
 const ChannelCreate = ({ navigation }) => {
-  const [access, setAccess] = React.useState('');
-  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
-
+  
+  const [status, setStatus] = React.useState(null);
   const [name, setName] = React.useState('');
   const [privacy, setPrivacy] = React.useState(false);
 
-  const [status, setStatus] = React.useState(null);
-
-
   const userCredential = async () => {
-    await getCredentials()
-    .then((res) => {
-      if(res) {
-        setAccess(res.access);
-        setRefresh(res.refresh);
-        setUser(res.user);
-      }
-    });
+    await getUserId()
+    .then((res) => setUser(res))
   }
 
   const handlePrivacy = async () => {
@@ -57,7 +45,6 @@ const ChannelCreate = ({ navigation }) => {
       await securePostRequest(
         `user/${user}/channel`, 
         newChannel,
-        access,
       )
       .then((res) => {
         setStatus(res.status)
@@ -75,7 +62,7 @@ const ChannelCreate = ({ navigation }) => {
     userCredential();
 
     if(status == 'Error') {
-      regenerateToken(refresh);
+      regenerateToken();
     } 
   })
 

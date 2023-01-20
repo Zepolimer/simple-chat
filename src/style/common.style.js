@@ -80,6 +80,9 @@ export default StyleSheet.create({
   ph10: {
     paddingHorizontal: 10,
   },
+  pv40: {
+    paddingVertical: 40,
+  },
   paddingBorder: {
     padding: 10,
     borderWidth: 1,
@@ -121,28 +124,28 @@ export default StyleSheet.create({
   },
 
   chatFromBg: {
-    backgroundColor: '#013652',
-    borderColor: '#013652',
+    backgroundColor: 'tomato',
+    borderColor: 'tomato',
   },
   chatToBg: {
-    backgroundColor: '#076191',
-    borderColor: '#076191',
+    backgroundColor: '#000000',
+    borderColor: '#000000',
   },
 
   rounded30x30: {
     height: 25,
     width: 25,
-    borderRadius: '50%',
+    borderRadius: 100,
   },
   rounded35x35: {
     height: 35,
     width: 35,
-    borderRadius: '50%',
+    borderRadius: 150,
   },
   rounded50x50: {
     height: 50,
     width: 50,
-    borderRadius: '50%',
+    borderRadius: 200,
   },
 
   boxShadow: {

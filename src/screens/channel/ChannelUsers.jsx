@@ -15,10 +15,8 @@ import {
   secureDeleteRequest 
 } from '../../security/Api';
 
-import { 
-  getCredentials, 
-  regenerateToken
-} from '../../security/Credential';
+import { getUserId } from '../../security/AsyncStorage';
+import { regenerateToken } from '../../security/Credential';
 
 import styles from '../../style/style';
 import HeaderChat from '../../components/header/HeaderChat';
@@ -28,24 +26,15 @@ const ChannelUsers = ({ route, navigation }) => {
   const { id } = route.params;
   const { name } = route.params;
 
-  const [access, setAccess] = React.useState('');
-  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [status, setStatus] = React.useState(null);
   const [userList, setUserList] = React.useState(null);
   const [addedUsers, setAddedUsers] = React.useState(null);
-  const [checked, setChecked] = React.useState(false);
 
   const userCredential = async () => {
-    await getCredentials()
-    .then((res) => {
-      if(res) {
-        setAccess(res.access);
-        setRefresh(res.refresh);
-        setUser(res.user);
-      }
-    });
+    await getUserId()
+    .then((res) => setUser(res))
   }
 
   const getUserInChannel = async () => {
@@ -70,7 +59,6 @@ const ChannelUsers = ({ route, navigation }) => {
   const addUser = async (userToAdd) => {
     await secureFastPostRequest(
       `user/${user}/channel/${id}/add/${userToAdd}`,
-      access,
     )
     .then((res) => {
       getUserInChannel();
@@ -81,7 +69,6 @@ const ChannelUsers = ({ route, navigation }) => {
   const removeUser = async (userToRemove) => {
     await secureDeleteRequest(
       `user/${user}/channel/${id}/remove/${userToRemove}`,
-      access,
     )
     .then((res) => {
       getUserInChannel();
@@ -140,7 +127,7 @@ const ChannelUsers = ({ route, navigation }) => {
                         <Ionicons 
                           name={'close'}
                           color={'gray'} 
-                          size={'20px'}
+                          size={20}
                         />
                       </Pressable>
                     </View>
@@ -170,7 +157,7 @@ const ChannelUsers = ({ route, navigation }) => {
                         <Ionicons 
                           name={'add'}
                           color={'gray'} 
-                          size={'20px'}
+                          size={20}
                         />
                       </Pressable>
                     </View>

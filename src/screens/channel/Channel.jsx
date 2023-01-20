@@ -11,10 +11,8 @@ import {
   securePostRequest 
 } from '../../security/Api';
 
-import { 
-  getCredentials, 
-  regenerateToken 
-} from '../../security/Credential';
+import { getUserId } from '../../security/AsyncStorage';
+import { regenerateToken } from '../../security/Credential';
 
 import HeaderChat from '../../components/header/HeaderChat';
 import KeyboardView from '../../components/keyboard/KeyboardView';
@@ -29,33 +27,24 @@ const Channel = ({ route, navigation }) => {
   const { id } = route.params;
   const { name } = route.params;
 
-  const [access, setAccess] = React.useState('');
-  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
   const [status, setStatus] = React.useState(null);
   const [channel, setChannel] = React.useState(null);
-
   const [message, onChangeMessage] = React.useState('');
 
   const userCredential = async () => {
-    await getCredentials()
-    .then((res) => {
-      if(res) {
-        setAccess(res.access);
-        setRefresh(res.refresh);
-        setUser(res.user);
-      }
-    });
+    await getUserId()
+    .then((res) => setUser(res))
   }
 
   const getMessages = async () => {
     await secureGetRequest(
       `channel/${id}`, 
-      access,
     )
     .then((res) => {
       setStatus(res.status);
+
       if(res.status != 'Error') setChannel(res.data.messages);
     });
   }
@@ -69,7 +58,6 @@ const Channel = ({ route, navigation }) => {
       await securePostRequest(
         `user/${user}/channel/${id}/message`,
         msg,
-        access,
       )
       .then((res) => {
         onChangeMessage('');
@@ -82,7 +70,7 @@ const Channel = ({ route, navigation }) => {
     userCredential();
 
     if(status == 'Error') {
-      regenerateToken(refresh);
+      regenerateToken();
     } else if(status != 'Error') {
       getMessages();
     }
@@ -95,7 +83,7 @@ const Channel = ({ route, navigation }) => {
     });
 
     return handleFocus;
-  }, [status])
+  }, [status, user])
   
 
   return (
@@ -115,10 +103,11 @@ const Channel = ({ route, navigation }) => {
       <KeyboardView>
         <FlatList
           data={channel}
-          renderItem={({item}) => <ChannelMessages channel={item} user={user} id={id} access={access} onPress={getMessages} />}
+          renderItem={({item}) => <ChannelMessages channel={item} user={user} id={id} onPress={getMessages} />}
           keyExtractor={item => item.id}
-          extraData={[user, id, access]}
+          extraData={[user, id]}
           scrollToEnd
+          contentContainerStyle={styles.flatlistWrapper}
         />
         
         <View style={styles.keyboardWrapper}>

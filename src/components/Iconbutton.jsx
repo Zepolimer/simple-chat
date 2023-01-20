@@ -26,7 +26,7 @@ export default function IconButton(props) {
       <Ionicons
         name={icon}
         color={'white'} 
-        size={'20px'}
+        size={20}
       />
     </Pressable>
   )

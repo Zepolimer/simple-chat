@@ -1,3 +1,6 @@
+// Change 127.0.0.1 to 192.168.1.127
+
+import { getAccessToken } from "./AsyncStorage";
 
 /**
  * GET
@@ -97,18 +100,18 @@ const deleteRequest = async (path) => {
 
 /**
  * GET
- * secureGetRequest takes two params :
+ * secureGetRequest takes one params :
  * @param {*} path
- * @param {*} token 
  */
-const secureGetRequest = async (path, token) => {  
+const secureGetRequest = async (path) => {  
+  const access = await getAccessToken()
   let result = null;
 
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${access}`,
     }
   })
   .then((response) => response.json())
@@ -122,19 +125,19 @@ const secureGetRequest = async (path, token) => {
 
 /**
  * POST
- * securePostRequest takes three params :
+ * securePostRequest takes two params :
  * @param {*} path 
  * @param {*} content 
- * @param {*} token 
  */
-const securePostRequest = async (path, content, token) => {  
+const securePostRequest = async (path, content) => { 
+  const access = await getAccessToken() 
   let result = null;
 
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${access}`,
     },
     body: JSON.stringify(content),
   })
@@ -148,18 +151,18 @@ const securePostRequest = async (path, content, token) => {
 
 /**
  * POST
- * secureFastPostRequest takes two params :
+ * secureFastPostRequest takes one params :
  * @param {*} path 
- * @param {*} token 
  */
-const secureFastPostRequest = async (path, token) => {  
+const secureFastPostRequest = async (path) => {
+  const access = await getAccessToken()
   let result = null;
 
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${access}`,
     },
   })
   .then((response) => response.json())
@@ -173,19 +176,19 @@ const secureFastPostRequest = async (path, token) => {
 
 /**
  * PUT
- * securePutRequest takes three params :
+ * securePutRequest takes two params :
  * @param {*} path 
  * @param {*} content 
- * @param {*} token 
  */
-const securePutRequest = async (path, content, token) => {  
+const securePutRequest = async (path, content) => { 
+  const access = await getAccessToken() 
   let result = null;
 
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${access}`,
     },
     body: JSON.stringify(content),
   })
@@ -200,18 +203,18 @@ const securePutRequest = async (path, content, token) => {
 
 /**
  * DELETE
- * secureDeleteRequest takes two params :
+ * secureDeleteRequest takes one params :
  * @param {*} path 
- * @param {*} token 
  */
-const secureDeleteRequest = async (path, token) => {  
+const secureDeleteRequest = async (path) => {  
+  const access = await getAccessToken()
   let result = null;
 
   await fetch('http://127.0.0.1:3000/api/' + path, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${access}`,
     }
   })
   .then((response) => response.json())

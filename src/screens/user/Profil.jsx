@@ -10,8 +10,9 @@ import {
   secureGetRequest
 } from '../../security/Api';
 
-import { 
-  getCredentials, 
+import { getUserId } from '../../security/AsyncStorage';
+
+import {  
   resetCredentials, 
   regenerateToken 
 } from '../../security/Credential';
@@ -21,30 +22,24 @@ import styles from '../../style/style';
 
 
 const Profil = ({ navigation }) => {
-  const [access, setAccess] = React.useState('');
-  const [refresh, setRefresh] = React.useState('');
   const [user, setUser] = React.useState(0);
 
+  const [status, setStatus] = React.useState(null)
   const [createdAt, setCreatedAt] = React.useState('');
   const [userInfo, setUserInfo] = React.useState(null);
 
   const userCredential = async () => {
-    await getCredentials()
-    .then((res) => {
-      if(res) {
-        setAccess(res.access);
-        setRefresh(res.refresh);
-        setUser(res.user);
-      }
-    });
+    await getUserId()
+    .then((res) => setUser(res))
   }
 
   const userInformations = async () => {
     await secureGetRequest(
       `user/${user}`,
-      access,
     )
     .then((res) => {
+      setStatus(res.status);
+
       if(res.status != 'Error') {
         setUserInfo(res.data);
         setCreatedAt(formatDate(res.data.created_at))
@@ -67,6 +62,12 @@ const Profil = ({ navigation }) => {
   React.useEffect(() => {
     userCredential();
 
+    if(status == 'Error') {
+      regenerateToken();
+    } else if(status != 'Error') {
+      userInformations();
+    }
+
     /**
     * CLEAN STATE
     */
@@ -75,7 +76,7 @@ const Profil = ({ navigation }) => {
     });
 
     return handleFocus;
-  })
+  }, [status, user])
 
 
   return (

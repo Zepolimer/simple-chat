@@ -13,7 +13,7 @@ export default function FixedHeaderGoBack(props) {
           <Ionicons
             name={'arrow-back'}
             color={'gray'} 
-            size={'25px'}
+            size={25}
           />
         </Text>
       </Pressable>

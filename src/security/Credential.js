@@ -51,15 +51,16 @@ const resetCredentials = async () => {
 
 /**
  * POST
- * regenerateToken takes one param :
- * @param {*} token
+ * regenerateToken use AsyncStorage getRefreshToken function
  */
-const regenerateToken = async (token) => {  
+const regenerateToken = async () => {  
+  const refresh = await getRefreshToken();
+
   await fetch('http://127.0.0.1:3000/api/refreshtoken', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${refresh}`,
     }
   })
   .then(response => response.json())
