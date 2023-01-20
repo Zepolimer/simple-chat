@@ -41,12 +41,12 @@ const getCredentials = async () => {
  * DELETE AsyncStorage values
  */
 const resetCredentials = async () => {
-  await setAccessToken('');
-  await setRefreshToken('');
-  await setUserId(0);
-  // await removeStorage('access_token')
-  // await removeStorage('refresh_token')
-  // await removeStorage('user_id')
+  // await setAccessToken('');
+  // await setRefreshToken('');
+  // await setUserId(0);
+  await removeStorage('access_token')
+  await removeStorage('refresh_token')
+  await removeStorage('user_id')
 }
 
 /**

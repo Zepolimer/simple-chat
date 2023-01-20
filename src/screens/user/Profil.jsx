@@ -6,17 +6,13 @@ import {
   Pressable, 
 } from 'react-native';
 
-import { 
-  secureGetRequest
-} from '../../security/Api';
-
+import { secureGetRequest } from '../../security/Api';
 import { getUserId } from '../../security/AsyncStorage';
 
 import {  
   resetCredentials, 
   regenerateToken 
 } from '../../security/Credential';
-
 
 import styles from '../../style/style';
 
@@ -50,6 +46,7 @@ const Profil = ({ navigation }) => {
   const disconnect = async () => {
     await resetCredentials()
     .then((res) => {
+      console.log('user disconnected')
       navigation.navigate('Connexion')
     })
   };

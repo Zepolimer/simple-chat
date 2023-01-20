@@ -107,6 +107,7 @@ export default function ChannelSettings({ route, navigation }) {
       <FixedHeaderGoBack 
         goBack={() => navigation.goBack()}
       />
+      <ScrollView>
       {channelInfo != null &&
         <View style={styles.whiteCard}>
           <Text>Le groupe "{channelInfo.channel.name}" à été créée par {channelInfo.creator.firstname} {channelInfo.creator.lastname} le {channelDate}.</Text>
@@ -152,6 +153,7 @@ export default function ChannelSettings({ route, navigation }) {
           <Text style={styles.deletePressableText}>Supprimer le groupe</Text>
         </Pressable>
       </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

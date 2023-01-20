@@ -5,7 +5,6 @@ import {
   FlatList,
 } from 'react-native';
 
-
 import { 
   secureGetRequest, 
   securePostRequest 

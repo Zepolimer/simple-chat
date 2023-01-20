@@ -2,7 +2,6 @@ import * as React from 'react'
 import { 
   SafeAreaView,
   View, 
-  ScrollView, 
   Pressable, 
   Text, 
 } from 'react-native';
@@ -76,8 +75,7 @@ const ChannelCreate = ({ navigation }) => {
       <View style={styles.view90paddingVertical}>
         <Text style={styles.title}>Vous pouvez créer un groupe depuis cette page.</Text>
         <Text style={styles.title}>1. Veuillez renseigner le nom que portera votre groupe. Celui-ci sera ensuite éditable si besoin.</Text>
-        <Text style={styles.title}>2. Veuillez indiquer si votre groupe est visible par tous les utilisateurs ou uniquement les utilisateurs invités par vos soins.</Text>
-        <Text style={styles.title}>3. Une fois la création effectuée et enregistrée, vous serez redigiré vers une page permettant d'ajouter des utilisateurs à votre groupe.</Text>
+        <Text style={styles.title}>2. Veuillez indiquer si votre groupe est visible par tous les utilisateurs ou non.</Text>
       </View>
       <View style={styles.whiteCard}>
         <Text style={styles.selfAlignItem}>Nom de votre groupe :</Text>

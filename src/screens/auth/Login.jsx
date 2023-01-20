@@ -2,7 +2,6 @@ import * as React from 'react';
 import { 
   SafeAreaView,
   View, 
-  Text, 
 } from 'react-native';
 
 import { postRequest } from '../../security/Api';
@@ -21,10 +20,6 @@ export default function Login({ navigation }) {
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
 
-  const isLoggedIn = async () => {
-    return navigation.navigate('App')
-  }
-
   const userLogin = async () => {
     if(email != '' && password != ''){
       let user = {
@@ -40,7 +35,9 @@ export default function Login({ navigation }) {
           res.data.user_id
         )
       })
-      .then(user => isLoggedIn());
+      .then((res) => {
+        navigation.navigate('App')
+      })
     }
   }
 
