@@ -216,6 +216,12 @@ export default StyleSheet.create({
     height: 60,
     marginTop: 30,
   },
+  headerInput100: {
+    ...common.width100,
+    ...common.paddingBorder,
+    ...common.borderRadius50,
+    height: 40,
+  },
   headerInput: {
     ...common.width70,
     ...common.paddingBorder,

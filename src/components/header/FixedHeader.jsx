@@ -29,20 +29,23 @@ export default function FixedHeader(props) {
   return (
     <View style={styles.header}>
       <TextInput
-        style={styles.headerInput}
+        style={props.iconName ? styles.headerInput : styles.headerInput100}
         autoCapitalize="none"
+        placeholder={props.placeholder}
         placeholderTextColor="#aaa"
         onSubmitEditing={() => console.log('key pressed')}
       />
-      <Pressable style={styles.headerCta} onPress={props.navigateTo}>
-        <Text>
-          <Ionicons
-            name={icon}
-            color={iconColor} 
-            size={25}
-          />
-        </Text>
-      </Pressable>
+      {props.iconName && 
+        <Pressable style={styles.headerCta} onPress={props.navigateTo}>
+          <Text>
+            <Ionicons
+              name={icon}
+              color={iconColor} 
+              size={25}
+            />
+          </Text>
+        </Pressable>
+      }
     </View>
   )
 }

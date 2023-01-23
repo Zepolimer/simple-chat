@@ -3,7 +3,12 @@ import {
   SafeAreaView,
   View, 
   FlatList,
+  TextInput, 
+  Pressable, 
+  Text,
 } from 'react-native';
+
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { 
   getRequest, 
@@ -77,10 +82,32 @@ const Channels = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <FixedHeader 
+      <View style={styles.header}>
+        <TextInput
+          style={styles.headerInput}
+          autoCapitalize="none"
+          placeholder={'Rechercher un groupe..'}
+          placeholderTextColor="#aaa"
+          onSubmitEditing={() => console.log('key pressed')}
+        />
+        <Pressable 
+          style={styles.headerCta} 
+          onPress={() => navigation.navigate('NewChannel')}
+        >
+          <Text>
+            <Ionicons
+              name={'pencil'}
+              color={'gray'} 
+              size={25}
+            />
+          </Text>
+        </Pressable>
+      </View>
+      {/* <FixedHeader 
         iconName={'pencil'}
+        placeholder={'Rechercher un groupe..'}
         navigateTo={() => navigation.navigate('NewChannel')}
-      />
+      /> */}
 
       <View style={styles.horizontalWrapper}>
         <FlatList

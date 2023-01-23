@@ -40,7 +40,6 @@ const Conversation = ({ route, navigation })  => {
     .then((res) => {
       setStatus(res.status);
 
-      console.log('messages : ' + res.data.messages);
       if(res.status != 'Error') setConversation(res.data.messages);
     });
   }

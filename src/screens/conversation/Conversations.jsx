@@ -2,6 +2,7 @@ import * as React from 'react';
 import { 
   SafeAreaView,
   View, 
+  TextInput,
   FlatList,
 } from 'react-native';
 
@@ -79,9 +80,15 @@ const Conversations = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <FixedHeader 
-        iconName={'pencil'}
-      />
+      <View style={styles.header}>
+        <TextInput
+          style={styles.headerInput100}
+          autoCapitalize="none"
+          placeholder={'Rechercher un utilisateur..'}
+          placeholderTextColor="#aaa"
+          onSubmitEditing={() => console.log('key pressed')}
+        />
+      </View>
       
       <View style={styles.horizontalWrapper}>
         <FlatList
