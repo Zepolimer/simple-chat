@@ -35,7 +35,7 @@ const Conversation = ({ route, navigation })  => {
 
   const getMessages = async () => {
     await secureRequest(
-      `user/${user_id}/conversation/${id}`,
+      `user/${user_id}/conversation/${id}/message`,
       'GET',
     )
     .then((res) => {

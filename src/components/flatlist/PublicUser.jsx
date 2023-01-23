@@ -14,7 +14,7 @@ import styles from '../../style/style';
  * @param {*} user Connected user ID 
  * @param {*} onPress Function for re-render
  */
-export default function PublicUser({ u, user, onPress }) {
+export default function PublicUser({ u, user, onPress, navigation }) {
 
   const [initials, setInitials] = React.useState('');
 
@@ -31,6 +31,19 @@ export default function PublicUser({ u, user, onPress }) {
     .then((res) => {
       if(res.status != 'Error') {
         onPress();
+      }
+      if(res.status == 'Error' && res.message == 'Already done') {
+        secureRequest(
+          `user/${user}/conversation/${u.id}`,
+          'GET',
+        )
+        .then((res) => {
+          return navigation.navigate('Conversation', {
+            id: res.data.id,
+            name: u.firstname + u.lastname,
+            user_id: user,
+          })
+        });
       }
     });
   }

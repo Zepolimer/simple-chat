@@ -1,5 +1,4 @@
 import { getAccessToken } from "./AsyncStorage";
-const urlConfig = require('../../config')
 
 
 /**

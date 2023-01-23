@@ -96,9 +96,9 @@ const Conversations = ({ navigation }) => {
       <View style={styles.horizontalWrapper}>
         <FlatList
           data={userList}
-          renderItem={({item}) => <PublicUser u={item} user={user} onPress={getConversations} />}
+          renderItem={({item}) => <PublicUser u={item} user={user} onPress={getConversations} navigation={navigation} />}
           keyExtractor={item => item.id}
-          extraData={[user, getConversations]}
+          extraData={[user, getConversations, navigation]}
           horizontal={true}
         />
       </View>

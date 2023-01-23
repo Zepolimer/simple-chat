@@ -78,7 +78,6 @@ const Channel = ({ route, navigation }) => {
       getMessages();
     }
 
-    console.log(user)
     /**
     * CLEAN STATE
     */
