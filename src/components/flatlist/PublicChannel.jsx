@@ -5,9 +5,7 @@ import {
   Text, 
 } from 'react-native';
 
-import { 
-  secureFastPostRequest 
-} from '../../security/Api';
+import { secureRequest } from '../../security/Api';
 
 import styles from '../../style/style';
 
@@ -20,8 +18,9 @@ import styles from '../../style/style';
 export default function PublicChannel({ channel, user, navigation }) {
 
   const postJoinChannel = async (id) => {
-    await secureFastPostRequest(
+    await secureRequest(
       `user/${user}/channel/${id}`, 
+      'POST',
     )
     .then((res) => {
       navigation.navigate('Channel', {

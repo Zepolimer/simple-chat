@@ -11,8 +11,8 @@ import {
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { 
-  getRequest, 
-  secureGetRequest,
+  simpleRequest,
+  secureRequest,
 } from '../../security/Api';
 
 import { getUserId } from '../../security/AsyncStorage';
@@ -38,7 +38,10 @@ const Channels = ({ navigation }) => {
   }
 
   const getAllChannels = async () => {
-    await getRequest(`channels`)
+    await simpleRequest(
+      'channels', 
+      'GET',
+    )
     .then((res) => {
       setStatus(res.status);
 
@@ -47,8 +50,9 @@ const Channels = ({ navigation }) => {
   }
 
   const getChannels = async () => {
-    await secureGetRequest(
+    await secureRequest(
       `user/${user}/channels`, 
+      'GET',
     )
     .then((res) => {
       setStatus(res.status);

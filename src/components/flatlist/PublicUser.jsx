@@ -5,9 +5,7 @@ import {
   Text, 
 } from 'react-native';
 
-import { 
-  secureFastPostRequest 
-} from '../../security/Api';
+import { secureRequest } from '../../security/Api';
 
 import styles from '../../style/style';
 
@@ -26,8 +24,9 @@ export default function PublicUser({ u, user, onPress }) {
   }
 
   const createConversation = async (id) => {
-    await secureFastPostRequest(
+    await secureRequest(
       `user/${user}/conversation/${id}`, 
+      'POST',
     )
     .then((res) => {
       if(res.status != 'Error') {

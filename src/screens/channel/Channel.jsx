@@ -7,7 +7,9 @@ import {
 
 import { 
   secureGetRequest, 
-  securePostRequest 
+  securePostRequest,
+  secureRequest,
+  secureRequestContent,
 } from '../../security/Api';
 
 import { getUserId } from '../../security/AsyncStorage';
@@ -38,8 +40,9 @@ const Channel = ({ route, navigation }) => {
   }
 
   const getMessages = async () => {
-    await secureGetRequest(
+    await secureRequest(
       `channel/${id}`, 
+      'GET',
     )
     .then((res) => {
       setStatus(res.status);
@@ -54,8 +57,9 @@ const Channel = ({ route, navigation }) => {
         'message': message,
       }
 
-      await securePostRequest(
+      await secureRequestContent(
         `user/${user}/channel/${id}/message`,
+        'POST',
         msg,
       )
       .then((res) => {

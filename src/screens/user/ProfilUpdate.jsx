@@ -4,9 +4,9 @@ import {
   View,
 } from 'react-native';
 
-import { 
-  secureGetRequest, 
-  securePutRequest, 
+import {  
+  secureRequest,
+  secureRequestContent,
 } from '../../security/Api';
 
 import { getUserId } from '../../security/AsyncStorage';
@@ -32,8 +32,9 @@ export default function ProfilUpdate({ route, navigation }) {
   const [email, onChangeEmail] = React.useState('');
 
   const userInformations = async () => {
-    await secureGetRequest(
+    await secureRequest(
       `user/${user_id}`,
+      'GET',
     )
     .then((res) => {
       setStatus(res.status);
@@ -75,8 +76,9 @@ export default function ProfilUpdate({ route, navigation }) {
     await userChanges()
     .then((body) => {
       console.log(body)
-      securePutRequest(
+      secureRequestContent(
         `user/${user_id}`,
+        'PUT',
         body,
       )
       .then((res) => {

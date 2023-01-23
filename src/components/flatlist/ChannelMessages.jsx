@@ -6,7 +6,7 @@ import {
   View 
 } from 'react-native';
 
-import { secureDeleteRequest } from '../../security/Api';
+import { secureRequest } from '../../security/Api';
 
 import styles from '../../style/style';
 
@@ -22,6 +22,7 @@ export default function ChannelMessages({ channel, user, id, onPress }) {
   const deleteMessage = async (msg_id) => {
     await secureDeleteRequest(
       `user/${user}/channel/${id}/message/${msg_id}`,
+      'DELETE',
     )
     .then((res) => {
       Alert.alert('Message supprimé');

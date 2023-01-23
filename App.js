@@ -26,6 +26,8 @@ export default function App() {
             ...state,
             isLoggedIn: false,
           };
+        default:
+          return state;
       }
     },
     { 
@@ -41,26 +43,26 @@ export default function App() {
 
   return (
     <AuthState.Provider value={authContext}>
-    <NavigationContainer>
-      <Stack.Navigator>
-        {!state.isLoggedIn ? (
-          <Stack.Group screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-              name="Auth"
-              component={AuthNavigator}
-            />
-          </Stack.Group>
-        ) : (
-          <Stack.Group>
-            <Stack.Screen 
-              name="App" 
-              component={LoggedInNavigator} 
-              options={{ headerShown: false }}
-            />
-          </Stack.Group>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {!state.isLoggedIn ? (
+            <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen
+                name="Auth"
+                component={AuthNavigator}
+              />
+            </Stack.Group>
+          ) : (
+            <Stack.Group>
+              <Stack.Screen 
+                name="App" 
+                component={LoggedInNavigator} 
+                options={{ headerShown: false }}
+              />
+            </Stack.Group>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
     </AuthState.Provider>
   );
 }

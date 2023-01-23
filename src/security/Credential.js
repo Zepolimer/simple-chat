@@ -23,7 +23,7 @@ const setCredentials = async (access, refresh, user) => {
 
 /**
  * GET AsyncStorage values
- * @returns array { accessToken, refreshToken, userId}
+ * @returns array { access, refresh, user }
  */
 const getCredentials = async () => {
   const access = await getAccessToken();
@@ -53,7 +53,7 @@ const resetCredentials = async () => {
 const regenerateToken = async () => {  
   const refresh = await getRefreshToken();
 
-  await fetch('http://127.0.0.1:3000/api/refreshtoken', {
+  await fetch("http://127.0.0.1:3000/api/refreshtoken", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

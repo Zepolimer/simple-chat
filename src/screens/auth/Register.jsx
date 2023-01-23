@@ -4,7 +4,7 @@ import {
   View, 
 } from 'react-native';
 
-import { postRequest } from '../../security/Api';
+import { simpleRequestContent } from '../../security/Api';
 
 import KeyboardView from '../../components/keyboard/KeyboardView';
 import FixedHeaderGoBack from '../../components/header/FixedHeaderGoBack';
@@ -32,7 +32,7 @@ export default function Register({ navigation }) {
         'password': password,
       }
 
-      await postRequest('register', user)
+      await simpleRequestContent('register', 'POST', user)
       .then((res) => {
         navigation.navigate('Connexion')
       })

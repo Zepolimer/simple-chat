@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 
 import { 
-  getRequest, 
-  securePutRequest, 
-  secureDeleteRequest 
+  simpleRequest,
+  secureRequest,
+  secureRequestContent,
 } from '../../security/Api';
 
 import { getUserId } from '../../security/AsyncStorage';
@@ -41,8 +41,9 @@ export default function ChannelSettings({ route, navigation }) {
   }
 
   const getChannelInformations = async () => {
-    await getRequest(
+    await simpleRequest(
       `channel/${id}/info`, 
+      'GET',
     )
     .then((res) => {
       setStatus(res.status);
@@ -59,8 +60,9 @@ export default function ChannelSettings({ route, navigation }) {
         name: channelName,
       }
 
-      await securePutRequest(
+      await secureRequestContent(
         `user/${user}/channel/${id}`,
+        'PUT',
         newName,
       )
       .then((res) => {
@@ -70,8 +72,9 @@ export default function ChannelSettings({ route, navigation }) {
   }
 
   const deleteChannel = async () => {
-    await secureDeleteRequest(
+    await secureRequest(
       `user/${user}/channel/${id}`,
+      'DELETE',
     )
     .then((res) => {
       if(res.status == 'Success') {

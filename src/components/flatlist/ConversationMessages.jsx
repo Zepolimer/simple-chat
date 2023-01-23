@@ -6,7 +6,7 @@ import {
   View 
 } from 'react-native';
 
-import { secureDeleteRequest } from '../../security/Api';
+import { secureRequest } from '../../security/Api';
 
 import styles from '../../style/style';
 
@@ -20,8 +20,9 @@ import styles from '../../style/style';
 export default function ConversationMessages({ conversation, user, id, onPress }) {
 
   const deleteMessage = async (msg_id) => {
-    await secureDeleteRequest(
+    await secureRequest(
       `user/${user}/conversation/${JSON.stringify(id)}/message/${msg_id}`,
+      'DELETE',
     )
     .then((res) => {
       Alert.alert('Message supprimé')

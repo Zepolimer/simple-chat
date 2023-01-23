@@ -4,7 +4,7 @@ import {
   View, 
 } from 'react-native';
 
-import { postRequest } from '../../security/Api';
+import { simpleRequestContent } from '../../security/Api';
 import { setLogged } from '../../security/AsyncStorage';
 import { setCredentials } from '../../security/Credential';
 
@@ -32,7 +32,7 @@ export default function Login({ navigation }) {
         'password': password,
       }
 
-      await postRequest('login', user)
+      await simpleRequestContent('login', 'POST', user)
       .then((res) => {
         setCredentials(
           res.data.access_token, 

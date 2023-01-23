@@ -10,9 +10,8 @@ import {
 } from 'react-native';
 
 import { 
-  getRequest, 
-  secureFastPostRequest, 
-  secureDeleteRequest 
+  simpleRequest,
+  secureRequest,
 } from '../../security/Api';
 
 import { getUserId } from '../../security/AsyncStorage';
@@ -38,7 +37,10 @@ const ChannelUsers = ({ route, navigation }) => {
   }
 
   const getUserInChannel = async () => {
-    await getRequest(`channel/${id}/users`)
+    await simpleRequest(
+      `channel/${id}/users`,
+      'GET',
+    )
     .then((res) => {
       if(res.status != 'Error') {
         setAddedUsers(res.data);
@@ -47,7 +49,10 @@ const ChannelUsers = ({ route, navigation }) => {
   }
 
   const getAllUsers = async () => {
-    await getRequest(`channel/${id}/users-not-in`)
+    await simpleRequest(
+      `channel/${id}/users-not-in`,
+      'GET',
+    )
     .then((res) => {
       setStatus(res.status)
       if(res.status != 'Error') {
@@ -57,8 +62,9 @@ const ChannelUsers = ({ route, navigation }) => {
   }
 
   const addUser = async (userToAdd) => {
-    await secureFastPostRequest(
+    await secureRequest(
       `user/${user}/channel/${id}/add/${userToAdd}`,
+      'POST'
     )
     .then((res) => {
       getUserInChannel();
@@ -67,8 +73,9 @@ const ChannelUsers = ({ route, navigation }) => {
   }
 
   const removeUser = async (userToRemove) => {
-    await secureDeleteRequest(
+    await secureRequest(
       `user/${user}/channel/${id}/remove/${userToRemove}`,
+      'DELETE'
     )
     .then((res) => {
       getUserInChannel();

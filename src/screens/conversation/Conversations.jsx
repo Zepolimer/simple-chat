@@ -8,9 +8,8 @@ import {
 
 
 import { 
-  getRequest, 
-  secureGetRequest, 
-  secureFastPostRequest 
+  simpleRequest,
+  secureRequest,
 } from '../../security/Api';
 
 import { getUserId } from '../../security/AsyncStorage';
@@ -36,7 +35,10 @@ const Conversations = ({ navigation }) => {
   }
 
   const getAllUsers = async () => {
-    await getRequest('users')
+    await simpleRequest(
+      'users',
+      'GET',
+    )
     .then((res) => {
       setStatus(res.status);
 
@@ -45,8 +47,9 @@ const Conversations = ({ navigation }) => {
   }
 
   const getConversations = async () => {
-    await secureGetRequest(
+    await secureRequest(
       `user/${user}/conversations`, 
+      'GET',
     )
     .then((res) => {
       setStatus(res.status)

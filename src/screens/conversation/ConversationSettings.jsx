@@ -8,9 +8,8 @@ import {
 } from 'react-native';
 
 import { 
-  secureGetRequest, 
-  securePutRequest, 
-  secureDeleteRequest 
+  secureRequest,
+  secureRequestContent,
 } from '../../security/Api';
 
 import { getUserId } from '../../security/AsyncStorage';
@@ -30,8 +29,9 @@ const ConversationSettings = ({ route, navigation }) => {
   const [blockedValue, setBlockedValue] = React.useState(null);
 
   const getBlockedStatus = async () => {
-    await secureGetRequest(
+    await secureRequest(
       `user/${user_id}/conversation/${id}/blocked`,
+      'GET',
     )
     .then((res) => {
       setStatus(res.status)
@@ -46,8 +46,9 @@ const ConversationSettings = ({ route, navigation }) => {
       blocked : value
     }
 
-    await securePutRequest(
+    await secureRequestContent(
       `user/${user_id}/conversation/${id}`,
+      'PUT',
       blocked,
     )
     .then((res) => {
@@ -68,8 +69,9 @@ const ConversationSettings = ({ route, navigation }) => {
   }
 
   const deleteConversation = async () => {
-    await secureDeleteRequest(
+    await secureRequestContent(
       `user/${user_id}/conversation/${id}`,
+      'DELETE',
     )
     .then((res) => {
       if(res.status == 'Success') {

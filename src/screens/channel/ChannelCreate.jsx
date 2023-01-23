@@ -6,7 +6,7 @@ import {
   Text, 
 } from 'react-native';
 
-import { securePostRequest } from '../../security/Api';
+import { secureRequestContent } from '../../security/Api';
 
 import { getUserId } from '../../security/AsyncStorage';
 import { regenerateToken } from '../../security/Credential';
@@ -41,8 +41,9 @@ const ChannelCreate = ({ navigation }) => {
         'private': privacy,
       }
 
-      await securePostRequest(
+      await secureRequestContent(
         `user/${user}/channel`, 
+        'POST',
         newChannel,
       )
       .then((res) => {

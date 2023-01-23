@@ -6,7 +6,7 @@ import {
   Pressable, 
 } from 'react-native';
 
-import { secureGetRequest } from '../../security/Api';
+import { secureRequest } from '../../security/Api';
 import { getUserId } from '../../security/AsyncStorage';
 
 import {  
@@ -34,8 +34,9 @@ const Profil = ({ navigation }) => {
   }
 
   const userInformations = async () => {
-    await secureGetRequest(
+    await secureRequest(
       `user/${user}`,
+      'GET',
     )
     .then((res) => {
       setStatus(res.status);

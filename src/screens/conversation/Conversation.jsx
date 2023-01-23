@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 
 import { 
-  secureGetRequest, 
-  securePostRequest 
+  secureRequest,
+  secureRequestContent,
 } from '../../security/Api';
 
 import { getUserId } from '../../security/AsyncStorage';
@@ -34,8 +34,9 @@ const Conversation = ({ route, navigation })  => {
   const [message, onChangeMessage] = React.useState('');
 
   const getMessages = async () => {
-    await secureGetRequest(
+    await secureRequest(
       `user/${user_id}/conversation/${id}`,
+      'GET',
     )
     .then((res) => {
       setStatus(res.status);
@@ -50,8 +51,9 @@ const Conversation = ({ route, navigation })  => {
         'message': message,
       }
 
-      await securePostRequest(
+      await secureRequestContent(
         `user/${user_id}/conversation/${id}/message`,
+        'POST',
         msg,
       )
       .then((res) => {
