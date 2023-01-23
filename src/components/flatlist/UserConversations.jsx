@@ -36,7 +36,8 @@ export default function UserConversations({ conversation, user, navigation }) {
 
     return navigation.navigate('Conversation', {
       id: item.id,
-      name: routename
+      name: routename,
+      user_id: user,
     })
   }
 

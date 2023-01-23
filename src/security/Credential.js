@@ -4,8 +4,8 @@ import {
   getUserId, 
   setAccessToken, 
   setRefreshToken, 
-  setUserId, 
-  removeStorage 
+  setUserId,
+  removeStorage,
 } from './AsyncStorage';
 
 
@@ -26,9 +26,9 @@ const setCredentials = async (access, refresh, user) => {
  * @returns array { accessToken, refreshToken, userId}
  */
 const getCredentials = async () => {
-  const access = await getAccessToken()
-  const refresh = await getRefreshToken()
-  const user = await getUserId()
+  const access = await getAccessToken();
+  const refresh = await getRefreshToken();
+  const user = await getUserId();
 
   return {
     access: access,
@@ -41,12 +41,9 @@ const getCredentials = async () => {
  * DELETE AsyncStorage values
  */
 const resetCredentials = async () => {
-  // await setAccessToken('');
-  // await setRefreshToken('');
-  // await setUserId(0);
-  await removeStorage('access_token')
-  await removeStorage('refresh_token')
-  await removeStorage('user_id')
+  await removeStorage('access_token');
+  await removeStorage('refresh_token');
+  await removeStorage('user_id');
 }
 
 /**

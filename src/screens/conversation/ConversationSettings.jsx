@@ -24,21 +24,14 @@ import styles from '../../style/style';
 const ConversationSettings = ({ route, navigation }) => {
   const { id } = route.params;
   const { name } = route.params;
-
-  const [user, setUser] = React.useState(0);
+  const { user_id } = route.params;
 
   const [status, setStatus] = React.useState(null)
   const [blockedValue, setBlockedValue] = React.useState(null);
 
-  
-  const userCredential = async () => {
-    await getUserId()
-    .then((res) => setUser(res))
-  }
-
   const getBlockedStatus = async () => {
     await secureGetRequest(
-      `user/${user}/conversation/${id}/blocked`,
+      `user/${user_id}/conversation/${id}/blocked`,
     )
     .then((res) => {
       setStatus(res.status)
@@ -54,7 +47,7 @@ const ConversationSettings = ({ route, navigation }) => {
     }
 
     await securePutRequest(
-      `user/${user}/conversation/${id}`,
+      `user/${user_id}/conversation/${id}`,
       blocked,
     )
     .then((res) => {
@@ -76,7 +69,7 @@ const ConversationSettings = ({ route, navigation }) => {
 
   const deleteConversation = async () => {
     await secureDeleteRequest(
-      `user/${user}/conversation/${id}`,
+      `user/${user_id}/conversation/${id}`,
     )
     .then((res) => {
       if(res.status == 'Success') {
@@ -86,8 +79,6 @@ const ConversationSettings = ({ route, navigation }) => {
   }
 
   React.useEffect(() => {
-    userCredential();
-
     if(status == 'Error') {
       regenerateToken();
     } else if(status != 'Error') {
@@ -102,7 +93,7 @@ const ConversationSettings = ({ route, navigation }) => {
     });
 
     return handleFocus;
-  }, [status, user])
+  }, [status])
 
 
   return (

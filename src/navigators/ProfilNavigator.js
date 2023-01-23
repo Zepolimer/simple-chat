@@ -15,7 +15,8 @@ export default function ProfilNavigator() {
       />
       <ProfilStack.Screen 
         name="ProfilUpdate" 
-        component={ProfilUpdate}  
+        component={ProfilUpdate} 
+        options={({ route }) => ({ title: route.params.name })}  
       />
     </ProfilStack.Navigator>
   )

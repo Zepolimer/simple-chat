@@ -26,26 +26,21 @@ import styles from '../../style/style';
 const Conversation = ({ route, navigation })  => {
   const { id } = route.params;
   const { name } = route.params;
-
-  const [user, setUser] = React.useState(0);
+  const { user_id } = route.params;
 
   const [status, setStatus] = React.useState(null)
   const [conversation, setConversation] = React.useState(null);
 
   const [message, onChangeMessage] = React.useState('');
 
-  const userCredential = async () => {
-    await getUserId()
-    .then((res) => setUser(res))
-  }
-
   const getMessages = async () => {
     await secureGetRequest(
-      `user/${user}/conversation/${id}`,
+      `user/${user_id}/conversation/${id}`,
     )
     .then((res) => {
-      setStatus(res.status)
+      setStatus(res.status);
 
+      console.log('messages : ' + res.data.messages);
       if(res.status != 'Error') setConversation(res.data.messages);
     });
   }
@@ -57,7 +52,7 @@ const Conversation = ({ route, navigation })  => {
       }
 
       await securePostRequest(
-        `user/${user}/conversation/${id}/message`,
+        `user/${user_id}/conversation/${id}/message`,
         msg,
       )
       .then((res) => {
@@ -71,10 +66,7 @@ const Conversation = ({ route, navigation })  => {
     }
   }
 
-
   React.useEffect(() => {
-    userCredential();
-
     if(status == 'Error') {
       regenerateToken();
     } else if(status != 'Error') {
@@ -89,7 +81,7 @@ const Conversation = ({ route, navigation })  => {
     });
 
     return handleFocus;
-  }, [status, user])
+  }, [status])
 
 
   return (
@@ -101,6 +93,7 @@ const Conversation = ({ route, navigation })  => {
           navigation.navigate('ConversationSettings', {
             id: id,
             name: name,
+            user_id: user_id
           })
         }}
         goBack={() => navigation.goBack()}
@@ -109,9 +102,9 @@ const Conversation = ({ route, navigation })  => {
       <KeyboardView>
         <FlatList
           data={conversation}
-          renderItem={({item}) => <ConversationMessages conversation={item} user={user} id={id} onPress={getMessages} />}
+          renderItem={({item}) => <ConversationMessages conversation={item} user={user_id} id={id} onPress={getMessages} />}
           keyExtractor={item => item.id}
-          extraData={[user, id]}
+          extraData={[user_id, id, getMessages]}
           contentContainerStyle={styles.flatlistWrapper}
         />
 

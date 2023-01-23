@@ -16,6 +16,8 @@ import {
 
 import styles from '../../style/style';
 
+import { AuthState } from '../../security/Context';
+
 
 const Profil = ({ navigation }) => {
   const [user, setUser] = React.useState(0);
@@ -23,6 +25,8 @@ const Profil = ({ navigation }) => {
   const [status, setStatus] = React.useState(null)
   const [createdAt, setCreatedAt] = React.useState('');
   const [userInfo, setUserInfo] = React.useState(null);
+
+  const { logout } = React.useContext(AuthState);
 
   const userCredential = async () => {
     await getUserId()
@@ -46,8 +50,8 @@ const Profil = ({ navigation }) => {
   const disconnect = async () => {
     await resetCredentials()
     .then((res) => {
-      console.log('user disconnected')
-      navigation.navigate('Connexion')
+      console.log('user disconnected');
+      return logout();
     })
   };
 
@@ -91,7 +95,10 @@ const Profil = ({ navigation }) => {
         <Text style={styles.pressableWarning}>Vous pouvez modifier votre nom d'utilisateur, prénom, nom et/ou email sous réserve que l'email ne soit pas déjà utilisée.</Text>
         <Pressable 
           style={styles.getPressable}
-          onPress={() => navigation.navigate('ProfilUpdate')}
+          onPress={() => navigation.navigate('ProfilUpdate', {
+            name: 'Modifier vots informations',
+            user_id: user,
+          })}
         >
           <Text style={styles.deletePressableText}>Modifier vos informations</Text>
         </Pressable>

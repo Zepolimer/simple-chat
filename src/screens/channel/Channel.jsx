@@ -74,10 +74,12 @@ const Channel = ({ route, navigation }) => {
       getMessages();
     }
 
+    console.log(user)
     /**
     * CLEAN STATE
     */
     const handleFocus = navigation.addListener('focus', () => {
+      userCredential();
       getMessages();
     });
 
@@ -104,7 +106,7 @@ const Channel = ({ route, navigation }) => {
           data={channel}
           renderItem={({item}) => <ChannelMessages channel={item} user={user} id={id} onPress={getMessages} />}
           keyExtractor={item => item.id}
-          extraData={[user, id]}
+          extraData={[user, id, getMessages]}
           scrollToEnd
           contentContainerStyle={styles.flatlistWrapper}
         />

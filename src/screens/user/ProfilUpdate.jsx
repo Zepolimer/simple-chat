@@ -20,34 +20,31 @@ import FormInput from '../../components/input/FormInput';
 import styles from '../../style/style';
 
 
-export default function ProfilUpdate({ navigation }) {
-  const [user, setUser] = React.useState(0);
+export default function ProfilUpdate({ route, navigation }) {
+  const { user_id } = route.params;
 
-  const [oldUsername, setOldUsername] = React.useState('');
-  const [oldFirstname, setOldFirstname] = React.useState('');
-  const [oldLastname, setOldlastname] = React.useState('');
-  const [oldEmail, setOldEmail] = React.useState('');
+  const [status, setStatus] = React.useState(null);
+  const [userInfo, setUserInfo] = React.useState({});
 
   const [username, onChangeUsername] = React.useState('');
   const [firstname, onChangeFirstname] = React.useState('');
   const [lastname, onChangeLastname] = React.useState('');
   const [email, onChangeEmail] = React.useState('');
 
-  const userCredential = async () => {
-    await getUserId()
-    .then((res) => setUser(res))
-  }
-
   const userInformations = async () => {
     await secureGetRequest(
-      `user/${user}`,
+      `user/${user_id}`,
     )
     .then((res) => {
+      setStatus(res.status);
+
       if(res.status != 'Error') {
-        setOldUsername(res.data.username)
-        setOldFirstname(res.data.firstname)
-        setOldlastname(res.data.lastname)
-        setOldEmail(res.data.email)
+        setUserInfo({
+          username: res.data.username,
+          firstname: res.data.firstname,
+          lastname: res.data.lastname,
+          email: res.data.email,
+        })
       }
     })
   }
@@ -55,19 +52,19 @@ export default function ProfilUpdate({ navigation }) {
   const userChanges = async () => {
     let informations = {}
 
-    if(username != '' && username != oldUsername) {
+    if(username != '' && username != userInfo.username) {
       informations.username = username;
     }
 
-    if(firstname != '' && firstname != oldFirstname) {
+    if(firstname != '' && firstname != userInfo.firstname) {
       informations.firstname = firstname;
     }
 
-    if(lastname != '' && lastname != oldLastname) {
+    if(lastname != '' && lastname != userInfo.lastname) {
       informations.lastname = lastname;
     }
 
-    if(email != '' && email != oldEmail) {
+    if(email != '' && email != userInfo.email) {
       informations.email = email;
     }
 
@@ -77,20 +74,22 @@ export default function ProfilUpdate({ navigation }) {
   const putUserInformations = async () => {
     await userChanges()
     .then((body) => {
+      console.log(body)
       securePutRequest(
-        `user/${user}`,
+        `user/${user_id}`,
         body,
       )
       .then((res) => {
-        console.log(res);
+        setStatus(res.status);
+        
+        if(res.status = 'Success') return navigation.navigate('Profil');
       })
     })
   }
 
   React.useEffect(() => {
-    userCredential();
     userInformations();
-  }, [user])
+  }, [status])
   
 
   return (
@@ -104,29 +103,29 @@ export default function ProfilUpdate({ navigation }) {
           <View style={styles.whiteCard}>
             <FormInput
               onChangeText={onChangeUsername}
-              value={username != '' ? username : oldUsername}
-              placeholder={oldUsername}
+              value={username != '' ? username : userInfo.username}
+              placeholder={userInfo.username}
               keyboardType="default"
             />
 
             <FormInput
               onChangeText={onChangeFirstname}
-              value={firstname != '' ? firstname : oldFirstname}
-              placeholder={oldFirstname}
+              value={firstname != '' ? firstname : userInfo.firstname}
+              placeholder={userInfo.firstname}
               keyboardType="default"
             />
 
             <FormInput
               onChangeText={onChangeLastname}
-              value={lastname != '' ? lastname : oldLastname}
-              placeholder={oldLastname}
+              value={lastname != '' ? lastname : userInfo.lastname}
+              placeholder={userInfo.lastname}
               keyboardType="default"
             />
 
             <FormInput
               onChangeText={onChangeEmail}
-              value={email != '' ? email : oldEmail}
-              placeholder={oldEmail}
+              value={email != '' ? email : userInfo.email}
+              placeholder={userInfo.email}
               keyboardType="email-address"
             />
 
