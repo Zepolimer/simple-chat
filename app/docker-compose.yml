@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  # React Native container
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    tty: true
+    ports:
+      - 19006:19006
+    volumes:
+       - .:/usr/app-mobile-chat/
+       - /usr/app-mobile-chat/node_modules/
+    networks:
+      - frontend
+
+networks:
+  frontend:
